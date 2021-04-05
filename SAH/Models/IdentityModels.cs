@@ -37,6 +37,8 @@ namespace SAH.Models
         public DbSet<Role> OurRoles { get; set; }   //There was conflict with default role table
         public DbSet<ParkingSpot> Spots { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Speciality> Specialties { get; set; }
+        public DbSet<Donation> Donations { get; set; }
   
     }
 }

@@ -17,8 +17,15 @@ namespace SAH.Models
         public virtual Role Role { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [ForeignKey("Speciality")]
         public int? SpecialityId { get; set; }
+        public virtual Speciality Speciality { get; set; }
+
+        [ForeignKey("Department")]
         public int? DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
+
         public string Email { get; set; }
         public int? Phone { get; set; }
         public string Address { get; set; }
