@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace SAH.Models
+{
+    public class Role
+    {
+        [Key]
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+
+        //A role can have many users
+        public ICollection<User> Users { get; set; }
+    }
+
+    public class RoleDto
+    {
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+    }
+}
