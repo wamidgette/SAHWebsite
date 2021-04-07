@@ -193,16 +193,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104071650507_barbara.cs" />
-    <Compile Include="Migrations\202104071650507_barbara.Designer.cs">
-      <DependentUpon>202104071650507_barbara.cs</DependentUpon>
+    <Compile Include="Migrations\202104062214019_20210406.cs" />
+    <Compile Include="Migrations\202104062214019_20210406.Designer.cs">
+      <DependentUpon>202104062214019_20210406.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104052315390_add speciality and donation tables.cs" />
-    <Compile Include="Migrations\202104052315390_add speciality and donation tables.Designer.cs">
-      <DependentUpon>202104052315390_add speciality and donation tables.cs</DependentUpon>
+    <Compile Include="Migrations\202104072103122_danyal_tables2.cs" />
+    <Compile Include="Migrations\202104072103122_danyal_tables2.Designer.cs">
+      <DependentUpon>202104072103122_danyal_tables2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104072156278_barbara.cs" />
+    <Compile Include="Migrations\202104072156278_barbara.Designer.cs">
+      <DependentUpon>202104072156278_barbara.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Donation.cs" />
     <Compile Include="Models\EmployeeApplicant.cs" />
@@ -307,11 +314,14 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104071650507_barbara.resx">
-      <DependentUpon>202104071650507_barbara.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104062214019_20210406.resx">
+      <DependentUpon>202104062214019_20210406.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104072103122_danyal_tables2.resx">
       <DependentUpon>202104072103122_danyal_tables2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104072156278_barbara.resx">
+      <DependentUpon>202104072156278_barbara.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
