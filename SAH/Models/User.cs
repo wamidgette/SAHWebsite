@@ -25,7 +25,6 @@ namespace SAH.Models
         [ForeignKey("Department")]
         public int? DepartmentId { get; set; }
         public virtual Department Department { get; set; }
-
         public string Email { get; set; }
         public int? Phone { get; set; }
         public string Address { get; set; }
@@ -38,8 +37,7 @@ namespace SAH.Models
         public DateTime DateOfBirth { get; set; }
         //A user can have many tickets
         public ICollection<Ticket> Tickets { get; set; }
-
-
+        public ICollection<Chat> Chats { get; set; }
     }
 
     public class UserDto
@@ -61,5 +59,7 @@ namespace SAH.Models
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
+        public ICollection<Chat> Chats { get; set; }
+
     }
 }

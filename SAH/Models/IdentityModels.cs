@@ -39,6 +39,9 @@ namespace SAH.Models
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Speciality> Specialties { get; set; }
         public DbSet<Donation> Donations { get; set; }
+        public DbSet<Message> Message { get; set; }
+        public DbSet<Chat> Chat { get; set; }
+
   
     }
 }
