@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SAH.Models.ModelViews.ShowTicket>
+
+@{
+    ViewBag.Title = "Ticket list";
+}
+
+<h2>List of all tickets</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.NumberPlate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.EntryTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ticket.Fees)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spot.Zone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spot.SpotNumber)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        //var temp = @Html.DisplayFor(modelItem => item.User.FirstName + " " + item.User.LastName).ToHtmlString();
+        var temp = @Html.DisplayFor(modelItem => item.Spot.SpotNumber).ToHtmlString();
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Ticket.NumberPlate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ticket.EntryTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ticket.Duration)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ticket.Fees)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Spot.Zone)
+    </td>
+    
+    <td>
+        @Html.ActionLink(temp, "Index", "ParkingSpots/Details/" + item.Spot.SpotId)
+        @*@Html.DisplayFor(modelItem => item.Classe.className)*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.LastName)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Ticket.TicketId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Ticket.TicketId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Ticket.TicketId })
+    </td>
+</tr>
+    }
+
+</table>
+
