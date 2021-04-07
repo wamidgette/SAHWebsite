@@ -7,13 +7,13 @@ namespace SAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class messageClassAdd : IMigrationMetadata
+    public sealed partial class chats : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(messageClassAdd));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(chats));
         
         string IMigrationMetadata.Id
         {
-            get { return "202104052107268_messageClassAdd"; }
+            get { return "202104070328120_chats"; }
         }
         
         string IMigrationMetadata.Source

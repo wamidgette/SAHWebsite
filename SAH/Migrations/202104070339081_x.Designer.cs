@@ -7,13 +7,13 @@ namespace SAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class updatingUserEntity : IMigrationMetadata
+    public sealed partial class x : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatingUserEntity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(x));
         
         string IMigrationMetadata.Id
         {
-            get { return "202104052159288_updatingUserEntity"; }
+            get { return "202104070339081_x"; }
         }
         
         string IMigrationMetadata.Source

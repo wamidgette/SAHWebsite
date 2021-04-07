@@ -185,32 +185,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104051332409_initial.cs" />
-    <Compile Include="Migrations\202104051332409_initial.Designer.cs">
-      <DependentUpon>202104051332409_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202104070328120_chats.cs" />
+    <Compile Include="Migrations\202104070328120_chats.Designer.cs">
+      <DependentUpon>202104070328120_chats.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104052103321_message class.cs" />
-    <Compile Include="Migrations\202104052103321_message class.Designer.cs">
-      <DependentUpon>202104052103321_message class.cs</DependentUpon>
+    <Compile Include="Migrations\202104070335543_icolltoien.cs" />
+    <Compile Include="Migrations\202104070335543_icolltoien.Designer.cs">
+      <DependentUpon>202104070335543_icolltoien.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104052107268_messageClassAdd.cs" />
-    <Compile Include="Migrations\202104052107268_messageClassAdd.Designer.cs">
-      <DependentUpon>202104052107268_messageClassAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104052159288_updatingUserEntity.cs" />
-    <Compile Include="Migrations\202104052159288_updatingUserEntity.Designer.cs">
-      <DependentUpon>202104052159288_updatingUserEntity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104052203166_updatedUserDto.cs" />
-    <Compile Include="Migrations\202104052203166_updatedUserDto.Designer.cs">
-      <DependentUpon>202104052203166_updatedUserDto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104052315390_add speciality and donation tables.cs" />
-    <Compile Include="Migrations\202104052315390_add speciality and donation tables.Designer.cs">
-      <DependentUpon>202104052315390_add speciality and donation tables.cs</DependentUpon>
+    <Compile Include="Migrations\202104070339081_x.cs" />
+    <Compile Include="Migrations\202104070339081_x.Designer.cs">
+      <DependentUpon>202104070339081_x.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Donation.cs" />
     <Compile Include="Models\Faq.cs" />
@@ -299,23 +288,14 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104051332409_initial.resx">
-      <DependentUpon>202104051332409_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104070328120_chats.resx">
+      <DependentUpon>202104070328120_chats.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104052103321_message class.resx">
-      <DependentUpon>202104052103321_message class.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104070335543_icolltoien.resx">
+      <DependentUpon>202104070335543_icolltoien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104052107268_messageClassAdd.resx">
-      <DependentUpon>202104052107268_messageClassAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104052159288_updatingUserEntity.resx">
-      <DependentUpon>202104052159288_updatingUserEntity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104052203166_updatedUserDto.resx">
-      <DependentUpon>202104052203166_updatedUserDto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104052315390_add speciality and donation tables.resx">
-      <DependentUpon>202104052315390_add speciality and donation tables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104070339081_x.resx">
+      <DependentUpon>202104070339081_x.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

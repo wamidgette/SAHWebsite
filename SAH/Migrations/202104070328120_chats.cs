@@ -3,31 +3,74 @@ namespace SAH.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class chats : DbMigration
     {
         public override void Up()
         {
             CreateTable(
+                "dbo.Chats",
+                c => new
+                    {
+                        ChatId = c.Int(nullable: false, identity: true),
+                        Subject = c.String(),
+                        DateCreated = c.DateTime(nullable: false),
+                        User_UserId = c.Int(),
+                    })
+                .PrimaryKey(t => t.ChatId)
+                .ForeignKey("dbo.Users", t => t.User_UserId)
+                .Index(t => t.User_UserId);
+            
+            CreateTable(
                 "dbo.Departments",
                 c => new
                     {
-                        DepartmentID = c.Int(nullable: false, identity: true),
+                        DepartmentId = c.Int(nullable: false, identity: true),
                         DepartmentName = c.String(),
                     })
-                .PrimaryKey(t => t.DepartmentID);
+                .PrimaryKey(t => t.DepartmentId);
             
             CreateTable(
-                "dbo.Faqs",
+                "dbo.Donations",
                 c => new
                     {
-                        FaqID = c.Int(nullable: false, identity: true),
-                        Question = c.String(),
-                        Answer = c.String(),
-                        DepartmentID = c.Int(),
+                        DonationId = c.Int(nullable: false, identity: true),
+                        AmountOfDonation = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PaymentMethod = c.String(),
+                        DonationDate = c.DateTime(nullable: false),
+                        UserId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.FaqID)
-                .ForeignKey("dbo.Departments", t => t.DepartmentID)
-                .Index(t => t.DepartmentID);
+                .PrimaryKey(t => t.DonationId)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.Users",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false, identity: true),
+                        RoleId = c.Int(nullable: false),
+                        FirstName = c.String(),
+                        LastName = c.String(),
+                        SpecialityId = c.Int(),
+                        DepartmentId = c.Int(),
+                        Email = c.String(),
+                        Phone = c.Int(),
+                        Address = c.String(),
+                        PostalCode = c.String(),
+                        PasswordHash = c.String(),
+                        Username = c.String(),
+                        EmployeeNumber = c.Int(),
+                        HealthCardNumber = c.String(),
+                        Gender = c.String(),
+                        DateOfBirth = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.Departments", t => t.DepartmentId)
+                .ForeignKey("dbo.Roles", t => t.RoleId, cascadeDelete: true)
+                .ForeignKey("dbo.Specialities", t => t.SpecialityId)
+                .Index(t => t.RoleId)
+                .Index(t => t.SpecialityId)
+                .Index(t => t.DepartmentId);
             
             CreateTable(
                 "dbo.Roles",
@@ -39,18 +82,13 @@ namespace SAH.Migrations
                 .PrimaryKey(t => t.RoleId);
             
             CreateTable(
-                "dbo.Users",
+                "dbo.Specialities",
                 c => new
                     {
-                        UserId = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(),
-                        LastName = c.String(),
-                        Speciality = c.String(),
-                        RoleId = c.Int(nullable: false),
+                        SpecialityId = c.Int(nullable: false, identity: true),
+                        SpecialityName = c.String(),
                     })
-                .PrimaryKey(t => t.UserId)
-                .ForeignKey("dbo.Roles", t => t.RoleId, cascadeDelete: true)
-                .Index(t => t.RoleId);
+                .PrimaryKey(t => t.SpecialityId);
             
             CreateTable(
                 "dbo.Tickets",
@@ -80,6 +118,32 @@ namespace SAH.Migrations
                         Status = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.SpotId);
+            
+            CreateTable(
+                "dbo.Faqs",
+                c => new
+                    {
+                        FaqID = c.Int(nullable: false, identity: true),
+                        Question = c.String(),
+                        Answer = c.String(),
+                        DepartmentID = c.Int(),
+                    })
+                .PrimaryKey(t => t.FaqID)
+                .ForeignKey("dbo.Departments", t => t.DepartmentID)
+                .Index(t => t.DepartmentID);
+            
+            CreateTable(
+                "dbo.Messages",
+                c => new
+                    {
+                        MessageId = c.Int(nullable: false, identity: true),
+                        SenderId = c.Int(nullable: false),
+                        DateSent = c.DateTime(nullable: false),
+                        Content = c.String(),
+                    })
+                .PrimaryKey(t => t.MessageId)
+                .ForeignKey("dbo.Users", t => t.SenderId, cascadeDelete: true)
+                .Index(t => t.SenderId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -157,31 +221,45 @@ namespace SAH.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Messages", "SenderId", "dbo.Users");
+            DropForeignKey("dbo.Faqs", "DepartmentID", "dbo.Departments");
+            DropForeignKey("dbo.Donations", "UserId", "dbo.Users");
             DropForeignKey("dbo.Tickets", "UserId", "dbo.Users");
             DropForeignKey("dbo.Tickets", "SpotId", "dbo.ParkingSpots");
+            DropForeignKey("dbo.Users", "SpecialityId", "dbo.Specialities");
             DropForeignKey("dbo.Users", "RoleId", "dbo.Roles");
-            DropForeignKey("dbo.Faqs", "DepartmentID", "dbo.Departments");
+            DropForeignKey("dbo.Users", "DepartmentId", "dbo.Departments");
+            DropForeignKey("dbo.Chats", "User_UserId", "dbo.Users");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Messages", new[] { "SenderId" });
+            DropIndex("dbo.Faqs", new[] { "DepartmentID" });
             DropIndex("dbo.Tickets", new[] { "SpotId" });
             DropIndex("dbo.Tickets", new[] { "UserId" });
+            DropIndex("dbo.Users", new[] { "DepartmentId" });
+            DropIndex("dbo.Users", new[] { "SpecialityId" });
             DropIndex("dbo.Users", new[] { "RoleId" });
-            DropIndex("dbo.Faqs", new[] { "DepartmentID" });
+            DropIndex("dbo.Donations", new[] { "UserId" });
+            DropIndex("dbo.Chats", new[] { "User_UserId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Messages");
+            DropTable("dbo.Faqs");
             DropTable("dbo.ParkingSpots");
             DropTable("dbo.Tickets");
-            DropTable("dbo.Users");
+            DropTable("dbo.Specialities");
             DropTable("dbo.Roles");
-            DropTable("dbo.Faqs");
+            DropTable("dbo.Users");
+            DropTable("dbo.Donations");
             DropTable("dbo.Departments");
+            DropTable("dbo.Chats");
         }
     }
 }

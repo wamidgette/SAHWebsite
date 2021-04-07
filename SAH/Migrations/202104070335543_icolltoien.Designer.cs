@@ -7,13 +7,13 @@ namespace SAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class updatedUserDto : IMigrationMetadata
+    public sealed partial class icolltoien : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatedUserDto));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(icolltoien));
         
         string IMigrationMetadata.Id
         {
-            get { return "202104052203166_updatedUserDto"; }
+            get { return "202104070335543_icolltoien"; }
         }
         
         string IMigrationMetadata.Source
