@@ -209,10 +209,16 @@
     <Compile Include="Migrations\202104052315390_add speciality and donation tables.Designer.cs">
       <DependentUpon>202104052315390_add speciality and donation tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104072103122_danyal_tables2.cs" />
+    <Compile Include="Migrations\202104072103122_danyal_tables2.Designer.cs">
+      <DependentUpon>202104072103122_danyal_tables2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Donation.cs" />
+    <Compile Include="Models\EmployeeApplicant.cs" />
     <Compile Include="Models\Faq.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -316,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104052315390_add speciality and donation tables.resx">
       <DependentUpon>202104052315390_add speciality and donation tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104072103122_danyal_tables2.resx">
+      <DependentUpon>202104072103122_danyal_tables2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
