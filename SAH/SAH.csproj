@@ -182,6 +182,8 @@
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\FaqDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\JobDataController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParkingSpotDataController.cs" />
     <Compile Include="Controllers\ParkingSpotsController.cs" />
@@ -191,25 +193,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104070328120_chats.cs" />
-    <Compile Include="Migrations\202104070328120_chats.Designer.cs">
-      <DependentUpon>202104070328120_chats.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104070335543_icolltoien.cs" />
-    <Compile Include="Migrations\202104070335543_icolltoien.Designer.cs">
-      <DependentUpon>202104070335543_icolltoien.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202104070339081_x.cs" />
-    <Compile Include="Migrations\202104070339081_x.Designer.cs">
-      <DependentUpon>202104070339081_x.cs</DependentUpon>
+    <Compile Include="Migrations\202104071650507_barbara.cs" />
+    <Compile Include="Migrations\202104071650507_barbara.Designer.cs">
+      <DependentUpon>202104071650507_barbara.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Application.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Donation.cs" />
     <Compile Include="Models\Faq.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Job.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
@@ -292,6 +288,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -307,14 +304,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104070328120_chats.resx">
-      <DependentUpon>202104070328120_chats.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104070335543_icolltoien.resx">
-      <DependentUpon>202104070335543_icolltoien.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202104070339081_x.resx">
-      <DependentUpon>202104070339081_x.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104071650507_barbara.resx">
+      <DependentUpon>202104071650507_barbara.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
