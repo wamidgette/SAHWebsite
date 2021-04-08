@@ -11,6 +11,7 @@ namespace SAH.Models.ModelViews
         public JobDto Job { get; set; }
 
         //Information about all application for the Job
+
         public IEnumerable<ApplicationDto> Applications { get; set; }
 
     }
