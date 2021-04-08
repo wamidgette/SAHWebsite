@@ -179,6 +179,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
+    <Compile Include="Controllers\CoursesDataController.cs" />
+    <Compile Include="Controllers\EmployeeApplicantController.cs" />
+    <Compile Include="Controllers\EmployeeApplicantsDataController.cs" />
     <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\FaqDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -298,6 +302,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Courses\" />
+    <Folder Include="Views\EmployeeApplicant\" />
     <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
