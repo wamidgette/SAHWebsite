@@ -13,6 +13,7 @@ namespace SAH.Models
         [Key]
         public int SpecialityId { get; set; }
         public string SpecialityName { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 
     public class SpecialityDto

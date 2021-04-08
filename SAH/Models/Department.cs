@@ -14,6 +14,8 @@ namespace SAH.Models
         [Key]
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
+        public ICollection<User> Users { get; set; }
+        public ICollection<Donation> Donations { get; set; }
     }
 
 

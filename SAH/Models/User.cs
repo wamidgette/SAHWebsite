@@ -38,6 +38,12 @@ namespace SAH.Models
         //A user can have many tickets
         public ICollection<Ticket> Tickets { get; set; }
         public ICollection<Chat> Chats { get; set; }
+        public ICollection<Donation> Donations { get; set; }
+        public ICollection<Courses> Courses { get; set; }
+        public ICollection<EmployeeApplicant> EmployeeApplicants { get; set; }
+        public ICollection<Message> Messages { get; set; }
+        public ICollection<Application> Applications { get; set; }
+        
     }
 
     public class UserDto
@@ -58,8 +64,6 @@ namespace SAH.Models
         public string HealthCardNumber { get; set; }
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public ICollection<Ticket> Tickets { get; set; }
-        public ICollection<Chat> Chats { get; set; }
 
     }
 }

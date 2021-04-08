@@ -15,10 +15,14 @@ namespace SAH.Models
         public decimal AmountOfDonation { get; set; }
         public string PaymentMethod { get; set; }
         public DateTime DonationDate { get; set; }
-        
+
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
+
+        [ForeignKey("Department")]
+        public int DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
     }
 
     public class DonationDto
@@ -28,7 +32,7 @@ namespace SAH.Models
 
         [DisplayName("Amount of Donation")]
         public decimal AmountOfDonation { get; set; }
-        
+
         [DisplayName("Payment Method")]
         public string PaymentMethod { get; set; }
 
@@ -36,6 +40,7 @@ namespace SAH.Models
         [DisplayName("Donation Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
         public DateTime DonationDate { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
+        public int DepartmentId { get; set; }
     }
 }
