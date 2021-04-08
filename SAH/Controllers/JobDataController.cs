@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
+using System.Diagnostics;
 
 namespace SAH.Controllers
 {
@@ -16,40 +17,132 @@ namespace SAH.Controllers
     {
         private SAHDataContext db = new SAHDataContext();
 
-        // GET: api/JobData
-        public IQueryable<Job> GetJob()
+        /// <summary>
+        /// A list of Job in the database
+        /// </summary>
+        /// <returns>The list of Jobs Posted</returns>
+        /// <example>
+        /// GET: api/JobData/GetJobs
+        /// </example>
+        [ResponseType(typeof(IEnumerable<JobDto>))]
+        public IHttpActionResult GetJobs()
         {
-            return db.Job;
+            //Get list of Job from the database
+            List<Job> Jobs = db.Jobs.ToList();
+
+            //Data transfer model with all the information about a Job
+            List<JobDto> JobDtos = new List<JobDto> { };
+
+            //Transfering Job to data transfer object
+            foreach (var Job in Jobs)
+            {
+                JobDto NewJob = new JobDto
+                {
+                    JobId = Job.JobId,
+                    Position = Job.Position,
+                    Category = Job.Category,
+                    Type = Job.Type,
+                    Requirement = Job.Requirement,
+                    Deadline = Job.Deadline
+
+                };
+                JobDtos.Add(NewJob);
+            }
+
+            return Ok(JobDtos);
         }
 
-        // GET: api/JobData/5
-        [ResponseType(typeof(Job))]
-        public IHttpActionResult GetJob(int id)
+        /// <summary>
+        /// Get a list of Applications linked to the Job
+        /// </summary>
+        /// <param name="Id">Job Id</param>
+        /// <returns>List of Application associated with the Job</returns>
+        /// <example>
+        /// GET: api/JobData/GetJobApplications
+        /// </example>
+
+        [ResponseType(typeof(IEnumerable<ApplicationDto>))]
+        public IHttpActionResult GetJobApplications(int Id)
         {
-            Job job = db.Job.Find(id);
-            if (job == null)
+            List<Application> Applications = db.Applications.Where(a => a.JobId == Id)
+                .ToList();
+            List<ApplicationDto> ApplicationDtos = new List<ApplicationDto> { };
+
+            //Here you can choose which information is exposed to the API
+            foreach (var Application in Applications)
+            {
+                ApplicationDto NewApplication = new ApplicationDto
+                {
+                    ApplicationId = Application.ApplicationId,
+                    Comment = Application.Comment,
+                    JobId = Application.JobId,
+                    UserId = Application.UserId
+                };
+                ApplicationDtos.Add(NewApplication);
+            }
+
+            return Ok(ApplicationDtos);
+        }
+
+        /// <summary>
+        /// Find an specific Job from the database
+        /// </summary>
+        /// <param name="Id">Job Id</param>
+        /// <returns>Information about the Job</returns>
+        /// <example>
+        /// GET: api/JobData/FindJob/5
+        /// </example>
+
+        [HttpGet]
+        [ResponseType(typeof(JobDto))]
+        public IHttpActionResult FindJob(int Id)
+        {
+            Job Job = db.Jobs.Find(Id);
+            //if not found, return 404 status code.
+            if (Job == null)
             {
                 return NotFound();
             }
+            //put into a 'friendly object format'
+            JobDto JobDto = new JobDto
+            {
+                JobId = Job.JobId,
+                Position = Job.Position,
+                Category = Job.Category,
+                Type = Job.Type,
+                Requirement = Job.Requirement,
+                Deadline = Job.Deadline
+            };
 
-            return Ok(job);
+            //pass along data as 200 status code OK response
+            return Ok(JobDto);
+
         }
 
-        // PUT: api/JobData/5
+        /// <summary>
+        /// Update a Job in the database, The past information is given
+        /// </summary>
+        /// <param name="Id">Job Id</param>
+        /// <param name="Job">Job Object. Received a POST Data</param>
+        /// <returns></returns>
+        /// <example>
+        /// PUT: api/Jobs/5
+        /// </example>
+
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutJob(int id, Job job)
+        public IHttpActionResult UpdateJob(int Id, [FromBody] Job Job)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != job.JobId)
+            if (Id != Job.JobId)
             {
                 return BadRequest();
             }
 
-            db.Entry(job).State = EntityState.Modified;
+            db.Entry(Job).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +150,7 @@ namespace SAH.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobExists(id))
+                if (!JobExists(Id))
                 {
                     return NotFound();
                 }
@@ -70,35 +163,51 @@ namespace SAH.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/JobData
+        /// <summary>
+        /// Add a new Job to the database
+        /// </summary>
+        /// <param name="Job">Sent a Post form Data</param>
+        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <example> 
+        /// POST: api/JobData/AddJob
+        /// </example>
+
         [ResponseType(typeof(Job))]
-        public IHttpActionResult PostJob(Job job)
+        public IHttpActionResult AddJob([FromBody] Job Job)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Job.Add(job);
+            db.Jobs.Add(Job);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = job.JobId }, job);
+            return Ok(Job.JobId);
         }
 
-        // DELETE: api/JobData/5
+        /// <summary>
+        /// Delete a Job from the database
+        /// </summary>
+        /// <param name="Id">The Id from the Job to delete</param>
+        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <example>
+        /// POST: api/JobData/DeleteJob/5
+        /// </example>
+
         [ResponseType(typeof(Job))]
-        public IHttpActionResult DeleteJob(int id)
+        public IHttpActionResult DeleteJob(int Id)
         {
-            Job job = db.Job.Find(id);
-            if (job == null)
+            Job Job = db.Jobs.Find(Id);
+            if (Job == null)
             {
                 return NotFound();
             }
 
-            db.Job.Remove(job);
+            db.Jobs.Remove(Job);
             db.SaveChanges();
 
-            return Ok(job);
+            return Ok(Job);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +219,15 @@ namespace SAH.Controllers
             base.Dispose(disposing);
         }
 
-        private bool JobExists(int id)
+        /// <summary>
+        /// Find a Job in the System
+        /// </summary>
+        /// <param name="Id">The Job Id</param>
+        /// <returns>If the team exists return true</returns>
+
+        private bool JobExists(int Id)
         {
-            return db.Job.Count(e => e.JobId == id) > 0;
+            return db.Jobs.Count(e => e.JobId == Id) > 0;
         }
     }
 }

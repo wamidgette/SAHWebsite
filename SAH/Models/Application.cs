@@ -41,10 +41,10 @@ namespace SAH.Models
         
         public string FileExtension { get; set; }
         
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         
-        public string JobId { get; set; }
+        public int JobId { get; set; }
 
 
     }

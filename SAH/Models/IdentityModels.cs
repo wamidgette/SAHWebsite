@@ -43,9 +43,9 @@ namespace SAH.Models
         public DbSet<Courses> Courses { get; set; }
 
         public DbSet<EmployeeApplicant> EmployeeApplicant { get; set; }
-        public DbSet<Job> Job { get; set; }
+        public DbSet<Job> Jobs { get; set; }
 
-        public DbSet<Application> Application { get; set; }
+        public DbSet<Application> Applications { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
 
