@@ -224,6 +224,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
+    <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
