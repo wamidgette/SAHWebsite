@@ -189,6 +189,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobDataController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageDataController.cs" />
     <Compile Include="Controllers\ParkingSpotDataController.cs" />
     <Compile Include="Controllers\ParkingSpotsController.cs" />
     <Compile Include="Controllers\ShowTicketl.cs" />
@@ -200,6 +201,10 @@
     <Compile Include="Migrations\202104082123428_danyal_base.cs" />
     <Compile Include="Migrations\202104082123428_danyal_base.Designer.cs">
       <DependentUpon>202104082123428_danyal_base.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104082135490_Wills_Migration.cs" />
+    <Compile Include="Migrations\202104082135490_Wills_Migration.Designer.cs">
+      <DependentUpon>202104082135490_Wills_Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -314,6 +319,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202104082123428_danyal_base.resx">
       <DependentUpon>202104082123428_danyal_base.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104082135490_Wills_Migration.resx">
+      <DependentUpon>202104082135490_Wills_Migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
