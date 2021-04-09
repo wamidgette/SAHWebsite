@@ -211,7 +211,7 @@ namespace SAH.Controllers
             db.Jobs.Remove(Job);
             db.SaveChanges();
 
-            return Ok(Job);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)

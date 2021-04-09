@@ -4,7 +4,7 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>SAH Job Opportunities</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -49,7 +49,7 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.JobId }) |
             @Html.ActionLink("Details", "Details", new { id=item.JobId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.JobId })
+            @Html.ActionLink("Delete", "DeleteConfirm", new { id=item.JobId })
         </td>
     </tr>
 }

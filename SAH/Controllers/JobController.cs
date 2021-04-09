@@ -167,9 +167,9 @@ namespace SAH.Controllers
 
         // GET: Job/Delete/5
         [HttpGet]
-        public ActionResult DeleteConfirm(int Id)
+        public ActionResult DeleteConfirm(int id)
         {
-            string url = "JobData/FindJob/" + Id;
+            string url = "JobData/FindJob/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             //Can catch the status code (200 OK, 301 REDIRECT), etc.
             //Debug.WriteLine(response.StatusCode);

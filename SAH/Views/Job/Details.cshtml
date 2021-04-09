@@ -1,4 +1,4 @@
-﻿@model SAH.Models.Job
+﻿@model SAH.Models.ModelViews.ShowJob
 
 @{
     ViewBag.Title = "Details";
@@ -11,48 +11,48 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Position)
+            @Html.DisplayNameFor(model => model.Job.Position)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Position)
+            @Html.DisplayFor(model => model.Job.Position)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.DisplayNameFor(model => model.Job.Category)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Category)
+            @Html.DisplayFor(model => model.Job.Category)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayNameFor(model => model.Job.Type)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.Job.Type)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Requirement)
+            @Html.DisplayNameFor(model => model.Job.Requirement)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Requirement)
+            @Html.DisplayFor(model => model.Job.Requirement)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
+            @Html.DisplayNameFor(model => model.Job.Deadline)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Deadline)
+            @Html.DisplayFor(model => model.Job.Deadline)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.JobId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Job.JobId }) |
     @Html.ActionLink("Back to List", "List")
 </p>

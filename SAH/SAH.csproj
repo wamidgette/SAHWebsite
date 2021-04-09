@@ -225,6 +225,10 @@
     <Compile Include="Migrations\202104090356431_diarra_mvp_tables.Designer.cs">
       <DependentUpon>202104090356431_diarra_mvp_tables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.cs" />
+    <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.Designer.cs">
+      <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104090356431_diarra_mvp_tables.resx">
       <DependentUpon>202104090356431_diarra_mvp_tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.resx">
+      <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
