@@ -48,9 +48,8 @@ namespace SAH.Controllers
             //The IHTTPActionResult should send an OK response as well as a MessageDto object list 
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<MessageDto> ListOfMessages = response.Content.ReadAsAsync<IEnumerable<MessageDto>>().Result;
-                return View(ListOfMessages);
-
+                IEnumerable<MessageDto> MessageDtos = response.Content.ReadAsAsync<IEnumerable<MessageDto>>().Result;
+                return View(MessageDtos);
             }
             else
             {

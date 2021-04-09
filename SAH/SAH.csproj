@@ -311,13 +311,13 @@
     <Content Include="Views\ParkingSpots\Details.cshtml" />
     <Content Include="Views\ParkingSpots\Edit.cshtml" />
     <Content Include="Views\ParkingSpots\ParkingSpotList.cshtml" />
+    <Content Include="Views\Message\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
     <Folder Include="Views\Job\" />
-    <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

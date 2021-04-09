@@ -1,0 +1,34 @@
+﻿@model SAH.Models.ModelViews.ShowMessage
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Show</h2>
+
+<div>
+    <h4>Message</h4>
+    <hr />
+    <table class="table-striped">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.MessageChat.Subject)</td>
+            <td>@Html.DisplayFor(model => model.MessageChat.Subject)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.MessageSender.FirstName)</td>
+            <td>@Html.DisplayFor(model => model.MessageSender.FirstName)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Message.DateSent)</td>
+            <td>@Html.DisplayFor(model => model.Message.DateSent)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Message.Content)</td>
+            <td>@Html.DisplayFor(model => model.Message.Content)</td>
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Message.MessageId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
