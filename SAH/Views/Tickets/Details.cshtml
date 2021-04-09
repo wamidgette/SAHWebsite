@@ -1,74 +1,98 @@
-﻿@model SAH.Models.Ticket
+﻿@model SAH.Models.ModelViews.ShowTicket
 
 @{
-    Layout = null;
+    ViewBag.Title = "Details";
+    var temp = @Html.DisplayFor(model => model.Spot.SpotNumber).ToHtmlString();
+    //var tempLoc = @Html.DisplayFor(model => model.location.country).ToHtmlString();
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Ticket</h4>
-        <hr />
-        <dl class="dl-horizontal">
+<div>
+    <h4>Details about @Model.Ticket.NumberPlate</h4>
+    <hr />
+    <dl class="dl-horizontal Ticket">
+
+        <div>
             <dt>
-                @Html.DisplayNameFor(model => model.ParkingSpot.Zone)
+                @Html.DisplayNameFor(model => model.Ticket.NumberPlate)
             </dt>
-    
+
             <dd>
-                @Html.DisplayFor(model => model.ParkingSpot.Zone)
+                @Html.DisplayFor(model => model.Ticket.NumberPlate)
             </dd>
-    
+        </div>
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Ticket.EntryTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ticket.EntryTime)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Ticket.Duration)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ticket.Duration)
+            </dd>
+        </div>
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Ticket.Fees)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ticket.Fees)
+            </dd>
+        </div>
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Spot.Zone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Spot.Zone)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Spot.SpotNumber)
+            </dt>
+
+            <dd>
+                @Html.ActionLink(temp, "Index", "ParkingSpots/Details/" + Model.Spot.SpotId)
+                @*@Html.DisplayFor(model => model.classe.className)*@
+            </dd>
+        </div>
+        <div>
             <dt>
                 @Html.DisplayNameFor(model => model.User.FirstName)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.User.FirstName)
             </dd>
-    
+        </div>
+        <div>
             <dt>
-                @Html.DisplayNameFor(model => model.NumberPlate)
+                @Html.DisplayNameFor(model => model.User.LastName)
             </dt>
-    
+
             <dd>
-                @Html.DisplayFor(model => model.NumberPlate)
+                @Html.DisplayFor(model => model.User.LastName)
             </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.EntryTime)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.EntryTime)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Duration)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Duration)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Fees)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Fees)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.TicketId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+        </div>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Ticket.TicketId }) |
+    @Html.ActionLink("Back to Ticket List", "TicketList")
+</p>
+

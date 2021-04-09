@@ -1,50 +1,59 @@
-﻿@model SAH.Models.ParkingSpot
+﻿@model SAH.Models.ModelViews.ShowParkingSpot
 
 @{
-    Layout = null;
+    ViewBag.Title = "Details";
 }
 
-<!DOCTYPE html>
+<div class="row">
+    <h4>Details about @Model.Spot.SpotNumber spot</h4>
+    <div class="col-sm-12 col-md-6">
+        <dl class="dl-horizontal Spot">
+            <div>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Spot.Zone)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Spot.Zone)
+                </dd>
+            </div>
+            <div>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Spot.SpotNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Spot.SpotNumber)
+                </dd>
+            </div>
+            <div>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Spot.Status)
+                </dt>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>ParkingSpot</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Zone)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Zone)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.SpotNumber)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.SpotNumber)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Status)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Status)
-            </dd>
-    
+                <dd>
+                    @Html.DisplayFor(model => model.Spot.Status)
+                </dd>
+            </div>
         </dl>
+
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.SpotId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+    <div class="col-sm-12 col-md-6">
+        <ul>
+            List of tickets in the spot @Model.Spot.SpotNumber 
+
+            @foreach (var ticket in Model.AllTickets)
+            {
+                var temp = @Html.DisplayFor(modelItem => ticket.NumberPlate).ToHtmlString();
+                <li>
+                    @Html.ActionLink(temp, "Index", "Tickets/Details/" + ticket.TicketId)
+                </li>
+            }
+        </ul>
+        
+
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Spot.SpotId }) |
+    @Html.ActionLink("Back to parking spot List", "ParkingSpotList")
+</p>
+

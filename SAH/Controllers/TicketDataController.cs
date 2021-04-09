@@ -37,11 +37,11 @@ namespace SAH.Controllers
             {
                 TicketDto NewTicket = new TicketDto
                 {
-                    TicketId = Ticket.SpotId,
+                    TicketId = Ticket.TicketId,
                     NumberPlate = Ticket.NumberPlate,
                     EntryTime = Ticket.EntryTime,
                     Duration = Ticket.Duration,
-                    Fees = Ticket.Fees,
+                    Fees = 5*Ticket.Duration,       // Ticket.Fees=5*Ticket.Duration
                     UserId = Ticket.UserId,
                     SpotId = Ticket.SpotId
                 };
@@ -73,11 +73,11 @@ namespace SAH.Controllers
             //A data transfer object model used to show only most important information about the ticket
             TicketDto TempTicket = new TicketDto
             {
-                TicketId = Ticket.SpotId,
+                TicketId = Ticket.TicketId,
                 NumberPlate = Ticket.NumberPlate,
                 EntryTime = Ticket.EntryTime,
                 Duration = Ticket.Duration,
-                Fees = Ticket.Fees,
+                Fees = 5 * Ticket.Duration,
                 UserId = Ticket.UserId,
                 SpotId = Ticket.SpotId
             };
@@ -299,7 +299,7 @@ namespace SAH.Controllers
 
         /// <summary>
         /// This method gets the list of all tikets from the database with their owner name and spotinformation
-        /// <example> GET: api/PupilData/GetAllTickets </example>
+        /// <example> GET: api/TicketData/GetAllTickets </example>
         /// </summary>
         /// <returns> The list of tickets, the parking spot and user to which they belong to from the database</returns>
 
@@ -341,11 +341,11 @@ namespace SAH.Controllers
 
                 TicketDto NewTicket = new TicketDto
                 {
-                    TicketId = Ticket.SpotId,
+                    TicketId = Ticket.TicketId,
                     NumberPlate = Ticket.NumberPlate,
                     EntryTime = Ticket.EntryTime,
                     Duration = Ticket.Duration,
-                    Fees = Ticket.Fees,
+                    Fees = 5 * Ticket.Duration,
                     UserId = Ticket.UserId,
                     SpotId = Ticket.SpotId
                 };
