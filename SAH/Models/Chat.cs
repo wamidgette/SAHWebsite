@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.ComponentModel;
+
 
 namespace SAH.Models
 {
@@ -18,10 +20,11 @@ namespace SAH.Models
     }
     public class ChatDto
     {
+        [DisplayName("Chat Id")]
         public int ChatId { get; set; }
+        [DisplayName("Subject")]
         public string Subject { get; set; }
+        [DisplayName("Date Created")]
         public DateTime DateCreated { get; set; }
-        public IEnumerable<Message> Messages { get; set; }
-        public IEnumerable<User> Users { get; set; }
     }
 }
