@@ -189,6 +189,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobDataController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\MessageDataController.cs" />
     <Compile Include="Controllers\ParkingSpotDataController.cs" />
     <Compile Include="Controllers\ParkingSpotsController.cs" />
@@ -214,6 +215,10 @@
     <Compile Include="Migrations\202104082235512_ikumi_migration.Designer.cs">
       <DependentUpon>202104082235512_ikumi_migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104090130213_Will_Migration_002.cs" />
+    <Compile Include="Migrations\202104090130213_Will_Migration_002.Designer.cs">
+      <DependentUpon>202104090130213_Will_Migration_002.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -229,6 +234,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
+    <Compile Include="Models\ModelViews\ShowMessage.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
@@ -316,6 +322,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
+    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -342,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104082235512_ikumi_migration.resx">
       <DependentUpon>202104082235512_ikumi_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090130213_Will_Migration_002.resx">
+      <DependentUpon>202104090130213_Will_Migration_002.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
