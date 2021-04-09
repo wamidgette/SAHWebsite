@@ -305,12 +305,17 @@
     <Content Include="Views\ParkingSpots\Details.cshtml" />
     <Content Include="Views\ParkingSpots\Edit.cshtml" />
     <Content Include="Views\ParkingSpots\ParkingSpotList.cshtml" />
+    <Content Include="Views\Job\DeleteConfirm.cshtml" />
+    <Content Include="Views\Job\Error.cshtml" />
+    <Content Include="Views\Job\Edit.cshtml" />
+    <Content Include="Views\Job\Details.cshtml" />
+    <Content Include="Views\Job\Create.cshtml" />
+    <Content Include="Views\Job\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
-    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

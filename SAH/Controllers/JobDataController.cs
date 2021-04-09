@@ -10,6 +10,10 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
 using System.Diagnostics;
+using System.IO;
+using System.Web;
+
+
 
 namespace SAH.Controllers
 {
@@ -62,9 +66,9 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(IEnumerable<ApplicationDto>))]
-        public IHttpActionResult GetJobApplications(int Id)
+        public IHttpActionResult GetJobApplications(int id)
         {
-            List<Application> Applications = db.Applications.Where(a => a.JobId == Id)
+            List<Application> Applications = db.Applications.Where(a => a.JobId == id)
                 .ToList();
             List<ApplicationDto> ApplicationDtos = new List<ApplicationDto> { };
 
@@ -95,9 +99,9 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(JobDto))]
-        public IHttpActionResult FindJob(int Id)
+        public IHttpActionResult FindJob(int id)
         {
-            Job Job = db.Jobs.Find(Id);
+            Job Job = db.Jobs.Find(id);
             //if not found, return 404 status code.
             if (Job == null)
             {
@@ -130,14 +134,14 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateJob(int Id, [FromBody] Job Job)
+        public IHttpActionResult UpdateJob(int id, [FromBody] Job Job)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (Id != Job.JobId)
+            if (id != Job.JobId)
             {
                 return BadRequest();
             }
@@ -150,7 +154,7 @@ namespace SAH.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobExists(Id))
+                if (!JobExists(id))
                 {
                     return NotFound();
                 }
@@ -196,9 +200,9 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(Job))]
-        public IHttpActionResult DeleteJob(int Id)
+        public IHttpActionResult DeleteJob(int id)
         {
-            Job Job = db.Jobs.Find(Id);
+            Job Job = db.Jobs.Find(id);
             if (Job == null)
             {
                 return NotFound();
@@ -225,9 +229,9 @@ namespace SAH.Controllers
         /// <param name="Id">The Job Id</param>
         /// <returns>If the team exists return true</returns>
 
-        private bool JobExists(int Id)
+        private bool JobExists(int id)
         {
-            return db.Jobs.Count(e => e.JobId == Id) > 0;
+            return db.Jobs.Count(e => e.JobId == id) > 0;
         }
     }
 }
