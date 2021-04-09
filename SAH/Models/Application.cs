@@ -13,11 +13,7 @@ namespace SAH.Models
         [Key]
         public int ApplicationId { get; set; }
 
-        public string Comment { get; set; }
-
-        public string ApplicationHasFile { get; set; }
-
-        public string FileExtension { get; set; }
+        public string Comment { get; set; }      
 
 
         //An application one user
@@ -42,10 +38,7 @@ namespace SAH.Models
         public string Comment { get; set; }
 
         [DisplayName("Including File")]
-        public string ApplicationHasFile { get; set; }
-        
-        public string FileExtension { get; set; }
-        
+                
         public int UserId { get; set; }
 
         

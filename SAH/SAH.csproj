@@ -181,6 +181,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ApplicationDataController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\CoursesDataController.cs" />
     <Compile Include="Controllers\EmployeeApplicantController.cs" />
@@ -228,6 +230,10 @@
     <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.cs" />
     <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.Designer.cs">
       <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104090557073_BarbaraApplicationTable.cs" />
+    <Compile Include="Migrations\202104090557073_BarbaraApplicationTable.Designer.cs">
+      <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -330,6 +336,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Application\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
   </ItemGroup>
@@ -367,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.resx">
       <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090557073_BarbaraApplicationTable.resx">
+      <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
