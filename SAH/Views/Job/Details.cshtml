@@ -1,0 +1,58 @@
+﻿@model SAH.Models.ModelViews.ShowJob
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Job</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Category)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Requirement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Requirement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Deadline)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Deadline)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Job.JobId }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

@@ -48,10 +48,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="UserId">
+                <select name="Ticket.UserId">
                     @foreach (var User in Model.AllUsers)
                     {
-                        <option value="@User.UserId">@User.FirstName+" "+@User.LastName</option>
+                        <option value="@User.UserId">@User.FirstName @User.LastName</option>
                     }
                 </select>
             </div>
@@ -60,7 +60,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.SpotId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="SpotId">
+                <select name="Ticket.SpotId">
                     @foreach (var Spot in Model.AllSpots)
                     {
                         <option value="@Spot.SpotId">@Spot.SpotNumber</option>
@@ -71,7 +71,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" onclick="verifyPupil();" class="btn btn-default" />
+                <input type="submit" value="Create" onclick="verifyTicket();" class="btn btn-default" />
             </div>
         </div>
     </div>

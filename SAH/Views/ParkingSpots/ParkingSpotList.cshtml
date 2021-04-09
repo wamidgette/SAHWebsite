@@ -1,35 +1,29 @@
 ﻿@model IEnumerable<SAH.Models.ParkingSpot>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Parking List";
 }
 
-<!DOCTYPE html>
+<h2>List of parking spots</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Zone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpotNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Zone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpotNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Zone)
@@ -41,13 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.SpotId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.SpotId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.SpotId })
+                @Html.ActionLink("Edit", "Edit", new { id = item.SpotId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SpotId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SpotId })
             </td>
         </tr>
     }
-    
-    </table>
-</body>
-</html>
+
+</table>
+

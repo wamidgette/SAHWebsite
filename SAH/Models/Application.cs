@@ -13,15 +13,16 @@ namespace SAH.Models
         [Key]
         public int ApplicationId { get; set; }
 
-        public string Comment { get; set; }
+        public string Comment { get; set; }      
 
-        public string ApplicationHasFile { get; set; }
 
-        public string FileExtension { get; set; }
-
+        //An application one user
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
+
+
+        //An application per Job
 
         [ForeignKey("Job")]
         public int JobId { get; set; }
@@ -36,11 +37,8 @@ namespace SAH.Models
         [DisplayName("Application Comments")]
         public string Comment { get; set; }
 
-        [DisplayName("Application with File")]
-        public string ApplicationHasFile { get; set; }
-        
-        public string FileExtension { get; set; }
-        
+        [DisplayName("Including File")]
+                
         public int UserId { get; set; }
 
         

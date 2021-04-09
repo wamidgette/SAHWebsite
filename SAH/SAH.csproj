@@ -55,6 +55,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -106,6 +107,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -179,6 +181,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\ApplicationDataController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\CoursesDataController.cs" />
     <Compile Include="Controllers\EmployeeApplicantController.cs" />
@@ -218,6 +222,18 @@
     <Compile Include="Migrations\202104090130213_Will_Migration_002.cs" />
     <Compile Include="Migrations\202104090130213_Will_Migration_002.Designer.cs">
       <DependentUpon>202104090130213_Will_Migration_002.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104090356431_diarra_mvp_tables.cs" />
+    <Compile Include="Migrations\202104090356431_diarra_mvp_tables.Designer.cs">
+      <DependentUpon>202104090356431_diarra_mvp_tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.cs" />
+    <Compile Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.Designer.cs">
+      <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104090557073_BarbaraApplicationTable.cs" />
+    <Compile Include="Migrations\202104090557073_BarbaraApplicationTable.Designer.cs">
+      <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -311,13 +327,19 @@
     <Content Include="Views\ParkingSpots\Details.cshtml" />
     <Content Include="Views\ParkingSpots\Edit.cshtml" />
     <Content Include="Views\ParkingSpots\ParkingSpotList.cshtml" />
+    <Content Include="Views\Job\DeleteConfirm.cshtml" />
+    <Content Include="Views\Job\Error.cshtml" />
+    <Content Include="Views\Job\Edit.cshtml" />
+    <Content Include="Views\Job\Details.cshtml" />
+    <Content Include="Views\Job\Create.cshtml" />
+    <Content Include="Views\Job\List.cshtml" />
     <Content Include="Views\Message\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Application\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
-    <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -347,6 +369,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104090130213_Will_Migration_002.resx">
       <DependentUpon>202104090130213_Will_Migration_002.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090356431_diarra_mvp_tables.resx">
+      <DependentUpon>202104090356431_diarra_mvp_tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090445026_Barbara-UpdateApplication_Table.resx">
+      <DependentUpon>202104090445026_Barbara-UpdateApplication_Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104090557073_BarbaraApplicationTable.resx">
+      <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
