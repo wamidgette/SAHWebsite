@@ -243,6 +243,10 @@
     <Compile Include="Migrations\202104090557073_BarbaraApplicationTable.Designer.cs">
       <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104101354360_barbaralastupdate.cs" />
+    <Compile Include="Migrations\202104101354360_barbaralastupdate.Designer.cs">
+      <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -256,10 +260,12 @@
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\ModelViews\changeApplication.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
+    <Compile Include="Models\ModelViews\ShowApplication.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowMessage.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
@@ -409,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104090557073_BarbaraApplicationTable.resx">
       <DependentUpon>202104090557073_BarbaraApplicationTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104101354360_barbaralastupdate.resx">
+      <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
