@@ -1,0 +1,70 @@
+﻿@model SAH.Models.ModelViews.DetailDonation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Donation</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Donation.DonationId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Donation.DonationId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+
+        <dd><!--add a link to user page-->
+            <a href="">
+                @Html.DisplayFor(model => model.User.FirstName)
+                @Html.DisplayFor(model => model.User.LastName)
+            </a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.DepartmentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.DepartmentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Donation.AmountOfDonation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Donation.AmountOfDonation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Donation.PaymentMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Donation.PaymentMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Donation.DonationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Donation.DonationDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Donation.DonationId }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

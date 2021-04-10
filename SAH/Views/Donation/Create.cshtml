@@ -1,0 +1,95 @@
+﻿@model SAH.Models.ModelViews.CreateDonation
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+<!--
+
+-->
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Donation</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Donation.AmountOfDonation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Donation.AmountOfDonation, new { htmlAttributes = new { @class = "form-control", Name = "AmountOfDonation" } })
+                @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--After authorization is set, user data will be retrieved from login information-->
+        <div class="form-group">
+            <label for="userId" class="control-label col-md-2">User ID</label>
+            <div class="col-md-10">
+                <input type="number" id="userId" name="userId" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="departmentId" class="control-label col-md-2">Where to Donate</label>
+            <div class="col-md-10">
+                <select id="departmentId" name="departmentId" class="form-control">
+                    <option value="0">Select Department</option>
+                    @foreach (var Department in Model.AllDepartments)
+                    {
+                        <option value="@Department.DepartmentId">@Department.DepartmentName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Donation.PaymentMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    string[] paymentMethods = new[] { "credit", "debit" };
+                    foreach (var payment in paymentMethods)
+                    {
+                        <input type="radio" value="@payment" name="paymentMethod" id=@payment />
+                        <label for=@payment>@payment</label>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Card Number</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Security Code</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Donation.DonationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Donation.DonationDate, new { htmlAttributes = new { @class = "form-control", Name = "DonationDate" } })
+                @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Donate" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>

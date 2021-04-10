@@ -185,6 +185,10 @@
     <Compile Include="Controllers\ApplicationDataController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\CoursesDataController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DepartmentDataController.cs" />
+    <Compile Include="Controllers\DonationController.cs" />
+    <Compile Include="Controllers\DonationDataController.cs" />
     <Compile Include="Controllers\EmployeeApplicantController.cs" />
     <Compile Include="Controllers\EmployeeApplicantsDataController.cs" />
     <Compile Include="Controllers\FaqController.cs" />
@@ -198,6 +202,8 @@
     <Compile Include="Controllers\ParkingSpotDataController.cs" />
     <Compile Include="Controllers\ParkingSpotsController.cs" />
     <Compile Include="Controllers\ShowTicketl.cs" />
+    <Compile Include="Controllers\SpecialityController.cs" />
+    <Compile Include="Controllers\SpecialityDataController.cs" />
     <Compile Include="Controllers\TicketDataController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -248,7 +254,10 @@
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\ModelViews\CreateDonation.cs" />
+    <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
+    <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowMessage.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
@@ -334,6 +343,21 @@
     <Content Include="Views\Job\Create.cshtml" />
     <Content Include="Views\Job\List.cshtml" />
     <Content Include="Views\Message\Show.cshtml" />
+    <Content Include="Views\Speciality\List.cshtml" />
+    <Content Include="Views\Speciality\Details.cshtml" />
+    <Content Include="Views\Speciality\Create.cshtml" />
+    <Content Include="Views\Speciality\Edit.cshtml" />
+    <Content Include="Views\Speciality\DeleteConfirm.cshtml" />
+    <Content Include="Views\Department\List.cshtml" />
+    <Content Include="Views\Department\Create.cshtml" />
+    <Content Include="Views\Department\Details.cshtml" />
+    <Content Include="Views\Department\Edit.cshtml" />
+    <Content Include="Views\Department\DeleteConfirm.cshtml" />
+    <Content Include="Views\Donation\List.cshtml" />
+    <Content Include="Views\Donation\Edit.cshtml" />
+    <Content Include="Views\Donation\Details.cshtml" />
+    <Content Include="Views\Donation\DeleteConfirm.cshtml" />
+    <Content Include="Views\Donation\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
