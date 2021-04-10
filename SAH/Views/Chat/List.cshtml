@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SAH.Models.ChatDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List of Chats</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ChatId }) |
+            @Html.ActionLink("Messages", "../Message/ChatMessages", new { id=item.ChatId }) |
+            @Html.ActionLink("Delete", "ConfirmDelete", new { id=item.ChatId })
+        </td>
+    </tr>
+}
+
+</table>

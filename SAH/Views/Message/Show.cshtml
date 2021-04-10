@@ -9,7 +9,7 @@
 <div>
     <h4>Message</h4>
     <hr />
-    <table class="table-striped">
+    <table class="table">
         <tr>
             <td>@Html.DisplayNameFor(model => model.MessageChat.Subject)</td>
             <td>@Html.DisplayFor(model => model.MessageChat.Subject)</td>
@@ -30,5 +30,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Message.MessageId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Chat Messages", "ChatMessages", new { id = Model.Message.ChatId })
+    @Html.ActionLink("Delete Message", "ConfirmDelete", new { id = Model.Message.MessageId })
 </p>

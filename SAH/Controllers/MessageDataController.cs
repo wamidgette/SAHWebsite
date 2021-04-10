@@ -97,11 +97,11 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(IEnumerable<MessageDto>))]
-        public IHttpActionResult getMessagesByChatId(int ChatId)
+        public IHttpActionResult getMessagesByChatId(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET MESSAGE BY CHAT ID TEST API METHOD");
             List<Message> Messages = db.Messages
-                .Where(m => m.ChatId.Equals(ChatId))
+                .Where(m => m.ChatId.Equals(id))
                 .ToList();
 
             List<MessageDto> MessageDtos = new List<MessageDto> { };
