@@ -371,6 +371,7 @@
     <Content Include="Views\Donation\Details.cshtml" />
     <Content Include="Views\Donation\DeleteConfirm.cshtml" />
     <Content Include="Views\Donation\Create.cshtml" />
+    <Content Include="Views\Chat\ConfirmDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

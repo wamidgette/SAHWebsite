@@ -62,18 +62,10 @@ namespace SAH.Controllers
         //This method will take a chat Id on get request. The chat id will be stored as the ChatId for the new message on form submission
         public ActionResult Create(int id)
         {
-/*            string request = "ChatData/getChatById/" + id;
-            HttpResponseMessage response = client.GetAsync(request).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<ChatDto> MessageDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
-                return View(MessageDtos);
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }*/
-            return View(id);
+            MessageDto Message = new MessageDto();
+            Message.ChatId = id;
+            //This will also need to set Message.SenderId from the browser cookie and send along to the create view
+            return View(Message);
         }
 
         // POST: Message/Create - will need to recieve a chat Id to add the message to that chat
@@ -86,6 +78,11 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(MessageDto NewMessage)
         {
+            //Create today's date and store as Message.Datesent **
+            NewMessage.DateSent = DateTime.Now;
+            //Create A sender for now. After the next stage of development, this userId will come from the logged in user's userId cookie
+            NewMessage.SenderId = 7;
+
             //Serialize method returns the object as a Json object - otherwise no way to see contents
             Debug.WriteLine("NEWMESSAGE OBJECT: " + JsSerializer.Serialize(NewMessage));
             //string to send request to - add the chat Id in url

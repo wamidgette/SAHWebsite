@@ -58,31 +58,6 @@ namespace SAH.Controllers
             }
         }
 
-       
-        // GET: Chat/ChatMessages
-        /// <summary>
-        /// Takes a chatId and sends a request to the getMessagesByChatId API method
-        /// </summary>
-        /// <param name="chatId"></param>
-        /// <returns>A view that shows all of the messages associated with a certain chat</returns>
-        public ActionResult ChatMessages(int id)
-        {
-            Debug.WriteLine("In Chat Messages MVC Controller. chad Id is:" + id);
-            //Request data from API controller via http request 
-            string request = "Chatdata/getMessagesByChatId/" + id;
-            HttpResponseMessage response = client.GetAsync(request).Result;
-            //The IHTTPActionResult should send an OK response as well as a ChatDto object list 
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<ChatDto> ChatDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
-                return View(ChatDtos);
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
         // GET: Chat/Create
         /// <returns>The create view, where a user can create a new chat</returns>
         public ActionResult Create()
