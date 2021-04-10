@@ -35,15 +35,16 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET: Message/ListForChat
+        // GET: Message/ChatMessages
         /// <summary>
         /// This is not a full list of all messages in database - that feature is not really useful. This will be send a request to getMessagesByChatId. Recieves a chat Id parameter.
         /// </summary>
         /// <returns>A list of messages for the chat id passed to the method</returns>
-        public ActionResult List(int chatId)
+        public ActionResult ChatMessages(int id)
         {
+            Debug.WriteLine("MESSAGE/CHATMESSAGES/" + id);
             //Request data from API controller via http request 
-            string request = "MessageData/getMessagesByChatId/" + chatId;
+            string request = "MessageData/getMessagesByChatId/" + id;
             HttpResponseMessage response = client.GetAsync(request).Result;
             //The IHTTPActionResult should send an OK response as well as a MessageDto object list 
             if (response.IsSuccessStatusCode)
@@ -61,6 +62,17 @@ namespace SAH.Controllers
         //This method will take a chat Id on get request. The chat id will be stored as the ChatId for the new message on form submission
         public ActionResult Create(int id)
         {
+/*            string request = "ChatData/getChatById/" + id;
+            HttpResponseMessage response = client.GetAsync(request).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<ChatDto> MessageDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
+                return View(MessageDtos);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }*/
             return View(id);
         }
 
@@ -157,8 +169,8 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-
                 MessageDto Message = response.Content.ReadAsAsync<MessageDto>().Result;
+                Debug.WriteLine("CURRENT MESSAGE OBJECT" + JsSerializer.Serialize(Message));
                 return View(Message);
             }
 
@@ -189,19 +201,40 @@ namespace SAH.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ConfirmDelete(int id)
+        {
+            //logic follows 
+            string requestAddress = "MessageData/getMessageById/" + id;
+            HttpResponseMessage response = client.GetAsync(requestAddress).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                MessageDto Message = response.Content.ReadAsAsync<MessageDto>().Result;
+                Debug.WriteLine("CURRENT MESSAGE OBJECT" + JsSerializer.Serialize(Message));
+                return View(Message);
+            }
+
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
             //Ask Christine: Cannot send an integer as http content? Doesnt it defeat the purpose of a post request to send the Id in a url?
-            string requestAddress = "MessageData/deleteMessage/" + id;
-            Debug.WriteLine("GOING TO DELETE MESSAGE ID: " + requestAddress);
+            string requestAddress = "MessageData/deleteMessage/" +  id;
+            Debug.WriteLine("GOING TO DELETE MESSAGE: " + id);
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;
             Debug.WriteLine(response.StatusCode);
 
             if (response.IsSuccessStatusCode)
             {
+                /*Return to the list of message for the chat - should no longer see this message*/
                 return RedirectToAction("List");
             }
             else

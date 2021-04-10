@@ -183,6 +183,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ApplicationDataController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\ChatDataController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\CoursesDataController.cs" />
     <Compile Include="Controllers\EmployeeApplicantController.cs" />
@@ -334,6 +336,11 @@
     <Content Include="Views\Job\Create.cshtml" />
     <Content Include="Views\Job\List.cshtml" />
     <Content Include="Views\Message\Show.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\ConfirmDelete.cshtml" />
+    <Content Include="Views\Chat\List.cshtml" />
+    <Content Include="Views\Message\ChatMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
