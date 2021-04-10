@@ -43,7 +43,7 @@ namespace SAH.Controllers
 
         /// <summary>
         /// This method returns the ParkingSpot list to view
-        /// <example>ParkingSpots/ClasseList</example>
+        /// <example>ParkingSpots/ParkingSpotList</example>
         /// </summary>
         /// <returns>ParkingSpot list</returns>
 
@@ -67,7 +67,7 @@ namespace SAH.Controllers
         /// <example>ParkingSpots/Details/5</example>
         /// <example>ParkingSpots/Details/2</example>
         /// </summary>
-        /// <param name="id">The ID of the selected Classed object</param>
+        /// <param name="id">The ID of the selected ParkingSpot object</param>
         /// <returns>ParkingSpot object details with pupils and modules</returns>
         /// 
         public ActionResult Details(int id)
@@ -89,7 +89,7 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            //Get the ticketss which are linked to the current Parking Spot object
+            //Get the tickets which are linked to the current Parking Spot object
             url = "ParkingSpotData/GetSpotTickets/" + id;
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -136,7 +136,7 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                //Go back to classes list
+                //Go back to ParkingSpots list
                 return RedirectToAction("ParkingSpotList");
 
             }

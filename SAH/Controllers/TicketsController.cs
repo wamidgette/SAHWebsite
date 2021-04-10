@@ -67,11 +67,11 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method shows the information of the selected pupil
-        /// <example>Pupils/Details/1</example>
-        /// <example>Pupils/Details/4</example>
+        /// This method shows the information of the selected ticket
+        /// <example>tickets/Details/1</example>
+        /// <example>tickets/Details/4</example>
         /// </summary>
-        /// <param name="id">ID of the selected pupil</param>
+        /// <param name="id">ID of the selected ticket</param>
         /// <returns>Details of the ticket which ID is given</returns>
 
         public ActionResult Details(int id)
@@ -144,9 +144,8 @@ namespace SAH.Controllers
         public ActionResult Create(Ticket Ticket)//
         {
 
-           // Debug.WriteLine(Ticket.firstName + " " + Pupil.lastName + " " + Pupil.classId + " " + Pupil.locId + " " + Pupil.pId);
 
-            //Add a new tcket to the database
+            //Add a new ticket to the database
             string url = "TicketData/AddTicket";
             HttpContent content = new StringContent(jss.Serialize(Ticket));
 
@@ -232,9 +231,8 @@ namespace SAH.Controllers
         public ActionResult Edit(int id, Ticket Ticket)//
         {
 
-            //Debug.WriteLine(Pupil.firstName + " " + Pupil.lastName + " " + Pupil.classId + " " + Pupil.locId + " " + Pupil.pId + " " + id);
 
-            //Update and save the current pupil
+            //Update and save the current ticket
             string url = "TicketData/UpdateTicket/" + id;
 
             HttpContent content = new StringContent(jss.Serialize(Ticket));
@@ -295,7 +293,7 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            //Delete current pipul from database
+            //Delete current ticket from database
             string url = "TicketData/DeleteTicket/" + id;
 
             HttpContent content = new StringContent("");

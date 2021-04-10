@@ -95,7 +95,7 @@ namespace SAH.Controllers
         [ResponseType(typeof(IEnumerable<TicketDto>))]
         public IHttpActionResult GetSpotTickets(int id)
         {
-            //List of all pupils registered in the current Classe (course)
+            //List of all tickets for the current ParkingSpot 
             List<Ticket> Tickets = db.Tickets.Where(p => p.SpotId == id).ToList();
             List<TicketDto> TicketDtos = new List<TicketDto> { };
 
