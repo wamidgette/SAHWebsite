@@ -193,5 +193,31 @@ namespace SAH.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
         }
+
+        //This is a method to get the full list of users. I would normally put this in the UserController, but since 
+        //I know that we have done Users in an unorthodox way, I am putting the method here for now. 
+        [HttpGet]
+        public IHttpActionResult getDoctors()
+        {
+            Debug.WriteLine("YOU ARE IN THE Chat/getDoctors API METHOD");
+            List<User> Users = db.OurUsers
+                .Where(o => o.Role.RoleName == "Doctor")
+                .ToList();
+
+            List<UserDto> UserDtos = new List<UserDto> { };
+
+            foreach (var User in Users)
+            {
+                UserDto ThisUser = new UserDto
+                {
+                    UserId = User.UserId,
+                    FirstName = User.FirstName,
+                    LastName = User.LastName,
+                };
+                UserDtos.Add(ThisUser);
+                Debug.WriteLine("this User object:" + ThisUser);
+            }
+            return Ok(UserDtos);
+        }
     }
 }

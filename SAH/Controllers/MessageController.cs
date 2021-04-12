@@ -39,6 +39,7 @@ namespace SAH.Controllers
         /// <summary>
         /// This is not a full list of all messages in database - that feature is not really useful. This will be send a request to getMessagesByChatId. Recieves a chat Id parameter.
         /// </summary>
+        /// <param name="id"</param> This is a chat Id
         /// <returns>A list of messages for the chat id passed to the method</returns>
         public ActionResult ChatMessages(int id)
         {

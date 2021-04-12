@@ -261,6 +261,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\changeApplication.cs" />
+    <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
@@ -372,6 +373,7 @@
     <Content Include="Views\Donation\DeleteConfirm.cshtml" />
     <Content Include="Views\Donation\Create.cshtml" />
     <Content Include="Views\Chat\ConfirmDelete.cshtml" />
+    <Content Include="Views\Chat\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

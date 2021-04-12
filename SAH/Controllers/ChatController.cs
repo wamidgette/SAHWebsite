@@ -62,7 +62,15 @@ namespace SAH.Controllers
         /// <returns>The create view, where a user can create a new chat</returns>
         public ActionResult Create()
         {
-            return View();
+            //The view needs to be sent a list of all the users so the client can select a user as the recipient in the view
+            string requestAddress = "ChatData/getDoctors/";
+            HttpResponseMessage response = client.GetAsync(requestAddress).Result;
+            List<UserDto> Doctors = response.Content.ReadAsAsync<List<UserDto>>().Result;
+
+            CreateChat CreateChat = new CreateChat();
+            CreateChat.Doctors = Doctors;
+            Debug.WriteLine("Users object:" + JsSerializer.Serialize(CreateChat.Doctors));
+            return View(CreateChat);
         }
 
         // POST: Chat/Create 
@@ -73,11 +81,20 @@ namespace SAH.Controllers
         /// <returns>If succesful, the client will be redirected to the ChatMessages view where they will be prompted to create a new message for their new chat </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ChatDto NewChat)
+        public ActionResult Create(CreateChat CreateChat, int RecipientId)
         {
-            Debug.WriteLine("NewChat OBJECT: " + JsSerializer.Serialize(NewChat));
+            /*Separate Chat from message. Create new chat, then create new message.*/
+
+            Debug.WriteLine("Recipient:" + RecipientId);
+            Debug.WriteLine("CreateChat OBJECT: " + JsSerializer.Serialize(CreateChat));
+            ChatDto NewChat = new ChatDto
+            {
+                Subject = CreateChat.Chat.Subject,
+                DateCreated = DateTime.Now,
+            };
+
             //string to send request to 
-            string requestAddress = "Chatdata/createChat";
+            string requestAddress = "ChatData/createChat";
             //Create content which sends the Chat info as a Json object
             HttpContent content = new StringContent(JsSerializer.Serialize(NewChat));
             //Headers are Chat headers that preceed the http Chat content (the json object).
@@ -88,9 +105,35 @@ namespace SAH.Controllers
             //if response is success status code, display the details of the Chat in the "Show" view
             if (response.IsSuccessStatusCode)
             {
-                //reads messageId from response and sends to show method
+                //ASSIGN New Chat Id Var FROM RETURNED CHAT ID
                 int ChatId = response.Content.ReadAsAsync<int>().Result;
-                return RedirectToAction("chatMessages", new { id = ChatId });
+
+                MessageDto NewMessage = new MessageDto
+                {
+                    //Leaving this as 7 for now. Later on, this will take the userId cookie from the logged in user who created the chat
+                    SenderId = 7,
+                    ChatId = ChatId,  
+                    DateSent = DateTime.Now,
+                    Content = CreateChat.FirstMessage.Content,
+                };
+
+                requestAddress = "MessageData/createMessage";
+                content = new StringContent(JsSerializer.Serialize(NewMessage));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                response = client.PostAsync(requestAddress, content).Result;
+
+                //reads messageId from response and sends to show method
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("../Message/chatMessages", new { id = ChatId });
+                }
+
+                else
+                {
+                    return RedirectToAction("Error");
+                }
+
             }
 
             else
@@ -98,6 +141,7 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
         }
+
 
         /// <summary>
         /// Method takes a chat id parameter and returns the edit view. Only the chat subject line and users involved can be updated

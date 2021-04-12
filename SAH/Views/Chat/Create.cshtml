@@ -1,0 +1,56 @@
+﻿@model SAH.Models.ModelViews.CreateChat
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create a New chat</h2>
+
+@using (Html.BeginForm("Create", "Chat", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>New Chat</h4>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-10">
+                <select name="RecipientId">
+                    @foreach (var user in Model.Doctors)
+                    {
+                    <option value="@user.UserId">Dr. @user.FirstName @user.FirstName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Chat.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Chat.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Chat.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <h4>You Must Create a Message with Your New Chat</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstMessage.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstMessage.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstMessage.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create and Send" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
