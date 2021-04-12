@@ -22,6 +22,6 @@ namespace SAH.Models
         [DisplayName("Course Code")]
         public string CourseCode { get; set; }
         [DisplayName("Course Name")]
-        public string CourseNme { get; set; }
+        public string CourseName { get; set; }
     }
 }

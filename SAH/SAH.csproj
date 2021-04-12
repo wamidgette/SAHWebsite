@@ -265,7 +265,9 @@
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
+    <Compile Include="Models\ModelViews\ShowEmployeeApplicants.cs" />
     <Compile Include="Models\ModelViews\ShowApplication.cs" />
+    <Compile Include="Models\ModelViews\ShowCourses.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowMessage.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
@@ -372,11 +374,16 @@
     <Content Include="Views\Donation\DeleteConfirm.cshtml" />
     <Content Include="Views\Donation\Create.cshtml" />
     <Content Include="Views\Chat\ConfirmDelete.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\DeleteConfirm.cshtml" />
+    <Content Include="Views\Courses\Details.cshtml" />
+    <Content Include="Views\Courses\Edit.cshtml" />
+    <Content Include="Views\Courses\Error.cshtml" />
+    <Content Include="Views\Courses\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Application\" />
-    <Folder Include="Views\Courses\" />
     <Folder Include="Views\EmployeeApplicant\" />
   </ItemGroup>
   <ItemGroup>
