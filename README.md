@@ -7,3 +7,6 @@
 
 ### Ikumi - Departments, Specialities, and Donations database entities
 - For the MVP, a user can create, read, update and delete each entities respectively. The donation table contains data from the departments and users table, so a user also can see username and department name in the donation update, details, and delete confirm views. Displaying usernames and department names in the donation list view is still in progress.
+
+### Bakary - Parking spots and tickets database entities
+- The CRUD (create,read, update and delete) functionalities are functioning for the two entities. The user can also see on a details page the relationships between the two entities and the user table. Currently any user can realise the CRUD actions but role based authentication and authorization will be implemented in the next step to restrict the user actions depending on his/her role.
