@@ -13,3 +13,6 @@
 
 ### Barbara - Jobs and Applications database entities
 - My MVP has create, read, update and delete fuctionality for the application and job entities. The application table is a bridge table for users table and jobs table. The application(details) will provide all the information from the job and the user as well. Views for the application table are still in process as part of the application's controller havent been verified.
+
+### Danyal - Internal Education Portal - Courses and EmployeeApplications
+- This feature is for staff who can enroll in any of the listed courses. The CRUD for courses is completed, which will be for admin only to add, edit or remove the courses. The user authentication will be implemented lated after completion of CRUD for all features.
