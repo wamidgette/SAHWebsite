@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SAH.Models.ModelViews.ShowApplication>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>SAH Applications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Job.Position)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Job.Position)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Application.ApplicationId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Application.ApplicationId }) |
+        @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.Application.ApplicationId })
+    </td>
+</tr>
+}
+
+</table>

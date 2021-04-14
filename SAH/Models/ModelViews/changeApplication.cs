@@ -5,14 +5,14 @@ using System.Web;
 
 namespace SAH.Models.ModelViews
 {
-    public class changeApplication
+    public class ChangeApplication
     {
-        //Information about the ticket
+        //Information about the application
         public ApplicationDto Application { get; set; }
 
         //Needed for a dropdownlist for users
         public IEnumerable<UserDto> AllUsers { get; set; }
-        //Needed for a dropdownlist for parking spots
+        //Needed for a dropdownlist for Jobs
         public IEnumerable<JobDto> Jobs { get; set; }
     }
 }

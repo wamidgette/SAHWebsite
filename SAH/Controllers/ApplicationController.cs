@@ -13,8 +13,7 @@ using System.IO;
 
 namespace SAH.Controllers
 {
-    public class ApplicationController : Controller
-    {
+    public class ApplicationController : Controller    {
 
 
         private JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -39,11 +38,11 @@ namespace SAH.Controllers
         // GET: Application/List
         public ActionResult List()
         {
-            string url = "ApplicationData/GetApplications";
+            string url = "ApplicationData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<ApplicationDto> SelectedApplications = response.Content.ReadAsAsync<IEnumerable<ApplicationDto>>().Result;
+                IEnumerable<ShowApplication> SelectedApplications = response.Content.ReadAsAsync<IEnumerable<ShowApplication>>().Result;
                 return View(SelectedApplications);
             }
             else
@@ -90,21 +89,21 @@ namespace SAH.Controllers
         public ActionResult Create()
         {
             //Get all the users for dropdown list
-            changeApplication changeApplication = new changeApplication();
+            ChangeApplication ChangeApplication = new ChangeApplication();
             string url = "ApplicationData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            changeApplication.AllUsers = SelectedUsers;
+            ChangeApplication.AllUsers = SelectedUsers;
 
-            //Get all the parking spots for dropdown list
+            //Get all the jobs for dropdown list
             url = "ApplicationData/GetJobs";
             response = client.GetAsync(url).Result;
 
             IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
-            changeApplication.Jobs = SelectedJobs;
+            ChangeApplication.Jobs = SelectedJobs;
 
-            return View(changeApplication);
+            return View(ChangeApplication);
         }
 
         // POST: Application/Create
@@ -113,7 +112,7 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Application Application)
         {
-            //Add a new ticket to the database
+            //Add a new application to the database
             string url = "ApplicationData/AddApplication";
             HttpContent content = new StringContent(jss.Serialize(Application));
 
@@ -123,7 +122,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                //Redirect to the TicketList
+                //Redirect to the Application List
                 return RedirectToAction("List");
             }
             else
@@ -135,26 +134,76 @@ namespace SAH.Controllers
         // GET: Application/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ChangeApplication newApplication = new ChangeApplication();
+
+            //Get the selected ticket from the database
+            string url = "ApplicationData/FindApplication/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
+                newApplication.Application = SelectedApplication;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            //Get all users from the database for dropdown list
+            url = "ApplicationData/GetUsers";
+            response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                newApplication.AllUsers = SelectedUsers;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            //Get all jobs from the database for dropdown list
+            url = "ApplicationData/GetJobs";
+            response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
+                newApplication.Jobs = SelectedJobs;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+            return View(newApplication);
+
         }
 
         // POST: Application/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Application Application)
+        {            
+            string url = "ApplicationData/UpdateApplication/" + id;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            HttpContent content = new StringContent(jss.Serialize(Application));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+
+                return RedirectToAction("Details", new { id = Application.ApplicationId });
             }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
         }
 
         // GET: Application/Delete/5
+        [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
             //Get current ticket from the database
@@ -165,7 +214,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 //Put data into player data transfer object
-                Application SelectedApplication = response.Content.ReadAsAsync<Application>().Result;
+                ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
                 return View(SelectedApplication);
             }
             else
@@ -194,6 +243,11 @@ namespace SAH.Controllers
             {
                 return RedirectToAction("Error");
             }
+
+          /*  public ActionResult Error()
+           {
+                return View();
+           } */
         }
     }
 }

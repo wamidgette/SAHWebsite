@@ -1,0 +1,77 @@
+﻿@model SAH.Models.ModelViews.ShowApplication
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>SAH Job Applications</h2>
+
+<div>
+    <h4>More Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.Position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Application.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.Comment)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Application.ApplicationId }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

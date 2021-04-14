@@ -26,7 +26,7 @@ namespace SAH.Controllers
         /// GET: api/Application/GetApplication
         /// </example>
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<ApplicationDto>))]
+        [ResponseType(typeof(IEnumerable<JobDto>))]
         public IHttpActionResult GetApplications()
         {
             //List of Application from databse
@@ -295,7 +295,7 @@ namespace SAH.Controllers
         // POST: api/Applicationdata/updateapplication/5
         [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateApplication(int id, Application Application)
+        public IHttpActionResult UpdateApplication(int id, [FromBody] Application Application)
         {
             if (!ModelState.IsValid)
             {
