@@ -247,6 +247,10 @@
     <Compile Include="Migrations\202104101354360_barbaralastupdate.Designer.cs">
       <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104150045572_mahsa_update_faq.cs" />
+    <Compile Include="Migrations\202104150045572_mahsa_update_faq.Designer.cs">
+      <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -392,6 +396,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\EmployeeApplicant\" />
+    <Folder Include="Views\Faq\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -433,6 +438,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104101354360_barbaralastupdate.resx">
       <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104150045572_mahsa_update_faq.resx">
+      <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
