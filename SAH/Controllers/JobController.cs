@@ -55,10 +55,10 @@ namespace SAH.Controllers
         // GET: Job/Details/5
         public ActionResult Details(int id)
         {
-            //Model used to combine a Parking Spot object and its tickets
+            //Model used to combine a Job object and its applications
             ShowJob ModelViews = new ShowJob();
 
-            //Get the current ParkingSpot object
+            //Get the current Job object
             string url = "JobData/FindJob/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
