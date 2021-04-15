@@ -31,6 +31,8 @@ namespace SAH.Models
         public string Answer { get; set; }
         public bool Publish { get; set; }
         public int? DepartmentID { get; set; }
+        [DisplayName("Department")]
+        public string DepartmentName { get; set; }
 
     }
 }

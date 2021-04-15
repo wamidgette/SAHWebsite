@@ -275,6 +275,7 @@
     <Compile Include="Models\ModelViews\ShowCourses.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowMessage.cs" />
+    <Compile Include="Models\ModelViews\EditFaq.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
@@ -392,11 +393,14 @@
     <Content Include="Views\Application\DeleteConfirm.cshtml" />
     <Content Include="Views\Application\Details.cshtml" />
     <Content Include="Views\Application\Edit.cshtml" />
+    <Content Include="Views\Faq\PublicList.cshtml" />
+    <Content Include="Views\Faq\Edit.cshtml" />
+    <Content Include="Views\Faq\Error.cshtml" />
+    <Content Include="Views\Faq\AdminList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\EmployeeApplicant\" />
-    <Folder Include="Views\Faq\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

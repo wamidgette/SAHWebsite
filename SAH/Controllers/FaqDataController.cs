@@ -19,9 +19,9 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>The list of Faqs Posted</returns>
         /// <example>
-        /// GET: api/faqData/Getfaqs
+        /// GET: api/FaqData/GetFaqs
         /// </example>
-
+        [HttpGet]
         [ResponseType(typeof(IEnumerable<FaqDto>))]
         public IHttpActionResult GetFaqs()
         {
@@ -37,7 +37,40 @@ namespace SAH.Controllers
                     Question = faq.Question,
                     Answer = faq.Answer,
                     Publish = faq.Publish,
-                    DepartmentID = faq.DepartmentID
+                    DepartmentID = faq.DepartmentID,
+                    DepartmentName = faq.Department.DepartmentName
+                };
+                faqDtos.Add(newFaq);
+            }
+
+            return Ok(faqDtos);
+        }
+
+        /// <summary>
+        /// A list of Published FAQs
+        /// </summary>
+        /// <returns>The list of Faqs Posted</returns>
+        /// <example>
+        /// GET: api/FaqData/GetPublicFaqs
+        /// </example>
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<FaqDto>))]
+        public IHttpActionResult GetPublicFaqs()
+        {
+            List<Faq> faqs = db.Faqs.Where(f=>f.Publish).ToList();
+            List<FaqDto> faqDtos = new List<FaqDto> { };
+
+            //Here you can choose which information is exposed to the API
+            foreach (var faq in faqs)
+            {
+                FaqDto newFaq = new FaqDto
+                {
+                    FaqID = faq.FaqID,
+                    Question = faq.Question,
+                    Answer = faq.Answer,
+                    Publish = faq.Publish,
+                    DepartmentID = faq.DepartmentID,
+                    DepartmentName = faq.Department.DepartmentName
                 };
                 faqDtos.Add(newFaq);
             }
@@ -46,55 +79,57 @@ namespace SAH.Controllers
         }
 
 
+
+        /// <summary>
+        /// Finds a particular FAQ in the database with a 200 status code. If the Sponsor is not found, return 404.
+        /// </summary>
+        /// <param name="id">The FAQ id</param>
+        /// <returns>Information about the FAQ</returns>
+        // <example>
+        // GET: api/FaqData/FindFaq/5
+        // </example>
+        [HttpGet]
         [ResponseType(typeof(IEnumerable<FaqDto>))]
-        public IHttpActionResult GetFaq(int id)
+        public IHttpActionResult FindFaq(int id)
         {
-            List<Faq> Faqs = db.Faqs.Where(f => f.FaqID == id)
-                .ToList();
-            List<FaqDto> FaqDtos = new List<FaqDto> { };
+            Faq faq = db.Faqs.Find(id);
 
-            //Here you can choose which information is exposed to the API
-            foreach (var Faq in Faqs)
+            FaqDto faqDto = new FaqDto
             {
-                FaqDto NewFaq = new FaqDto
-                {
-                    FaqID = Faq.FaqID,
-                    Question = Faq.Question,
-                    Answer = Faq.Answer,
-                    Publish = Faq.Publish,
-                    DepartmentID =Faq.DepartmentID
-                };
-                FaqDtos.Add(NewFaq);
-            }
+                FaqID = faq.FaqID,
+                Question = faq.Question,
+                Answer = faq.Answer,
+                Publish = faq.Publish,
+                DepartmentID = faq.DepartmentID
+            };
 
-            return Ok(FaqDtos);
+            return Ok(faqDto);
         }
-
-
 
         /// <summary>
         /// Update a Faq in the database, The past information is given
         /// </summary>
-        /// <param name="Id">Job Id</param>
-        /// <param name="Job">Job Object. Received a POST Data</param>
+        /// <param name="Id">FAQ Id</param>
+        /// <param name="Faq">FAQ Object. Received a POST Data</param>
         /// <returns></returns>
         /// <example>
-        /// PUT: api/Jobs/5
-        /// </example>
+        /// PUT: api/faqdata/updatefaq/5
+        /// </example>   
+        [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateJob(int id, [FromBody] Job Job)
+        public IHttpActionResult UpdateFaq(int id, [FromBody] Faq faq)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != Job.JobId)
+            if (id != faq.FaqID)
             {
                 return BadRequest();
             }
 
-            db.Entry(Job).State = EntityState.Modified;
+            db.Entry(faq).State = EntityState.Modified;
 
             try
             {
@@ -102,7 +137,7 @@ namespace SAH.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!JobExists(id))
+                if (!FaqExists(id))
                 {
                     return NotFound();
                 }
@@ -116,47 +151,47 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// Add a new Job to the database
+        /// Add a new FAQ to the database
         /// </summary>
-        /// <param name="Job">Sent a Post form Data</param>
+        /// <param name="FAQ">Sent a Post form Data</param>
         /// <returns>200 = successful. 404 = not successful</returns>
         /// <example> 
-        /// POST: api/JobData/AddJob
+        /// POST: api/FaqData/AddFaq
         /// </example>
 
-        [ResponseType(typeof(Job))]
-        public IHttpActionResult AddJob([FromBody] Job Job)
+        [ResponseType(typeof(Faq))]
+        public IHttpActionResult AddFaq([FromBody] Faq faq)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Jobs.Add(Job);
+            db.Faqs.Add(faq);
             db.SaveChanges();
 
-            return Ok(Job.JobId);
+            return Ok(faq.FaqID);
         }
 
         /// <summary>
-        /// Delete a Job from the database
+        /// Delete a FAQ from the database
         /// </summary>
-        /// <param name="Id">The Id from the Job to delete</param>
+        /// <param name="Id">The Id from the FAQ to delete</param>
         /// <returns>200 = successful. 404 = not successful</returns>
         /// <example>
-        /// POST: api/JobData/DeleteJob/5
+        /// POST: api/FAqData/DeleteFaq/2
         /// </example>
 
-        [ResponseType(typeof(Job))]
-        public IHttpActionResult DeleteJob(int id)
+        [ResponseType(typeof(Faq))]
+        public IHttpActionResult DeleteFaq(int id)
         {
-            Job Job = db.Jobs.Find(id);
-            if (Job == null)
+            Faq faq = db.Faqs.Find(id);
+            if (faq == null)
             {
                 return NotFound();
             }
 
-            db.Jobs.Remove(Job);
+            db.Faqs.Remove(faq);
             db.SaveChanges();
 
             return Ok();
@@ -172,14 +207,14 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// Find a Job in the System
+        /// Find a Faq in the System
         /// </summary>
-        /// <param name="Id">The Job Id</param>
+        /// <param name="Id">The Faq Id</param>
         /// <returns>If the team exists return true</returns>
 
-        private bool JobExists(int id)
+        private bool FaqExists(int id)
         {
-            return db.Jobs.Count(e => e.JobId == id) > 0;
+            return db.Faqs.Any(e => e.FaqID == id);
         }
     }
 }
