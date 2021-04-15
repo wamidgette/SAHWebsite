@@ -251,9 +251,14 @@
     <Compile Include="Migrations\202104150045572_mahsa_update_faq.Designer.cs">
       <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104151731397_mahsa_appointment_table.cs" />
+    <Compile Include="Migrations\202104151731397_mahsa_appointment_table.Designer.cs">
+      <DependentUpon>202104151731397_mahsa_appointment_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\Department.cs" />
@@ -445,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104150045572_mahsa_update_faq.resx">
       <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104151731397_mahsa_appointment_table.resx">
+      <DependentUpon>202104151731397_mahsa_appointment_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
