@@ -96,8 +96,10 @@ namespace SAH.Controllers
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<DepartmentDto> departments = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
-                ModelView.Departments = departments;
+                IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+                // Convert departmentsList to  SelectList
+                SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+                ModelView.DepartmentsSelectList = departmentsSelectList;
             }
             else
             {
@@ -122,7 +124,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 Debug.WriteLine("update FAQ request succeeded");
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("AdminList");
             }
             else
             {

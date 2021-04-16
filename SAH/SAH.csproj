@@ -283,6 +283,7 @@
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
+    <Compile Include="Models\ModelViews\EditAppointment.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicants.cs" />
@@ -413,6 +414,8 @@
     <Content Include="Views\Faq\Error.cshtml" />
     <Content Include="Views\Faq\AdminList.cshtml" />
     <Content Include="Views\Appointment\List.cshtml" />
+    <Content Include="Views\Appointment\Edit.cshtml" />
+    <Content Include="Views\Appointment\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,13 +6,13 @@ using System.Web.Mvc;
 
 namespace SAH.Models.ModelViews
 {
-    public class EditFaq
+    public class EditAppointment
     {
         //Information about the FAQ
-        public FaqDto Faq { get; set; }
+        public AppointmentDto AppointmentDto { get; set; }
 
-        //Department Information
         public SelectList DepartmentsSelectList { get; set; }
 
+        public SelectList DoctorsSelectList { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using SAH.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -62,7 +64,6 @@ namespace SAH.Controllers
                     newAppointment.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
                 }
 
-
                 appointmentDtos.Add(newAppointment);
             }
 
@@ -77,23 +78,139 @@ namespace SAH.Controllers
         // <example>
         // GET: api/AppointmentData/FindAppointment/5
         // </example>
-        //[HttpGet]
-        //[ResponseType(typeof(IEnumerable<AppointmentDto>))]
-        //public IHttpActionResult FindAppointment(int ID)
-        //{
-        //    Appointment appointment = db.Appointments.Find(ID);
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<AppointmentDto>))]
+        public IHttpActionResult FindAppointment(int ID)
+        {
+            Appointment appointment = db.Appointments.Find(ID);
 
-        //    AppointmentDto appointmentDto = new AppointmentDto
-        //    {
-        //        AppointmentID = appointment.AppointmentID,
-        //        Question = faq.Question,
-        //        Answer = faq.Answer,
-        //        Publish = faq.Publish,
-        //        DepartmentID = faq.DepartmentID
-        //    };
+            AppointmentDto appointmentDto = new AppointmentDto
+            {
+                AppointmentID = appointment.AppointmentID,
+                FirstName = appointment.FirstName,
+                MiddleName = appointment.MiddleName,
+                LastName = appointment.LastName,
+                Gender = appointment.Gender,
+                DateOfBirth = appointment.DateOfBirth,
+                Address = appointment.Address,
+                City = appointment.City,
+                Province = appointment.Province,
+                PostalCode = appointment.PostalCode,
+                Email = appointment.Email,
+                HelthCardNumber = appointment.HelthCardNumber,
+                PhoneNumber = appointment.PhoneNumber,
+                Note = appointment.Note,
+                PreferedTime = appointment.PreferedTime,
+                AppintmentDateTime = appointment.AppintmentDateTime,
+                IsFirstTimeVisit = appointment.IsFirstTimeVisit,
+                IsUrgent = appointment.IsUrgent,
+                DepartmentID = appointment.DepartmentID,
+                DepartmentName = appointment.Department.DepartmentName
+            }; 
+            
+            if (appointment.User != null)
+            {
+                appointmentDto.UserId = appointment.User.UserId;
+                //We get the doctor name from user table when role is doctor
+                appointmentDto.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
+            }
 
-        //    return Ok(faqDto);
-        //}
+            return Ok(appointmentDto);
+        }
+
+
+        /// <summary>
+        /// Update an appointment in the database, The past information is given
+        /// </summary>
+        /// <param name="Id">Appointment Id</param>
+        /// <param name="Appointment">Appointment Object. Received a POST Data</param>
+        /// <returns></returns>
+        /// <example>
+        /// PUT: api/appointmentdata/updateappointment/5
+        /// </example>   
+        [HttpPost]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult updateappointment(int id, [FromBody] Appointment appointment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != appointment.AppointmentID)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(appointment).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppointmentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+        /// <summary>
+        /// Add a new Appointment to the database
+        /// </summary>
+        /// <param name="Appointment">Sent a Post form Data</param>
+        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <example> 
+        /// POST: api/AppointmentData/AddAppointment
+        /// </example>
+        /// 
+        [ResponseType(typeof(Appointment))]
+        public IHttpActionResult AddAppointment([FromBody] Appointment appointment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Appointments.Add(appointment);
+            db.SaveChanges();
+
+            return Ok(appointment.AppointmentID);
+        }
+
+        /// <summary>
+        /// Delete a Appointment from the database
+        /// </summary>
+        /// <param name="Id">The Id from the Appointment to delete</param>
+        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <example>
+        /// POST: api/AppointmentData/DeleteAppointment/2
+        /// </example>
+
+        [ResponseType(typeof(Appointment))]
+        public IHttpActionResult DeleteAppointment(int id)
+        {
+            Appointment appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            db.Appointments.Remove(appointment);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -104,14 +221,14 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// Find a Faq in the System
+        /// Find a Appointment in the System
         /// </summary>
-        /// <param name="Id">The Faq Id</param>
-        /// <returns>If the team exists return true</returns>
+        /// <param name="Id">The Appointment Id</param>
+        /// <returns>If the Appointment exists return true</returns>
 
-        private bool FaqExists(int id)
+        private bool AppointmentExists(int id)
         {
-            return db.Faqs.Any(e => e.FaqID == id);
+            return db.Appointments.Any(e => e.AppointmentID == id);
         }
     }
 }

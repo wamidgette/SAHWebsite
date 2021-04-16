@@ -1,6 +1,8 @@
 ﻿using SAH.Models;
+using SAH.Models.ModelViews;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -41,11 +43,87 @@ namespace SAH.Controllers
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<AppointmentDto> faqs = response.Content.ReadAsAsync<IEnumerable<AppointmentDto>>().Result;
-                return View(faqs);
+                IEnumerable<AppointmentDto> appointments = response.Content.ReadAsAsync<IEnumerable<AppointmentDto>>().Result;
+                return View(appointments);
             }
             else
             {
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: Appointment/Edit/5
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            EditAppointment modelView = new EditAppointment();
+
+          //  AppointmentDto appointmentDto = new AppointmentDto();
+
+            //Get the current Appointment object
+            string url = "AppointmentData/FindAppointment/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                AppointmentDto selectedAppointment = response.Content.ReadAsAsync<AppointmentDto>().Result;
+                modelView.AppointmentDto = selectedAppointment;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            url = "DepartmentData/GetDepartments/";
+            response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+                // Convert departmentsList to  SelectList
+                SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+                modelView.DepartmentsSelectList = departmentsSelectList;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            //url = "UserData/GetDoctors/";
+            //response = client.GetAsync(url).Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    IEnumerable<UserDto> doctors = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+            //    modelView.DoctorList = doctors;
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Error");
+            //}
+
+
+            return View(modelView);
+        }
+
+        // POST: Appointment/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult Edit(int id, EditAppointment modelView)
+        {
+            string url = "appointmentdata/updateappointment/" + id;
+
+            HttpContent content = new StringContent(jss.Serialize(modelView.AppointmentDto));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("update Appointment request succeeded");
+                return RedirectToAction("List");
+            }
+            else
+            {
+                Debug.WriteLine("update Appointment request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }
