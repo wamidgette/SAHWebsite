@@ -128,6 +128,45 @@ namespace SAH.Controllers
             }
         }
 
+        // GET: appointment/DeleteConfirm/5
+        [HttpGet]
+        public ActionResult DeleteConfirm(int id)
+        {
+            //Get the current ParkingSpot object
+            string url = "appointmentdata/FindAppointment/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                AppointmentDto appointment = response.Content.ReadAsAsync<AppointmentDto>().Result;
+                return View(appointment);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+
+        // POST: faq/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult Delete(int id)
+        {
+            string url = "appointmentdata/deleteappointment/" + id;
+            //post body is empty
+            HttpContent content = new StringContent("");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
 
         public ActionResult Error()
         {

@@ -133,6 +133,45 @@ namespace SAH.Controllers
             }
         }
 
+        // GET: faq/DeleteConfirm/5
+        [HttpGet]
+        public ActionResult DeleteConfirm(int id)
+        {
+            //Get the current ParkingSpot object
+            string url = "faqdata/FindFaq/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                FaqDto SelectedFaq = response.Content.ReadAsAsync<FaqDto>().Result;
+                return View(SelectedFaq);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+
+        // POST: faq/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult Delete(int id)
+        {
+            string url = "faqdata/deletefaq/" + id;
+            //post body is empty
+            HttpContent content = new StringContent("");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("AdminList");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
 
         public ActionResult Error()
         {

@@ -38,8 +38,12 @@ namespace SAH.Controllers
                     Answer = faq.Answer,
                     Publish = faq.Publish,
                     DepartmentID = faq.DepartmentID,
-                    DepartmentName = faq.Department.DepartmentName
                 };
+                if (faq.Department != null)
+                {
+                    newFaq.DepartmentName = faq.Department.DepartmentName;
+                }
+
                 faqDtos.Add(newFaq);
             }
 
@@ -158,7 +162,6 @@ namespace SAH.Controllers
         /// <example> 
         /// POST: api/FaqData/AddFaq
         /// </example>
-
         [ResponseType(typeof(Faq))]
         public IHttpActionResult AddFaq([FromBody] Faq faq)
         {
@@ -179,9 +182,9 @@ namespace SAH.Controllers
         /// <param name="Id">The Id from the FAQ to delete</param>
         /// <returns>200 = successful. 404 = not successful</returns>
         /// <example>
-        /// POST: api/FAqData/DeleteFaq/2
+        /// POST: api/FaqData/DeleteFaq/2
         /// </example>
-
+        [HttpPost]
         [ResponseType(typeof(Faq))]
         public IHttpActionResult DeleteFaq(int id)
         {

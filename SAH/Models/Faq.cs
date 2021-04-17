@@ -24,7 +24,7 @@ namespace SAH.Models
 
     public class FaqDto
     {
-       
+        [Key]
         [DisplayName("FAQ ID")]
         public int FaqID { get; set; }
         public string Question { get; set; }

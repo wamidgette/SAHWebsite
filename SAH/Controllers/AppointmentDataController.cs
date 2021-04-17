@@ -53,15 +53,19 @@ namespace SAH.Controllers
                     AppintmentDateTime = appointment.AppintmentDateTime,
                     IsFirstTimeVisit = appointment.IsFirstTimeVisit,
                     IsUrgent = appointment.IsUrgent,
-                    DepartmentID = appointment.DepartmentID,
-                    DepartmentName = appointment.Department.DepartmentName
-                };
+                    UserId = appointment.UserID,
+                    DepartmentID = appointment.DepartmentID
+            };
 
                 if (appointment.User != null)
                 {
-                    newAppointment.UserId = appointment.User.UserId;
                     //We get the doctor name from user table when role is doctor
                     newAppointment.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
+                }
+
+                if (appointment.Department != null)
+                {
+                    newAppointment.DepartmentName = appointment.Department.DepartmentName;
                 }
 
                 appointmentDtos.Add(newAppointment);
@@ -105,14 +109,17 @@ namespace SAH.Controllers
                 IsFirstTimeVisit = appointment.IsFirstTimeVisit,
                 IsUrgent = appointment.IsUrgent,
                 DepartmentID = appointment.DepartmentID,
-                DepartmentName = appointment.Department.DepartmentName
+                UserId = appointment.UserID
             }; 
             
             if (appointment.User != null)
             {
-                appointmentDto.UserId = appointment.User.UserId;
                 //We get the doctor name from user table when role is doctor
                 appointmentDto.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
+            }
+            if (appointment.Department != null)
+            {
+                appointmentDto.DepartmentName = appointment.Department.DepartmentName;
             }
 
             return Ok(appointmentDto);
@@ -193,7 +200,7 @@ namespace SAH.Controllers
         /// <example>
         /// POST: api/AppointmentData/DeleteAppointment/2
         /// </example>
-
+        [HttpPost]
         [ResponseType(typeof(Appointment))]
         public IHttpActionResult DeleteAppointment(int id)
         {
@@ -208,8 +215,6 @@ namespace SAH.Controllers
 
             return Ok();
         }
-
-
 
         protected override void Dispose(bool disposing)
         {
