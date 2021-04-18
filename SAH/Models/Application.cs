@@ -10,19 +10,21 @@ namespace SAH.Models
 {
     public class Application
     {
+
+        //This class is about the application entity
         [Key]
         public int ApplicationId { get; set; }
 
         public string Comment { get; set; }      
 
 
-        //An application one user
+        //One application one user
         [ForeignKey("User")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
 
 
-        //An application per Job
+        //One application per Job
 
         [ForeignKey("Job")]
         public int JobId { get; set; }
@@ -30,18 +32,19 @@ namespace SAH.Models
 
     }
 
+    //Data Transfer Object from Application
     public class ApplicationDto
     {
+        [DisplayName("Application ID")]
         public int ApplicationId { get; set; }
 
-        [DisplayName("Application Comments")]
+        [DisplayName("Comments")]
         public string Comment { get; set; }
 
-        [DisplayName("Including File")]
-                
+        [DisplayName("User ID")]                
         public int UserId { get; set; }
 
-        
+        [DisplayName("Job ID")]
         public int JobId { get; set; }
 
 
