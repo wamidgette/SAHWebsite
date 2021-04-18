@@ -21,6 +21,7 @@
             @Html.LabelFor(model => model.Faq.Question, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Faq.Question, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 100%" } })
+                @Html.ValidationMessageFor(model => model.Faq.Question, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -28,14 +29,16 @@
             @Html.LabelFor(model => model.Faq.Answer, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Faq.Answer, new { htmlAttributes = new { @class = "form-control" } })*@
-                @Html.TextAreaFor(model => model.Faq.Answer, new { cols = 100, @rows = 3, @class = "form-control", @style = "max-width: 100%" } )
+                @Html.TextAreaFor(model => model.Faq.Answer, new { cols = 100, @rows = 3, @class = "form-control", @style = "max-width: 100%" })
+                @Html.ValidationMessageFor(model => model.Faq.Answer, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Faq.DepartmentID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(x => x.Faq.DepartmentID, Model.DepartmentsSelectList, new { @class = "form-control" })
+                @Html.DropDownListFor(x => x.Faq.DepartmentID, Model.DepartmentsSelectList, "Please Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Faq.DepartmentID, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -44,6 +47,7 @@
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.Faq.Publish)
+                    @Html.ValidationMessageFor(model => model.Faq.Publish, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>

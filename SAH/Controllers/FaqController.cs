@@ -92,19 +92,8 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            url = "DepartmentData/GetDepartments/";
-            response = client.GetAsync(url).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
-                // Convert departmentsList to  SelectList
-                SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
-                ModelView.DepartmentsSelectList = departmentsSelectList;
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
+            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
+            ModelView.DepartmentsSelectList = GetDepartmentSelectList();
 
             return View(ModelView);
         }
@@ -129,6 +118,45 @@ namespace SAH.Controllers
             else
             {
                 Debug.WriteLine("update FAQ request failed with error: " + response.StatusCode.ToString());
+                return RedirectToAction("Error");
+            }
+        }
+
+        // GET: Faq/Create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            //Model used to combine a Parking Spot object and its tickets
+            EditFaq ModelView = new EditFaq();
+
+            // FAQ is empty for before creating new FAQ
+            ModelView.Faq = new FaqDto();
+
+            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
+            ModelView.DepartmentsSelectList = GetDepartmentSelectList();
+
+            return View(ModelView);
+        }
+
+        // POST: Faq/Add
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult Create(EditFaq faqInfo)
+        {
+            string url = "faqdata/AddFaq";
+
+            HttpContent content = new StringContent(jss.Serialize(faqInfo.Faq));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Add FAQ request succeeded");
+                return RedirectToAction("AdminList");
+            }
+            else
+            {
+                Debug.WriteLine("Add FAQ request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }
@@ -176,6 +204,16 @@ namespace SAH.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        private SelectList GetDepartmentSelectList()
+        {
+            string url = "DepartmentData/GetDepartments/";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+            // Convert departmentsList to  SelectList
+            SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+            return departmentsSelectList;
         }
     }
 }
