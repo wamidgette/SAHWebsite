@@ -418,7 +418,6 @@
     <Content Include="Views\Appointment\Error.cshtml" />
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
-    <Content Include="Views\Faq\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
