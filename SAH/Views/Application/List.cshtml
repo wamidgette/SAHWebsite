@@ -4,13 +4,16 @@
     ViewBag.Title = "List";
 }
 
-<h2>SAH Applications</h2>
-
+<h2>Sault Area Hospital </h2>
+<h4>SAH Job Applications</h4>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>        
+    <tr> 
+        <th>
+            @Html.DisplayNameFor(model => model.Application.ApplicationId)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.User.FirstName)
         </th>
@@ -24,6 +27,9 @@
 
 @foreach (var item in Model) {
 <tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Application.ApplicationId)
+    </td>
     <td>
         @Html.DisplayFor(modelItem => item.User.FirstName)
     </td>

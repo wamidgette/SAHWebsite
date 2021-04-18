@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Sault Area Hospital</h2>
 
 <div>
-    <h4>Job</h4>
+    <h4>Details about @Model.Job.Position</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -55,4 +55,5 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Job.JobId }) |
     @Html.ActionLink("Back to List", "List")
+    @Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.Job.JobId })
 </p>
