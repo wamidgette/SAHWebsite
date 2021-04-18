@@ -52,8 +52,31 @@
 
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Job.JobId }) |
     @Html.ActionLink("Back to List", "List")
     @Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.Job.JobId })
 </p>
+
+<h4> </h4>
+@{ /*
+  <div>
+      <h4>Application for @Model.Job.Position</h4>
+      <div>
+          @foreach (var Application in Model.Applications)
+          {
+              <div>
+                  @Html.ActionLink(
+                  Application.ApplicationId,
+                  "Details",
+                  "Application",
+                  new { id = Application.ApplicationId },
+                  new { })
+              </div>
+          }
+      </div>
+  </div>
+
+          */
+}
