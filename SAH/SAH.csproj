@@ -280,13 +280,14 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\ChangeApplication.cs" />
+    <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
-    <Compile Include="Models\ModelViews\ShowEmployeeApplicants.cs" />
+    <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\ShowApplication.cs" />
     <Compile Include="Models\ModelViews\ShowCourses.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
@@ -418,13 +419,13 @@
     <Content Include="Views\Appointment\Error.cshtml" />
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AppointmentDataController\" />
     <Folder Include="Views\BookAppointmentData\" />
     <Folder Include="Views\BookAppointment\" />
-    <Folder Include="Views\EmployeeApplicant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
