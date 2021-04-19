@@ -94,12 +94,10 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("update FAQ request succeeded");
                 return RedirectToAction("AdminList");
             }
             else
             {
-                Debug.WriteLine("update FAQ request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }
@@ -108,16 +106,16 @@ namespace SAH.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            //Model used to combine a Parking Spot object and its tickets
-            EditFaq ModelView = new EditFaq();
+            //Model used to combine a faq object and departments list for dropdown
+            EditFaq modelView = new EditFaq();
 
             // FAQ is empty for before creating new FAQ
-            ModelView.Faq = new FaqDto();
+            modelView.Faq = new FaqDto();
 
             //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
-            ModelView.DepartmentsSelectList = GetDepartmentSelectList();
+            modelView.DepartmentsSelectList = GetDepartmentSelectList();
 
-            return View(ModelView);
+            return View(modelView);
         }
 
         // POST: Faq/Create
@@ -133,12 +131,10 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("Add FAQ request succeeded");
                 return RedirectToAction("AdminList");
             }
             else
             {
-                Debug.WriteLine("Add FAQ request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }
@@ -171,8 +167,7 @@ namespace SAH.Controllers
             //post body is empty
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-            //Can catch the status code (200 OK, 301 REDIRECT), etc.
-            //Debug.WriteLine(response.StatusCode);
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("AdminList");
@@ -224,12 +219,10 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                Debug.WriteLine("Add FAQ request succeeded");
                 return RedirectToAction("PublicView");
             }
             else
             {
-                Debug.WriteLine("Add FAQ request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }

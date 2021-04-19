@@ -420,6 +420,8 @@
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
     <Content Include="Views\Faq\Create.cshtml" />
+    <Content Include="Views\Appointment\View.cshtml" />
+    <Content Include="Views\Appointment\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

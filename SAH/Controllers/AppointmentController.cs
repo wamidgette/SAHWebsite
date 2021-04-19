@@ -74,32 +74,11 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            url = "DepartmentData/GetDepartments/";
-            response = client.GetAsync(url).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
-                // Convert departmentsList to  SelectList
-                SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
-                modelView.DepartmentsSelectList = departmentsSelectList;
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
+            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
+            modelView.DepartmentsSelectList = GetDepartmentSelectList();
 
-            //url = "UserData/GetDoctors/";
-            //response = client.GetAsync(url).Result;
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    IEnumerable<UserDto> doctors = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            //    modelView.DoctorList = doctors;
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Error");
-            //}
-
+            //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
+            modelView.DoctorsSelectList = GetDoctorsSelectList();
 
             return View(modelView);
         }
@@ -128,6 +107,46 @@ namespace SAH.Controllers
             }
         }
 
+        // GET: Appointment/Create/5
+        [HttpGet]
+        public ActionResult Create()
+        {
+            //Model used to combine a appointmen object, and departments list and doctors list for dropdowns
+            EditAppointment modelView = new EditAppointment();
+
+            // Appointment is empty for before creating new Appointment
+            modelView.AppointmentDto = new AppointmentDto();
+
+            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
+            modelView.DepartmentsSelectList = GetDepartmentSelectList();
+
+            //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
+            modelView.DoctorsSelectList = GetDoctorsSelectList();
+
+            return View(modelView);
+        }
+
+        // POST: Appointment/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult Create(EditAppointment appointmentInfo)
+        {
+            string url = "appointmentdata/AddAppointment";
+
+            HttpContent content = new StringContent(jss.Serialize(appointmentInfo.AppointmentDto));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+        }
+
         // GET: appointment/DeleteConfirm/5
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
@@ -147,7 +166,7 @@ namespace SAH.Controllers
             }
         }
 
-        // POST: faq/Delete/5
+        // POST: appointment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
@@ -171,6 +190,27 @@ namespace SAH.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        private SelectList GetDepartmentSelectList()
+        {
+            string url = "DepartmentData/GetDepartments/";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+            // Convert departmentsList to  SelectList
+            SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+            return departmentsSelectList;
+        }
+
+        private SelectList GetDoctorsSelectList()
+        {
+            string url = "User/GetDoctors/";
+            //HttpResponseMessage response = client.GetAsync(url).Result;
+            //IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+            //// Convert departmentsList to  SelectList
+            //SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+            //return departmentsSelectList;
+            return null;
         }
     }
 }
