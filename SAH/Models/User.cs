@@ -43,7 +43,7 @@ namespace SAH.Models
         public ICollection<EmployeeApplicant> EmployeeApplicants { get; set; }
         public ICollection<Message> Messages { get; set; }
         public ICollection<Application> Applications { get; set; }
-        
+
     }
 
     public class UserDto

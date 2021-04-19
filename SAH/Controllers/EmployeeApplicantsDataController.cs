@@ -19,11 +19,11 @@ namespace SAH.Controllers
 
 
         /// <summary>
-        /// List of all Application from the database
+        /// List of all Employee Applications from the database
         /// </summary>
-        /// <returns>The list of Applications</returns>
+        /// <returns>The list of Employee Applications</returns>
         /// <example>
-        /// GET: api/Application/GetApplication
+        /// GET: api/EmployeeApplicantsData/GetAllApplications
         /// </example>
         [HttpGet]
         [ResponseType(typeof(IEnumerable<CoursesDto>))]
@@ -51,12 +51,12 @@ namespace SAH.Controllers
 
 
         /// <summary>
-        /// Find an specific Application in the database
+        /// Find an specific Employee Application in the database
         /// </summary>
-        /// <param name="id">Job Id</param>
-        /// <returns>Information abut the Application</returns>
+        /// <param name="id">EmployeeAppicantId</param>
+        /// <returns>Information abut the Employee Application</returns>
         /// <example>
-        /// GET: api/ApplicationData/FindApplication/5
+        /// GET: api/EmployeeApplicantsData/FindApplication/5
         /// </example>
         [HttpGet]
         [ResponseType(typeof(EmployeeApplicantDto))]
@@ -69,7 +69,7 @@ namespace SAH.Controllers
                 return NotFound();
             }
 
-            //A data transfer object model used to show only most important information about the ticket
+            //A data transfer object model used to show only most relevant information
             EmployeeApplicantDto TempEmployeeApplicant = new EmployeeApplicantDto
             {
                 EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
@@ -83,8 +83,7 @@ namespace SAH.Controllers
 
         /// <summary>
         /// This method gets all the users from the table
-        /// <example>GET: api/TicketData/GetUsers</example>
-        /// <example>GET: api/TicketData/GetUsers</example>
+        /// <example>GET: api/EmployeeApplicantsData/GetUsers</example>
         /// </summary>
         /// <returns>The list of all users</returns>
 
@@ -102,6 +101,7 @@ namespace SAH.Controllers
                     UserId = User.UserId,
                     FirstName = User.FirstName,
                     LastName = User.LastName,
+                    EmployeeNumber = User.EmployeeNumber,
                     RoleId = User.RoleId
                 };
                 UserDtos.Add(NewUser);
@@ -111,21 +111,21 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method gets from the database the list of the all parking spots
-        /// <example> GET: api/TicketData/GetParkingSpots </example>
+        /// This method gets the list of Courses from the database
+        /// <example> GET: api/EmployeeApplicantsData/GetApplicationCourse/ </example>
         /// </summary>
-        /// <returns> The list of parking spots from the database</returns>
+        /// <returns> The list of Courses from the database</returns>
 
         [ResponseType(typeof(IEnumerable<CoursesDto>))]
         public IHttpActionResult GetCourses()
         {
-            //Getting the list of parking spots  objects from the databse
+            //Getting the list of Courses objects from the databse
             List<Courses> Courses = db.Courses.ToList();
 
-            //Here a data transfer model is used to keep only the information to be displayed about a parking spot object
+            //Here a data transfer model is used to keep only the information to be displayed about a course
             List<CoursesDto> CoursesDtos = new List<CoursesDto> { };
 
-            //Transfering parking spot to data transfer object
+            //Transfering course to data transfer object
             foreach (var Course in Courses)
             {
                 CoursesDto NewCourse = new CoursesDto
@@ -141,19 +141,18 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method provides the user to which the current ticket belongs
-        /// <example>api/TicketData/GetTicketUser/1</example>
-        /// <example>api/TicketData/GetTicketUser/3</example>
+        /// This method provides the user to which the current application belongs
+        /// <example>api/EmployeeApplicantsData/GetApplicationUser/2</example>
         /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <returns>The user to which current ticket belongs</returns>
+        /// <param name="id">ID of the selected Employee Application</param>
+        /// <returns>The user to which current application belongs</returns>
 
-       
+
         [ResponseType(typeof(UserDto))]
         public IHttpActionResult GetApplicationUser(int id)
         {
 
-            //Find the owner/user to which the current ticket belongs
+            //Find the user to which the current application belongs
             User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
@@ -168,25 +167,54 @@ namespace SAH.Controllers
                 UserId = user.UserId,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                EmployeeNumber = user.EmployeeNumber,
                 RoleId = user.RoleId
             };
 
             return Ok(OwnerUser);
         }
-
         /// <summary>
-        /// This method provides the parking spot to which the current ticket belongs
-        /// <example>api/TicketData/GetTicketSpot/1</example>
-        /// <example>api/TicketData/GetTicketSpot/3</example>
+        /// This method provides the role of the user to which the current application belongs
+        /// <example>api/EmployeeApplicantsData/GetApplicationRole/2</example>
         /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <returns>The parking spot to which current ticket belongs</returns>
+        /// <param name="id">ID of the selected Employee Application</param>
+        /// <returns>The Role of the user who created theapplication </returns>
+        /*
+        [ResponseType(typeof(UserDto))]
+        public IHttpActionResult GetApplicationRole(int id)
+        {
+
+            //Find the user role to which the current application belongs
+            Role role = db.OurRoles.Where(c => c.RoleId.Any(p => p.UserId == id)).FirstOrDefault();
+
+            //In case this user does not exist
+            if (role == null)
+            {
+
+                return NotFound();
+            }
+
+            RoleDto userRole = new RoleDto
+            {
+               RoleId = role.RoleId,
+               RoleName = role.RoleName
+            };
+
+            return Ok(userRole);
+        }
+        */
+        /// <summary>
+        /// This method provides the course to which the current application belongs
+        /// <example>api/EmployeeApplicantsData/GetCourses/1</example>
+        /// </summary>
+        /// <param name="id">ID of the selected application</param>
+        /// <returns>The course to which current application belongs</returns>
 
         [ResponseType(typeof(UserDto))]
         public IHttpActionResult GetApplicationCourse(int id)
         {
 
-            //Find the owner/user to which the current ticket belongs
+            //Find the course which is selected in the current application
             Courses Courses = db.Courses.Where(c => c.EmployeeApplicant.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
@@ -207,13 +235,12 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method permits to update the selected ticket
-        /// <example>api/TicketData/UpdateTicket/1</example>
-        /// <example>api/TicketData/UpdateTicket/3</example>
+        /// This method permits to update the selected application
+        /// <example>api/EmployeeApplicantsData/UpdateApplication/1</example>
         /// </summary>
-        /// <param name="id">The ID of the ticket</param>
-        /// <param name="Ticket">The current ticket itself</param>
-        /// <returns>Saves the current ticket with new values to the database</returns>
+        /// <param name="id">The ID of the application</param>
+        /// <param name="EmployeeApplicant">The current application itself</param>
+        /// <returns>Saves the current application with new values to the database</returns>
 
         [HttpPost]
         [ResponseType(typeof(void))]
@@ -251,15 +278,15 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method permits to add a new ticket to the database
-        /// <example>POST: api/TicketData/AddTicket</example>
+        /// This method permits to add a new application to the database
+        /// <example>POST: api/EmployeeApplicantsData/AddApplication</example>
         /// </summary>
-        /// <param name="ticket">The actual ticket to be added</param>
-        /// <returns> It adds a new ticket to the database</returns>
+        /// <param name="EmployeeApplicant">The actual application to be added</param>
+        /// <returns> It adds a new Employee Application to the database</returns>
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]
-        public IHttpActionResult AddTicket(EmployeeApplicant EmployeeApplicant)
+        public IHttpActionResult AddApplication(EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
             {
@@ -273,21 +300,10 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method deletes the ticket which ID is given
-        /// <example>api/TicketData/DeleteTicket/1</example>
-        /// <example>api/TicketData/DeleteTicket/5</example>
+        /// This method gets the list of all applications from the database with their user and course information
+        /// <example> GET: api/EmployeeApplicantsData/GetAllApplications</example>
         /// </summary>
-        /// <param name="id">ID of the ticket to be removed</param>
-        /// <returns></returns>
-        /// 
-
-
-
-        /// <summary>
-        /// This method gets the list of all tikets from the database with their owner name and spotinformation
-        /// <example> GET: api/TicketData/GetAllTickets </example>
-        /// </summary>
-        /// <returns> The list of tickets, the parking spot and user to which they belong to from the database</returns>
+        /// <returns> The list of employee applications, the courses and user to which they belong to from the database</returns>
 
         [ResponseType(typeof(IEnumerable<ShowEmployeeApplicant>))]
         public IHttpActionResult GetAllApplications()
@@ -310,7 +326,8 @@ namespace SAH.Controllers
                 {
                     UserId = user.UserId,
                     FirstName = user.FirstName,
-                    LastName = user.LastName
+                    LastName = user.LastName,
+                    RoleId = user.RoleId
                 };
                 //Get the parking spot of ticket
                 Courses Course = db.Courses.Where(l => l.EmployeeApplicant.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
@@ -343,12 +360,11 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// This method deletes the ticket object which ID is given
-        /// <example>api/TicketData/DeleteTicket/1</example>
-        /// <example>api/TicketData/DeleteTicket/3</example>
+        /// This method deletes the Employee Application with the provided ID 
+        /// <example>api/EmployeeApplicantsData/DeleteApplication/1</example>
         /// </summary>
-        /// <param name="id">ID of the ticket</param>
-        /// <returns>Remove the ticket from the database</returns>
+        /// <param name="id">ID of the employee application</param>
+        /// <returns>Deletes the employee aapication from the database</returns>
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]

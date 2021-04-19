@@ -31,7 +31,7 @@ namespace SAH.Models
     }
     public class EmployeeApplicantDto
     {
-        [DisplayName("Employee Applicant ID")]
+        [DisplayName("Registration Number")]
         public int EmployeeApplicantId { get; set; }
 
         //Applicant is a user

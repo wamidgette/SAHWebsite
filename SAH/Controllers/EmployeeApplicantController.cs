@@ -35,10 +35,10 @@ namespace SAH.Controllers
 
 
         }
-        // GET: Application/List
+        // GET: EmployeeApplicant/List
         public ActionResult List()
         {
-            string url = "EmployeeApplicantData/GetAllApplications";
+            string url = "EmployeeApplicantsData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
@@ -51,13 +51,13 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: Application/Details/5
+        // GET: EmployeeApplicant/Details/5
         public ActionResult Details(int id)
         {
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
 
-            //Find the application from the database
-            string url = "EmployeeApplicantData/FindApplication/" + id;
+            //Find the Employee application from the database
+            string url = "EmployeeApplicantsData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
@@ -65,14 +65,14 @@ namespace SAH.Controllers
                 EmployeeApplicantDto SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
                 ShowEmployeeApplicant.EmployeeApplicant = SelectedApplication;
 
-                //Associated Application with User
-                url = "EmployeeApplicantData/GetApplicationUser/" + id;
+                //Associated Employee Application with User
+                url = "EmployeeApplicantsData/GetApplicationUser/" + id;
                 response = client.GetAsync(url).Result;
                 UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
                 ShowEmployeeApplicant.User = SelectedUser;
 
-                //Associated application with Job
-                url = "EmployeeApplicantData/GetApplicationJob/" + id;
+                //Associated Employee application with Course
+                url = "EmployeeApplicantsData/GetApplicationCourse/" + id;
                 response = client.GetAsync(url).Result;
                 CoursesDto SelectedCourse = response.Content.ReadAsAsync<CoursesDto>().Result;
                 ShowEmployeeApplicant.Courses = SelectedCourse;
@@ -85,19 +85,19 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: Application/Create
+        // GET: EmployeeApplicant/Create
         public ActionResult Create()
         {
             //Get all the users for dropdown list
             EditEmployeeApplicant EditEmployeeApplicant = new EditEmployeeApplicant();
-            string url = "EmployeeApplicantData/GetUsers";
+            string url = "EmployeeApplicantsData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
             EditEmployeeApplicant.AllUsers = SelectedUsers;
 
-            //Get all the jobs for dropdown list
-            url = "EmployeeApplicantData/GetCourses";
+            //Get all the Courses for dropdown list
+            url = "EmployeeApplicantsData/GetCourses";
             response = client.GetAsync(url).Result;
 
             IEnumerable<CoursesDto> SelectedCourses = response.Content.ReadAsAsync<IEnumerable<CoursesDto>>().Result;
@@ -106,14 +106,14 @@ namespace SAH.Controllers
             return View(EditEmployeeApplicant);
         }
 
-        // POST: Application/Create
+        // POST: EmployeeApplicant/Create
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
             //Add a new application to the database
-            string url = "EmployeeApplicantData/AddApplication";
+            string url = "EmployeeApplicantsData/AddApplication";
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
 
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -131,13 +131,13 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: Application/Edit/5
+        // GET: EmployeeApplicant/Edit/5
         public ActionResult Edit(int id)
         {
             EditEmployeeApplicant NewEmployeeApplicant = new EditEmployeeApplicant();
 
-            //Get the selected ticket from the database
-            string url = "EmployeeApplicantData/FindApplication/" + id;
+            //Get the selected employee application from the database
+            string url = "EmployeeApplicantsData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
@@ -151,7 +151,7 @@ namespace SAH.Controllers
             }
 
             //Get all users from the database for dropdown list
-            url = "EmployeeApplicantData/GetUsers";
+            url = "EmployeeApplicantsData/GetUsers";
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
@@ -163,8 +163,8 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            //Get all jobs from the database for dropdown list
-            url = "EmployeeApplicantData/GetCourses";
+            //Get all courses from the database for dropdown list
+            url = "EmployeeApplicantsData/GetCourses";
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
@@ -179,12 +179,12 @@ namespace SAH.Controllers
 
         }
 
-        // POST: Application/Edit/5
+        // POST: EmployeeApplicant/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)
         {
-            string url = "EmployeeApplicantData/UpdateApplication/" + id;
+            string url = "EmployeeApplicantsData/UpdateApplication/" + id;
 
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -202,18 +202,18 @@ namespace SAH.Controllers
 
         }
 
-        // GET: Application/Delete/5
+        // GET: EmployeeApplicant/Delete/5
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
-            //Get current ticket from the database
-            string url = "EmployeeApplicantData/FindApplication/" + id;
+            //Get current employee application from the database
+            string url = "EmployeeApplicantsData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             //Can catch the status code (200 OK, 301 REDIRECT), etc.
             //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                //Put data into player data transfer object
+                //Put data into EmployeeApplicant data transfer object
                 EmployeeApplicantDto SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
                 return View(SelectedApplication);
             }
@@ -223,13 +223,12 @@ namespace SAH.Controllers
             }
         }
 
-        // POST: Application/Delete/5
+        // POST: EmployeeApplicant/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
-            string url = "EmployeeApplicantData/DeleteApplication/" + id;
-            //post body is empty
+            string url = "EmployeeApplicantsData/DeleteApplication/" + id;
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             //Can catch the status code (200 OK, 301 REDIRECT), etc.
@@ -244,10 +243,6 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            /*  public ActionResult Error()
-             {
-                  return View();
-             } */
         }
     }
 }

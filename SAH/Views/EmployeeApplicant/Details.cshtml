@@ -19,27 +19,6 @@
                 @Html.DisplayFor(model => model.EmployeeApplicant.EmployeeApplicantId)
             </dd>
         </div>
-
-        <div>
-            <dt>
-                @Html.DisplayNameFor(model => model.Courses.CourseCode)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Courses.CourseName)
-            </dd>
-        </div>
-       
-        <div>
-            <dt>
-                @Html.DisplayNameFor(model => model.User.RoleId)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.User.RoleId)
-            </dd>
-        </div>
-
         <div>
             <dt>
                 @Html.DisplayNameFor(model => model.User.FirstName)
@@ -58,11 +37,51 @@
                 @Html.DisplayFor(model => model.User.LastName)
             </dd>
         </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.EmployeeNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.EmployeeNumber)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Role.RoleName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Role.RoleName)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Courses.CourseCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Courses.CourseCode)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Courses.CourseName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Courses.CourseName)
+            </dd>
+        </div>
+
+
+
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeApplicant.EmployeeApplicantId }) |
-    @Html.ActionLink("Back List", "List")
+    @Html.ActionLink("Back", "List") |
+    @Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.EmployeeApplicant.EmployeeApplicantId })
 </p>
 

@@ -1,27 +1,34 @@
 ﻿@model SAH.Models.ModelViews.EditEmployeeApplicant
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
-<h2>Internal Education Portal</h2>
+
+<h4>Edit Application</h4>
 
 
-<form action="/EmployeeApplicant/Create" method="post" name="create">
+<form action="/EmployeeApplicant/Edit/@Model.EmployeeApplicant.EmployeeApplicantId" method="post" name="createTicket">
     @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
 
-        <h4>Add an Employee Application</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.HiddenFor(model => model.EmployeeApplicant.EmployeeApplicantId)
+       
 
         <div class="form-group">
             @Html.LabelFor(model => model.EmployeeApplicant.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select name="EmployeeApplicant.UserId">
-                    @foreach (var User in Model.AllUsers)
+                    @foreach (var user in Model.AllUsers)
                     {
-                        <option value="@User.UserId">@User.FirstName @User.LastName</option>
+                        string selected = "";
+                        if (Model.EmployeeApplicant.UserId == user.UserId)
+                        {
+                            selected = "";
+                        }
+                        <option value="@user.UserId" @selected>@user.FirstName @user.LastName</option>
                     }
                 </select>
             </div>
@@ -33,7 +40,12 @@
                 <select name="EmployeeApplicant.CourseId">
                     @foreach (var Course in Model.AllCourses)
                     {
-                        <option value="@Course.CourseId">@Course.CourseName</option>
+                        string selected = "";
+                        if (Model.EmployeeApplicant.CourseId == Course.CourseId)
+                        {
+                            selected = "";
+                        }
+                        <option value="@Course.CourseId" @selected>@Course.CourseName </option>
                     }
                 </select>
             </div>
@@ -41,7 +53,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" onclick="verifyTicket();" class="btn btn-default" />
+                <input type="submit" value="Save" onclick="verifyTicket();" class="btn btn-default" />
             </div>
         </div>
     </div>

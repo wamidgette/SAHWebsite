@@ -9,9 +9,11 @@ namespace SAH.Models.ModelViews
     {
         //Information about the Courses
         public CoursesDto Courses { get; set; }
-        //User match the Courses and application
+        //Information about the Courses of the application
         public UserDto User { get; set; }
-        //Information about the Job Application
+        //Information about the Application
         public EmployeeApplicantDto EmployeeApplicant { get; set; }
+        //Information about the Role of User
+        public RoleDto Role { get; set; }
     }
 }

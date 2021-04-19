@@ -436,6 +436,7 @@
     <Content Include="Views\EmployeeApplicant\List.cshtml" />
     <Content Include="Views\EmployeeApplicant\Error.cshtml" />
     <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
