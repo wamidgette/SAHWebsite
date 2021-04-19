@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Diagnostics;
 using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
+using System.IO;
 
 namespace SAH.Controllers
 {
     public class EmployeeApplicantController : Controller
+
     {
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         private static readonly HttpClient client;
+
 
         static EmployeeApplicantController()
         {
@@ -25,32 +26,24 @@ namespace SAH.Controllers
             {
                 AllowAutoRedirect = false
             };
-
             client = new HttpClient(handler);
 
-            //The user has to change this to match your own local port number
             client.BaseAddress = new Uri("https://localhost:44378/api/");
-
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-        }
 
-        /// <summary>
-        /// This method displays the list of all employee applications for courses
-        /// <example>Tickets/TicketList</example>
-        /// </summary>
-        /// <returns>Tickets list with users and parking spots</returns>
+
+        }
+        // GET: Application/List
         public ActionResult List()
         {
-            //Getting the list of all tickets with their information
             string url = "EmployeeApplicantData/GetAllApplications";
-
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<ShowEmployeeApplicant> AllApplications = response.Content.ReadAsAsync<IEnumerable<ShowEmployeeApplicant>>().Result;
-                return View(AllApplications);
+                IEnumerable<ShowEmployeeApplicant> SelectedApplications = response.Content.ReadAsAsync<IEnumerable<ShowEmployeeApplicant>>().Result;
+                return View(SelectedApplications);
             }
             else
             {
@@ -58,21 +51,13 @@ namespace SAH.Controllers
             }
         }
 
-        /// <summary>
-        /// This method shows the information of the selected ticket
-        /// <example>tickets/Details/1</example>
-        /// <example>tickets/Details/4</example>
-        /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <returns>Details of the ticket which ID is given</returns>
-
+        // GET: Application/Details/5
         public ActionResult Details(int id)
         {
-
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
 
-            //Get the current ticket from the database
-            string url = "EmployeeApplicantData/FindApplications/" + id;
+            //Find the application from the database
+            string url = "EmployeeApplicantData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
@@ -80,14 +65,14 @@ namespace SAH.Controllers
                 EmployeeApplicantDto SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
                 ShowEmployeeApplicant.EmployeeApplicant = SelectedApplication;
 
-                //Get the user/owner of the selected ticket
-                url = "EmployeeApplicantData/GetCoursesbyApplicants/" + id;
+                //Associated Application with User
+                url = "EmployeeApplicantData/GetApplicationUser/" + id;
                 response = client.GetAsync(url).Result;
                 UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
                 ShowEmployeeApplicant.User = SelectedUser;
 
-                //Get the parking spot of the selected ticket
-                url = "EmployeeApplicantData/GetApplicationCourse/" + id;
+                //Associated application with Job
+                url = "EmployeeApplicantData/GetApplicationJob/" + id;
                 response = client.GetAsync(url).Result;
                 CoursesDto SelectedCourse = response.Content.ReadAsAsync<CoursesDto>().Result;
                 ShowEmployeeApplicant.Courses = SelectedCourse;
@@ -99,43 +84,35 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
         }
-        /// <summary>
-        /// This method displays the field required to create a new ticket
-        /// <example>// GET: Tickets/Create</example>
-        /// </summary>
-        /// <returns>Shows the fields required for the new ticket</returns>
 
+        // GET: Application/Create
         public ActionResult Create()
         {
             //Get all the users for dropdown list
-            EditEmployeeApplicant editApplication = new EditEmployeeApplicant();
+            EditEmployeeApplicant EditEmployeeApplicant = new EditEmployeeApplicant();
             string url = "EmployeeApplicantData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            editApplication.AllUsers = SelectedUsers;
+            EditEmployeeApplicant.AllUsers = SelectedUsers;
 
-            //Get all the parking spots for dropdown list
+            //Get all the jobs for dropdown list
             url = "EmployeeApplicantData/GetCourses";
             response = client.GetAsync(url).Result;
 
             IEnumerable<CoursesDto> SelectedCourses = response.Content.ReadAsAsync<IEnumerable<CoursesDto>>().Result;
-            editApplication.AllCourses = SelectedCourses;
+            EditEmployeeApplicant.AllCourses = SelectedCourses;
 
-            return View(editApplication);
+            return View(EditEmployeeApplicant);
         }
-        /// <summary>
-        /// This method creates a new ticket object
-        /// </summary>
-        /// <param name="Ticket">Ticket to be created</param>
-        /// <returns>Creates and saves the new ticket to the database</returns>
+
+        // POST: Application/Create
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EmployeeApplicant EmployeeApplicant)//
+        public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
-
-
-            //Add a new ticket to the database
+            //Add a new application to the database
             string url = "EmployeeApplicantData/AddApplication";
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
 
@@ -145,25 +122,19 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                //Redirect to the TicketList
-                return RedirectToAction("EmployeeApplicantList");
+                //Redirect to the Application List
+                return RedirectToAction("List");
             }
             else
             {
                 return RedirectToAction("Error");
             }
         }
-        /// <summary>
-        /// This method allows to show the information of the selected ticket to be edited
-        /// <example>Tickets/Edit/4</example>
-        /// <example>Tickets/Edit/2</example>
-        /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <returns>Shows the selected ticket in the view</returns>
 
+        // GET: Application/Edit/5
         public ActionResult Edit(int id)
         {
-            EditEmployeeApplicant newApplication = new EditEmployeeApplicant();
+            EditEmployeeApplicant NewEmployeeApplicant = new EditEmployeeApplicant();
 
             //Get the selected ticket from the database
             string url = "EmployeeApplicantData/FindApplication/" + id;
@@ -171,8 +142,8 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                EmployeeApplicantDto SelectedEmployeeApplicant = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
-                return View(SelectedEmployeeApplicant);
+                EmployeeApplicantDto SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
+                NewEmployeeApplicant.EmployeeApplicant = SelectedApplication;
             }
             else
             {
@@ -185,43 +156,34 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-                newApplication.AllUsers = SelectedUsers;
+                NewEmployeeApplicant.AllUsers = SelectedUsers;
             }
             else
             {
                 return RedirectToAction("Error");
             }
 
-            //Get all parking spots from the database for dropdown list
+            //Get all jobs from the database for dropdown list
             url = "EmployeeApplicantData/GetCourses";
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<CoursesDto> SelectedCourses = response.Content.ReadAsAsync<IEnumerable<CoursesDto>>().Result;
-                newApplication.AllCourses = SelectedCourses;
+                IEnumerable<CoursesDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<CoursesDto>>().Result;
+                NewEmployeeApplicant.AllCourses = SelectedJobs;
             }
             else
             {
                 return RedirectToAction("Error");
             }
-            return View(newApplication);
+            return View(NewEmployeeApplicant);
 
         }
 
-        /// <summary>
-        /// This method edits the selected ticket 
-        /// <example>POST: Tickets/Edit/1</example>
-        /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <param name="Ticket">Selected ticket itself</param>
-        /// <returns>Updates and saves the current ticket to the database</returns>
+        // POST: Application/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)//
+        public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)
         {
-
-
-            //Update and save the current ticket
             string url = "EmployeeApplicantData/UpdateApplication/" + id;
 
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
@@ -240,16 +202,9 @@ namespace SAH.Controllers
 
         }
 
-        /// <summary>
-        /// This method shows the selected ticket
-        /// <example>GET: Tickets/Delete/1</example>
-        /// <example>GET: Tickets/Delete/3</example>
-        /// </summary>
-        /// <param name="id">ID of the selected ticket</param>
-        /// <returns>Shows the current ticket</returns>
-        // 
-
-        public ActionResult Delete(int id)
+        // GET: Application/Delete/5
+        [HttpGet]
+        public ActionResult DeleteConfirm(int id)
         {
             //Get current ticket from the database
             string url = "EmployeeApplicantData/FindApplication/" + id;
@@ -259,44 +214,40 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 //Put data into player data transfer object
-                EmployeeApplicant SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicant>().Result;
+                EmployeeApplicantDto SelectedApplication = response.Content.ReadAsAsync<EmployeeApplicantDto>().Result;
                 return View(SelectedApplication);
             }
             else
             {
                 return RedirectToAction("Error");
             }
-
         }
 
-        /// <summary>
-        /// This method removes the selected ticket from the database
-        /// <example>POST: Tickets/Delete/2</example>
-        ///  <example>POST: Tickets/Delete/5</example>
-        /// </summary>
-        /// <param name="id">Id of the selected ticket</param>
-        /// <returns>Removes the selected ticket from the database</returns>
-        // 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        // POST: Application/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult Delete(int id)
         {
-            //Delete current ticket from database
             string url = "EmployeeApplicantData/DeleteApplication/" + id;
-
+            //post body is empty
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
 
-                return RedirectToAction("EmployeeApplicantList");
+                return RedirectToAction("List");
             }
             else
             {
                 return RedirectToAction("Error");
             }
 
+            /*  public ActionResult Error()
+             {
+                  return View();
+             } */
         }
     }
 }

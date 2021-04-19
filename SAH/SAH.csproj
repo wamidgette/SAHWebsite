@@ -265,6 +265,10 @@
     <Compile Include="Migrations\202104160423566_mahsa_update_appointment_table2.Designer.cs">
       <DependentUpon>202104160423566_mahsa_update_appointment_table2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104191638027_danyal_update_employeeapplicant.cs" />
+    <Compile Include="Migrations\202104191638027_danyal_update_employeeapplicant.Designer.cs">
+      <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -284,6 +288,7 @@
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
+    <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
@@ -294,6 +299,7 @@
     <Compile Include="Models\ModelViews\EditFaq.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
+    <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Speciality.cs" />
@@ -424,6 +430,12 @@
     <Content Include="Views\Job\Edit.cshtml" />
     <Content Include="Views\Job\Details.cshtml" />
     <Content Include="Views\Application\Create.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Create.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Delete.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Details.cshtml" />
+    <Content Include="Views\EmployeeApplicant\List.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Error.cshtml" />
+    <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -483,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104160423566_mahsa_update_appointment_table2.resx">
       <DependentUpon>202104160423566_mahsa_update_appointment_table2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104191638027_danyal_update_employeeapplicant.resx">
+      <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

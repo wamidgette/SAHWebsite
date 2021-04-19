@@ -17,19 +17,20 @@ namespace SAH.Controllers
     {
         private SAHDataContext db = new SAHDataContext();
 
-        /// <summary>
-        /// This method gets from the database the list of the all tickets
-        /// <example> GET: api/TicketData/GetTickets </example>
-        /// </summary>
-        /// <returns> The list of tickets from the database</returns>
 
+        /// <summary>
+        /// List of all Application from the database
+        /// </summary>
+        /// <returns>The list of Applications</returns>
+        /// <example>
+        /// GET: api/Application/GetApplication
+        /// </example>
+        [HttpGet]
         [ResponseType(typeof(IEnumerable<CoursesDto>))]
         public IHttpActionResult GetEmployeeApplicant()
         {
             //Getting the list of tickets  objects from the databse
             List<EmployeeApplicant> EmployeeApplicants = db.EmployeeApplicant.ToList();
-
-            //Here a data transfer model is used to keep only the information to be displayed about a parking spot object
             List<EmployeeApplicantDto> EmployeeApplicantDtos = new List<EmployeeApplicantDto> { };
 
             //Transfering Ticket to data transfer object
@@ -47,14 +48,16 @@ namespace SAH.Controllers
             return Ok(EmployeeApplicantDtos);
         }
 
-        /// <summary>
-        /// This method allows getting the specified ticket
-        /// <example>GET: api/TicketData/FindTicket/5</example>
-        /// <example>GET: api/TicketData/FindTickett/2</example>
-        /// </summary>
-        /// <param name="id"> ID of the selected ticket</param>
-        /// <returns> This method returns the ticket which id is given</returns>
 
+
+        /// <summary>
+        /// Find an specific Application in the database
+        /// </summary>
+        /// <param name="id">Job Id</param>
+        /// <returns>Information abut the Application</returns>
+        /// <example>
+        /// GET: api/ApplicationData/FindApplication/5
+        /// </example>
         [HttpGet]
         [ResponseType(typeof(EmployeeApplicantDto))]
         public IHttpActionResult FindApplication(int id)
@@ -145,12 +148,13 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>The user to which current ticket belongs</returns>
 
+       
         [ResponseType(typeof(UserDto))]
         public IHttpActionResult GetApplicationUser(int id)
         {
 
             //Find the owner/user to which the current ticket belongs
-            User user = db.OurUsers.Where(c => c.Tickets.Any(p => p.TicketId == id)).FirstOrDefault();
+            User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (user == null)
@@ -183,20 +187,20 @@ namespace SAH.Controllers
         {
 
             //Find the owner/user to which the current ticket belongs
-            Courses Course = db.Courses.Where(c => c.EmployeeApplicant.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
+            Courses Courses = db.Courses.Where(c => c.EmployeeApplicant.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
-            if (Course == null)
+            if (Courses == null)
             {
 
                 return NotFound();
             }
 
-            CoursesDto Courses = new CoursesDto
+            CoursesDto Course = new CoursesDto
             {
-                CourseId = Course.CourseId,
-                CourseCode = Course.CourseCode,
-                CourseName = Course.CourseName
+                CourseId = Courses.CourseId,
+                CourseCode = Courses.CourseCode,
+                CourseName = Courses.CourseName
             };
 
             return Ok(Courses);
@@ -213,7 +217,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult UpdateApplication(int id, EmployeeApplicant EmployeeApplicant)
+        public IHttpActionResult UpdateApplication(int id, [FromBody] EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
             {
