@@ -284,6 +284,7 @@
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
+    <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicants.cs" />
@@ -409,7 +410,7 @@
     <Content Include="Views\Application\DeleteConfirm.cshtml" />
     <Content Include="Views\Application\Details.cshtml" />
     <Content Include="Views\Application\Edit.cshtml" />
-    <Content Include="Views\Faq\PublicList.cshtml" />
+    <Content Include="Views\Faq\PublicView.cshtml" />
     <Content Include="Views\Faq\Edit.cshtml" />
     <Content Include="Views\Faq\Error.cshtml" />
     <Content Include="Views\Faq\AdminList.cshtml" />
@@ -418,7 +419,7 @@
     <Content Include="Views\Appointment\Error.cshtml" />
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
-    <Content Include="Views\Faq\View.cshtml" />
+    <Content Include="Views\Faq\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

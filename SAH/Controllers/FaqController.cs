@@ -53,30 +53,12 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: Faq/PublicList
-        [HttpGet]
-        public ActionResult PublicList()
-        {
-            string url = "FaqData/GetPublicFaqs";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<FaqDto> faqs = response.Content.ReadAsAsync<IEnumerable<FaqDto>>().Result;
-                return View(faqs);
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
-
         // GET: Faq/Edit/5
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            //Model used to combine a Parking Spot object and its tickets
-            EditFaq ModelView = new EditFaq();
+            //Model used to combine a faq object and departments list for dropdown
+            EditFaq modelView = new EditFaq();
 
             //Get the current ParkingSpot object
             string url = "FaqData/FindFaq/" + id;
@@ -85,7 +67,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 FaqDto SelectedFaq = response.Content.ReadAsAsync<FaqDto>().Result;
-                ModelView.Faq = SelectedFaq;
+                modelView.Faq = SelectedFaq;
             }
             else
             {
@@ -93,9 +75,9 @@ namespace SAH.Controllers
             }
 
             //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
-            ModelView.DepartmentsSelectList = GetDepartmentSelectList();
+            modelView.DepartmentsSelectList = GetDepartmentSelectList();
 
-            return View(ModelView);
+            return View(modelView);
         }
 
         // POST: Faq/Edit/5
@@ -138,7 +120,7 @@ namespace SAH.Controllers
             return View(ModelView);
         }
 
-        // POST: Faq/Add
+        // POST: Faq/Create
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Create(EditFaq faqInfo)
@@ -200,6 +182,58 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
         }
+
+        // GET: Faq/PublicView
+        [HttpGet]
+        public ActionResult PublicView()
+        {
+            //Model used to combine a the faq list and the objects for the form 
+            ViewFaq modelView = new ViewFaq();
+
+            string url = "FaqData/GetPublicFaqs";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<FaqDto> faqs = response.Content.ReadAsAsync<IEnumerable<FaqDto>>().Result;
+                modelView.FaqList = faqs;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            // FAQ is empty for before creating new FAQ
+            modelView.newFaq = new FaqDto();
+
+            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
+            modelView.DepartmentsSelectList = GetDepartmentSelectList();
+
+            return View(modelView);
+        }
+
+        // POST: Faq/PublicView
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult PublicView(ViewFaq faqInfo)
+        {
+            string url = "faqdata/AddFaq";
+
+            HttpContent content = new StringContent(jss.Serialize(faqInfo.newFaq));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Debug.WriteLine("Add FAQ request succeeded");
+                return RedirectToAction("PublicView");
+            }
+            else
+            {
+                Debug.WriteLine("Add FAQ request failed with error: " + response.StatusCode.ToString());
+                return RedirectToAction("Error");
+            }
+        }
+
 
         public ActionResult Error()
         {
