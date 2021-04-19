@@ -284,11 +284,11 @@
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\ModelViews\ChangeApplication.cs" />
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
+    <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
@@ -418,6 +418,10 @@
     <Content Include="Views\Appointment\Error.cshtml" />
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
+    <Content Include="Views\EmployeeApplicant\List.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Create.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Delete.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

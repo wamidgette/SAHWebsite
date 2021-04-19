@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SAH.Models.ModelViews.ShowEmployeeApplicant>
+
+@{
+    ViewBag.Title = "Ticket list";
+}
+
+<h2>List of Employee Applications</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeApplicant.EmployeeApplicantId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.CourseCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Courses.CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        //var temp = @Html.DisplayFor(modelItem => item.User.FirstName + " " + item.User.LastName).ToHtmlString();
+        var temp = @Html.DisplayFor(modelItem => item.Courses.CourseName).ToHtmlString();
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.EmployeeApplicant.EmployeeApplicantId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Courses.CourseCode)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Courses.CourseName)
+    </td>
+    <td>
+        @Html.ActionLink(temp, "Index", "Courses/Details/" + item.Courses.CourseName)
+        @*@Html.DisplayFor(modelItem => item.Classe.className)*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.LastName)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeApplicant.EmployeeApplicantId }) |
+        @Html.ActionLink("Details", "Details", new { id = item.EmployeeApplicant.EmployeeApplicantId }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeApplicant.EmployeeApplicantId })
+    </td>
+</tr>
+    }
+
+</table>
+

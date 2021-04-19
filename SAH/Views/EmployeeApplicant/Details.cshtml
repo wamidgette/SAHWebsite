@@ -1,0 +1,68 @@
+﻿@model SAH.Models.ModelViews.ShowEmployeeApplicant
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Internal Education Portal</h2>
+<div>
+    <h4>Employee Application Details</h4>
+    <hr />
+    <dl class="dl-horizontal Ticket">
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.EmployeeApplicant.EmployeeApplicantId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmployeeApplicant.EmployeeApplicantId)
+            </dd>
+        </div>
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.Courses.CourseCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Courses.CourseName)
+            </dd>
+        </div>
+       
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.RoleId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.RoleId)
+            </dd>
+        </div>
+
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+        </div>
+        <div>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+        </div>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeApplicant.EmployeeApplicantId }) |
+    @Html.ActionLink("Back List", "List")
+</p>
+
