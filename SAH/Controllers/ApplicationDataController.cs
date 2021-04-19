@@ -19,9 +19,9 @@ namespace SAH.Controllers
 
 
         /// <summary>
-        /// List of all Ticket from the database
+        /// List of all Application from the database
         /// </summary>
-        /// <returns>The list of Tickets</returns>
+        /// <returns>The list of Applications</returns>
         /// <example>
         /// GET: api/Application/GetApplication
         /// </example>
@@ -228,23 +228,23 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns></returns>
         /// <example>
-        /// GET: api/applicationdata/getallapplications/5
+        /// GET: api/applicationdata/getallapplications
         /// </example>
         [ResponseType(typeof(IEnumerable<ShowApplication>))]
         public IHttpActionResult GetAllApplications()
         {
 
-            //List of the tickets from the database
+            //List of the Application from the database
             List<Application> Applications = db.Applications.ToList();
 
-            //Data transfer object to show information about the ticket
+            //Data transfer object to show information about the Application
             List<ShowApplication> ApplicationDtos = new List<ShowApplication> { };
 
             foreach (var Application in Applications)
             {
                 ShowApplication application = new ShowApplication();
 
-                //Get the user to which the ticket belongs to
+                //Get the user to which the Application belongs to
                 User User = db.OurUsers.Where(c => c.Applications.Any(a => a.ApplicationId == Application.ApplicationId)).FirstOrDefault();
 
                 UserDto parentUser = new UserDto
@@ -257,7 +257,7 @@ namespace SAH.Controllers
                     Address = User.Address,
                     DateOfBirth = User.DateOfBirth
                 };
-                //Get the parking spot of ticket
+                //Get the Jobs of Application
                 Job Job = db.Jobs.Where(j => j.Applications.Any(a => a.ApplicationId == Application.ApplicationId)).FirstOrDefault();
 
                 JobDto job = new JobDto

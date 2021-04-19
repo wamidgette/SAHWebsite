@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SAH.Models.AppointmentDto>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreferedTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AppintmentDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFirstTimeVisit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsUrgent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartmentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Note)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.PatientName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Gender)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PreferedTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AppintmentDateTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsFirstTimeVisit)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsUrgent)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DepartmentName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DoctorName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Note)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentID }) |
+        @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.AppointmentID })
+    </td>
+</tr>
+}
+
+</table>

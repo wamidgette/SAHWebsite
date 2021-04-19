@@ -48,6 +48,7 @@ namespace SAH.Models
         public DbSet<Application> Applications { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
     }
 }

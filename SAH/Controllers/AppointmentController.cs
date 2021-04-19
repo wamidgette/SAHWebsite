@@ -12,16 +12,15 @@ using System.Web.Script.Serialization;
 
 namespace SAH.Controllers
 {
-    public class FaqController : Controller
+    public class AppointmentController : Controller
     {
-
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         private static readonly HttpClient client;
 
         /// <summary>
         /// This allows us to access a pre-defined C# HttpClient 'client' variable for sending POST and GET requests to the data access layer.
         /// </summary>
-        static FaqController()
+        static AppointmentController()
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
@@ -35,17 +34,17 @@ namespace SAH.Controllers
             new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET: Faq/AdminList
+        // GET: Appointment/List
         [HttpGet]
         //[Authorize(Roles = "Admin")]
-        public ActionResult AdminList()
+        public ActionResult List()
         {
-            string url = "FaqData/GetFaqs";
+             string url = "AppointmentData/GetAppointments";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<FaqDto> faqs = response.Content.ReadAsAsync<IEnumerable<FaqDto>>().Result;
-                return View(faqs);
+                IEnumerable<AppointmentDto> appointments = response.Content.ReadAsAsync<IEnumerable<AppointmentDto>>().Result;
+                return View(appointments);
             }
             else
             {
@@ -53,85 +52,94 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: Faq/Edit/5
+        // GET: Appointment/Edit/5
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            //Model used to combine a faq object and departments list for dropdown
-            EditFaq modelView = new EditFaq();
+            EditAppointment modelView = new EditAppointment();
 
-            //Get the current ParkingSpot object
-            string url = "FaqData/FindFaq/" + id;
+          //  AppointmentDto appointmentDto = new AppointmentDto();
+
+            //Get the current Appointment object
+            string url = "AppointmentData/FindAppointment/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                FaqDto SelectedFaq = response.Content.ReadAsAsync<FaqDto>().Result;
-                modelView.Faq = SelectedFaq;
+                AppointmentDto selectedAppointment = response.Content.ReadAsAsync<AppointmentDto>().Result;
+                modelView.AppointmentDto = selectedAppointment;
             }
             else
             {
                 return RedirectToAction("Error");
             }
 
-            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
+            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
             modelView.DepartmentsSelectList = GetDepartmentSelectList();
+
+            //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
+            modelView.DoctorsSelectList = GetDoctorsSelectList();
 
             return View(modelView);
         }
 
-        // POST: Faq/Edit/5
+        // POST: Appointment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
         //[Authorize(Roles = "Admin")]
-        public ActionResult Edit(int id, EditFaq faqInfo)
+        public ActionResult Edit(int id, EditAppointment modelView)
         {
-            string url = "faqdata/updatefaq/" + id;
+            string url = "appointmentdata/updateappointment/" + id;
 
-            HttpContent content = new StringContent(jss.Serialize(faqInfo.Faq));
+            HttpContent content = new StringContent(jss.Serialize(modelView.AppointmentDto));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("AdminList");
+                Debug.WriteLine("update Appointment request succeeded");
+                return RedirectToAction("List");
             }
             else
             {
+                Debug.WriteLine("update Appointment request failed with error: " + response.StatusCode.ToString());
                 return RedirectToAction("Error");
             }
         }
 
-        // GET: Faq/Create
+        // GET: Appointment/Create/5
         [HttpGet]
         public ActionResult Create()
         {
-            //Model used to combine a faq object and departments list for dropdown
-            EditFaq modelView = new EditFaq();
+            //Model used to combine a appointmen object, and departments list and doctors list for dropdowns
+            EditAppointment modelView = new EditAppointment();
 
-            // FAQ is empty for before creating new FAQ
-            modelView.Faq = new FaqDto();
+            // Appointment is empty for before creating new Appointment
+            modelView.AppointmentDto = new AppointmentDto();
 
-            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
+            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
             modelView.DepartmentsSelectList = GetDepartmentSelectList();
+
+            //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
+            modelView.DoctorsSelectList = GetDoctorsSelectList();
 
             return View(modelView);
         }
 
-        // POST: Faq/Create
+        // POST: Appointment/Create
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Create(EditFaq faqInfo)
+        public ActionResult Create(EditAppointment appointmentInfo)
         {
-            string url = "faqdata/AddFaq";
+            string url = "appointmentdata/AddAppointment";
 
-            HttpContent content = new StringContent(jss.Serialize(faqInfo.Faq));
+            HttpContent content = new StringContent(jss.Serialize(appointmentInfo.AppointmentDto));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("AdminList");
+                return RedirectToAction("List");
             }
             else
             {
@@ -139,18 +147,18 @@ namespace SAH.Controllers
             }
         }
 
-        // GET: faq/DeleteConfirm/5
+        // GET: appointment/DeleteConfirm/5
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
             //Get the current ParkingSpot object
-            string url = "faqdata/FindFaq/" + id;
+            string url = "appointmentdata/FindAppointment/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                FaqDto SelectedFaq = response.Content.ReadAsAsync<FaqDto>().Result;
-                return View(SelectedFaq);
+                AppointmentDto appointment = response.Content.ReadAsAsync<AppointmentDto>().Result;
+                return View(appointment);
             }
             else
             {
@@ -158,75 +166,26 @@ namespace SAH.Controllers
             }
         }
 
-        // POST: faq/Delete/5
+        // POST: appointment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
-            string url = "faqdata/deletefaq/" + id;
+            string url = "appointmentdata/deleteappointment/" + id;
             //post body is empty
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("AdminList");
+                return RedirectToAction("List");
             }
             else
             {
                 return RedirectToAction("Error");
             }
         }
-
-        // GET: Faq/PublicView
-        [HttpGet]
-        public ActionResult PublicView()
-        {
-            //Model used to combine a the faq list and the objects for the form 
-            ViewFaq modelView = new ViewFaq();
-
-            string url = "FaqData/GetPublicFaqs";
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<FaqDto> faqs = response.Content.ReadAsAsync<IEnumerable<FaqDto>>().Result;
-                modelView.FaqList = faqs;
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-
-            // FAQ is empty for before creating new FAQ
-            modelView.newFaq = new FaqDto();
-
-            //The view needs to be sent a list of all the Departments so the client can select a Department for FAQ in the view
-            modelView.DepartmentsSelectList = GetDepartmentSelectList();
-
-            return View(modelView);
-        }
-
-        // POST: Faq/PublicView
-        [HttpPost]
-        [ValidateAntiForgeryToken()]
-        public ActionResult PublicView(ViewFaq faqInfo)
-        {
-            string url = "faqdata/AddFaq";
-
-            HttpContent content = new StringContent(jss.Serialize(faqInfo.newFaq));
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("PublicView");
-            }
-            else
-            {
-                return RedirectToAction("Error");
-            }
-        }
-
 
         public ActionResult Error()
         {
@@ -241,6 +200,17 @@ namespace SAH.Controllers
             // Convert departmentsList to  SelectList
             SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
             return departmentsSelectList;
+        }
+
+        private SelectList GetDoctorsSelectList()
+        {
+            string url = "User/GetDoctors/";
+            //HttpResponseMessage response = client.GetAsync(url).Result;
+            //IEnumerable<DepartmentDto> departmentsList = response.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
+            //// Convert departmentsList to  SelectList
+            //SelectList departmentsSelectList = new SelectList(departmentsList, "DepartmentId", "DepartmentName");
+            //return departmentsSelectList;
+            return null;
         }
     }
 }

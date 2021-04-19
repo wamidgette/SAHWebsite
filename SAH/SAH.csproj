@@ -183,6 +183,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ApplicationDataController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\AppointmentDataController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ChatDataController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -247,9 +249,30 @@
     <Compile Include="Migrations\202104101354360_barbaralastupdate.Designer.cs">
       <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104150045572_mahsa_update_faq.cs" />
+    <Compile Include="Migrations\202104150045572_mahsa_update_faq.Designer.cs">
+      <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104151731397_mahsa_appointment_table.cs" />
+    <Compile Include="Migrations\202104151731397_mahsa_appointment_table.Designer.cs">
+      <DependentUpon>202104151731397_mahsa_appointment_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104160358186_mahsa_update_appointment_table.cs" />
+    <Compile Include="Migrations\202104160358186_mahsa_update_appointment_table.Designer.cs">
+      <DependentUpon>202104160358186_mahsa_update_appointment_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104160423566_mahsa_update_appointment_table2.cs" />
+    <Compile Include="Migrations\202104160423566_mahsa_update_appointment_table2.Designer.cs">
+      <DependentUpon>202104160423566_mahsa_update_appointment_table2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104191638027_danyal_update_employeeapplicant.cs" />
+    <Compile Include="Migrations\202104191638027_danyal_update_employeeapplicant.Designer.cs">
+      <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
+    <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Courses.cs" />
     <Compile Include="Models\Department.cs" />
@@ -264,15 +287,19 @@
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
+    <Compile Include="Models\ModelViews\EditAppointment.cs" />
+    <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
-    <Compile Include="Models\ModelViews\ShowEmployeeApplicants.cs" />
+    <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\ShowApplication.cs" />
     <Compile Include="Models\ModelViews\ShowCourses.cs" />
     <Compile Include="Models\ModelViews\ShowJob.cs" />
     <Compile Include="Models\ModelViews\ShowMessage.cs" />
+    <Compile Include="Models\ModelViews\EditFaq.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
+    <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Speciality.cs" />
@@ -389,10 +416,33 @@
     <Content Include="Views\Application\DeleteConfirm.cshtml" />
     <Content Include="Views\Application\Details.cshtml" />
     <Content Include="Views\Application\Edit.cshtml" />
+    <Content Include="Views\Faq\PublicView.cshtml" />
+    <Content Include="Views\Faq\Edit.cshtml" />
+    <Content Include="Views\Faq\Error.cshtml" />
+    <Content Include="Views\Faq\AdminList.cshtml" />
+    <Content Include="Views\Appointment\List.cshtml" />
+    <Content Include="Views\Appointment\Edit.cshtml" />
+    <Content Include="Views\Appointment\Error.cshtml" />
+    <Content Include="Views\Faq\DeleteConfirm.cshtml" />
+    <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
+    <Content Include="Views\Job\List.cshtml" />
+    <Content Include="Views\Job\DeleteConfirm.cshtml" />
+    <Content Include="Views\Job\Create.cshtml" />
+    <Content Include="Views\Job\Edit.cshtml" />
+    <Content Include="Views\Job\Details.cshtml" />
+    <Content Include="Views\Application\Create.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Create.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Delete.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Details.cshtml" />
+    <Content Include="Views\EmployeeApplicant\List.cshtml" />
+    <Content Include="Views\EmployeeApplicant\Error.cshtml" />
+    <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\EmployeeApplicant\" />
+    <Folder Include="Views\AppointmentDataController\" />
+    <Folder Include="Views\BookAppointmentData\" />
+    <Folder Include="Views\BookAppointment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -434,6 +484,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104101354360_barbaralastupdate.resx">
       <DependentUpon>202104101354360_barbaralastupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104150045572_mahsa_update_faq.resx">
+      <DependentUpon>202104150045572_mahsa_update_faq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104151731397_mahsa_appointment_table.resx">
+      <DependentUpon>202104151731397_mahsa_appointment_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104160358186_mahsa_update_appointment_table.resx">
+      <DependentUpon>202104160358186_mahsa_update_appointment_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104160423566_mahsa_update_appointment_table2.resx">
+      <DependentUpon>202104160423566_mahsa_update_appointment_table2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104191638027_danyal_update_employeeapplicant.resx">
+      <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
