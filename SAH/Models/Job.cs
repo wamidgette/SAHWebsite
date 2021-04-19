@@ -10,7 +10,6 @@ namespace SAH.Models
 {
     public class Job
     {
-        //This class is about the application entity
         [Key]
         public int JobId { get; set; }
         public string Position { get; set; }
@@ -19,14 +18,13 @@ namespace SAH.Models
         public string Requirement { get; set; }
         public DateTime Deadline { get; set; }
 
-        //A Job Position can have many Application
+        //A JobPosition can have many application
         public ICollection<Application> Applications { get; set; }
+
     }
-        
-        //Data Transfer Object from Job
+
         public class JobDto
         {
-            [DisplayName("Job ID")]   
             public int JobId { get; set; }
 
             [DisplayName("Job Position")]
@@ -34,10 +32,10 @@ namespace SAH.Models
             
             public string Category { get; set; }
 
-            [DisplayName("Job Type")]
+            [DisplayName("Type of Job")]
             public string Type { get; set; }
 
-            [DisplayName("Requirements")]
+            [DisplayName("Job Requirements")]
             public string Requirement { get; set; }
 
             [DisplayName("Deadline")]

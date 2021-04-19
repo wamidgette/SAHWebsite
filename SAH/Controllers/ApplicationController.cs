@@ -13,9 +13,9 @@ using System.IO;
 
 namespace SAH.Controllers
 {
-    public class ApplicationController : Controller    
-    {
-        //Http Client is the proper way to connect to a webapi
+    public class ApplicationController : Controller    {
+
+
         private JavaScriptSerializer jss = new JavaScriptSerializer();
         private static readonly HttpClient client;
 
@@ -27,7 +27,7 @@ namespace SAH.Controllers
                 AllowAutoRedirect = false
             };
             client = new HttpClient(handler);
-            //changed to match local port
+            //change this to match your own local port number
             client.BaseAddress = new Uri("https://localhost:44378/api/");
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
@@ -35,16 +35,13 @@ namespace SAH.Controllers
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
 
         }
-
         // GET: Application/List
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         public ActionResult List()
         {
             string url = "ApplicationData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                //Using ShowApplication View Model
                 IEnumerable<ShowApplication> SelectedApplications = response.Content.ReadAsAsync<IEnumerable<ShowApplication>>().Result;
                 return View(SelectedApplications);
             }
@@ -55,36 +52,32 @@ namespace SAH.Controllers
         }
 
         // GET: Application/Details/5
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         public ActionResult Details(int id)
         {
-            ShowApplication ModelView = new ShowApplication();
-            //Using the Show Application View Model
-            //Find the application by Id from the database
+            ShowApplication showApplication = new ShowApplication();
+
+            //Find the application from the database
             string url = "ApplicationData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
-            
-            //Response 200 code if it is ok
+
             if (response.IsSuccessStatusCode)
             {
                 ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
-                ModelView.Application = SelectedApplication;
+                showApplication.Application = SelectedApplication;
 
-                //Errors n/a if it is null
                 //Associated Application with User
-                url = "ApplicationData/GetUserForApplication/" + id;
+                url = "ApplicationData/GetApplicationUser/" + id;
                 response = client.GetAsync(url).Result;
                 UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
-                ModelView.User = SelectedUser;
+                showApplication.User = SelectedUser;
 
-                //Errors n/a if it is null
                 //Associated application with Job
-                url = "ApplicationData/GetJobForApplication/" + id;
+                url = "ApplicationData/GetApplicationJob/" + id;
                 response = client.GetAsync(url).Result;
                 JobDto SelectedJob = response.Content.ReadAsAsync<JobDto>().Result;
-                ModelView.Job = SelectedJob;
+                showApplication.Job = SelectedJob;
 
-                return View(ModelView);
+                return View(showApplication);
             }
             else
             {
@@ -93,127 +86,134 @@ namespace SAH.Controllers
         }
 
         // GET: Application/Create
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         public ActionResult Create()
         {
-            //Using an Update Application View Model
-            UpdateApplication ModelView = new UpdateApplication();
-
-            //Get Jobs from the Job Data controllers in order to create a dropdown menu
-            //Jobs options to link the application
-            string url = "JobData/GetJobs";
+            //Get all the users for dropdown list
+            ChangeApplication ChangeApplication = new ChangeApplication();
+            string url = "ApplicationData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
-            ModelView.Jobs = SelectedJobs;
+            IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+            ChangeApplication.AllUsers = SelectedUsers;
 
-            //Get all the Users from the UserData controllers to create a dropdown menu
-            //Users to link the application
-            url = "UserData/GetUsers";
+            //Get all the jobs for dropdown list
+            url = "ApplicationData/GetJobs";
             response = client.GetAsync(url).Result;
 
-            IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            ModelView.Users = SelectedUsers;
+            IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
+            ChangeApplication.Jobs = SelectedJobs;
 
-            return View(ModelView);
+            return View(ChangeApplication);
         }
 
         // POST: Application/Create
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Application ApplicationInfo)
+        public ActionResult Create(Application Application)
         {
-            //Add a new application to the database (POST)
+            //Add a new application to the database
             string url = "ApplicationData/AddApplication";
-            Debug.WriteLine(jss.Serialize(ApplicationInfo));
-            HttpContent content = new StringContent(jss.Serialize(ApplicationInfo));
+            HttpContent content = new StringContent(jss.Serialize(Application));
+
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
 
-                //Redirect to the Application List Page
-                //int ApplicationId = response.Content.ReadAsAsync<int>().Result;
+                //Redirect to the Application List
                 return RedirectToAction("List");
             }
             else
-            {   //Redirect to the Error Page if it an error occur or it is unsuccessful
+            {
                 return RedirectToAction("Error");
             }
         }
 
         // GET: Application/Edit/5
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         public ActionResult Edit(int id)
         {
-            UpdateApplication ModelView = new UpdateApplication();
+            ChangeApplication newApplication = new ChangeApplication();
 
-            //Get the selected application from the database
+            //Get the selected ticket from the database
             string url = "ApplicationData/FindApplication/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
             {
                 ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
-                ModelView.Application = SelectedApplication;
-
-                url = "UserData/GetUsers";
-                response = client.GetAsync(url).Result;
-                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-                ModelView.Users = SelectedUsers;
-
-                url = "JobData/GetJobs";
-                response = client.GetAsync(url).Result;
-                IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
-                ModelView.Jobs = SelectedJobs;
-            
-                return View(ModelView);
+                newApplication.Application = SelectedApplication;
             }
             else
             {
                 return RedirectToAction("Error");
-            }         
+            }
+
+            //Get all users from the database for dropdown list
+            url = "ApplicationData/GetUsers";
+            response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                newApplication.AllUsers = SelectedUsers;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+
+            //Get all jobs from the database for dropdown list
+            url = "ApplicationData/GetJobs";
+            response = client.GetAsync(url).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
+                newApplication.Jobs = SelectedJobs;
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
+            return View(newApplication);
 
         }
 
         // POST: Application/Edit/5
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Application ApplicationInfo)
+        public ActionResult Edit(int id, Application Application)
         {            
             string url = "ApplicationData/UpdateApplication/" + id;
 
-            HttpContent content = new StringContent(jss.Serialize(ApplicationInfo));
+            HttpContent content = new StringContent(jss.Serialize(Application));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                //Redirect to the list if it is successful
-                return RedirectToAction("List");
+
+                return RedirectToAction("Details", new { id = Application.ApplicationId });
             }
             else
-            {  //Unsuscessful = error page
+            {
                 return RedirectToAction("Error");
             }
 
         }
 
-        // GET: Application/DeleteConfirm/5
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+        // GET: Application/Delete/5
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
-            //Get-Find requested application from the database
+            //Get current ticket from the database
             string url = "ApplicationData/FindApplication/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;       
-            
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                //Put data into application data transfer object
+                //Put data into player data transfer object
                 ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
                 return View(SelectedApplication);
             }
@@ -224,20 +224,19 @@ namespace SAH.Controllers
         }
 
         // POST: Application/Delete/5
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
             string url = "Applicationdata/DeleteApplication/" + id;
-            //Post as empty body content
+            //post body is empty
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
-
-            //Get 200 status code(OK)            
+            //Can catch the status code (200 OK, 301 REDIRECT), etc.
+            //Debug.WriteLine(response.StatusCode);
             if (response.IsSuccessStatusCode)
             {
-                //Redirect to the List Page
+
                 return RedirectToAction("List");
             }
             else
@@ -245,12 +244,10 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-        }
-            public ActionResult Error()
+          /*  public ActionResult Error()
            {
                 return View();
-           } 
-
+           } */
         }
     }
-
+}

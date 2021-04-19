@@ -15,29 +15,25 @@ namespace SAH.Controllers
 {
     public class ApplicationDataController : ApiController
     {
-        //The access to the SAH Project Database
         private SAHDataContext db = new SAHDataContext();
 
+
         /// <summary>
-        /// Get request from all the Applications in the Database
+        /// List of all Application from the database
         /// </summary>
-        /// <returns>Application List including the Application Id, Comments, UserId, Job Id</returns>
+        /// <returns>The list of Applications</returns>
         /// <example>
-        /// GET: api/ApplicationData/GetApplications
+        /// GET: api/Application/GetApplication
         /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
-        /// Code was scaffolded and adjusted
-        
         [HttpGet]
         [ResponseType(typeof(IEnumerable<JobDto>))]
         public IHttpActionResult GetApplications()
         {
             //List of Application from databse
             List<Application> Applications = db.Applications.ToList();
-
             List<ApplicationDto> ApplicationDtos = new List<ApplicationDto> { };
 
-            //Information exposed to the API from the Data Transfer Object about an Application
+            //Transfering Application to data transfer object
             foreach (var Application in Applications)
             {
                 ApplicationDto NewApplication = new ApplicationDto
@@ -53,30 +49,29 @@ namespace SAH.Controllers
             return Ok(ApplicationDtos);
         }
 
+
         /// <summary>
-        /// Find an Application by Id from the database
+        /// Find an specific Application in the database
         /// </summary>
-        /// <param name="Id">Application Id</param>
-        /// <returns>Information from the Application:Application Id, UserId, Comments and JobId</returns>
-        /// <returns>Return 200 code response if it is ok, 404 status response If it doesnt find the Application</returns>
+        /// <param name="id">Job Id</param>
+        /// <returns>Information abut the Application</returns>
         /// <example>
         /// GET: api/ApplicationData/FindApplication/5
         /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
         [HttpGet]
         [ResponseType(typeof(ApplicationDto))]
         public IHttpActionResult FindApplication(int id)
         {
-            
+            //Find the data
             Application Application = db.Applications.Find(id);
-            //If it is not found, The response is a 404 status.
+            //if not found, return 404 status code.
             if (Application == null)
             {
                 return NotFound();
             }
 
-            //Info about the Application inside a Data Transfer Object
-            ApplicationDto ApplicationDto = new ApplicationDto
+            //put into a 'friendly object format'
+            ApplicationDto Application1 = new ApplicationDto
             {
                 ApplicationId = Application.ApplicationId,
                 Comment = Application.Comment,
@@ -84,29 +79,93 @@ namespace SAH.Controllers
                 JobId = Application.JobId
             };
 
-            //Response 200 if it is ok
-            return Ok(ApplicationDto);
+            //pass along data as 200 status code OK response
+            return Ok(Application1);
         }
 
+        /// <summary>
+        /// Get all users in the database
+        /// </summary>
+        /// <returns>ALl users in the database</returns>
+        /// <example>
+        /// GET: api/ApplicationData/GetUsers
+        /// </example>
+
+        [ResponseType(typeof(IEnumerable<UserDto>))]
+        public IHttpActionResult GetUsers()
+        {
+            //List of all users
+            List<User> Users = db.OurUsers.ToList();
+            List<UserDto> UserDtos = new List<UserDto> { };
+
+            foreach (var User in Users)
+            {
+                UserDto NewUser = new UserDto
+                {
+                    UserId = User.UserId,
+                    FirstName = User.FirstName,
+                    LastName = User.LastName,
+                    Email = User.Email,
+                    Phone = User.Phone,
+                    Address = User.Address,
+                    DateOfBirth = User.DateOfBirth
+
+                };
+                UserDtos.Add(NewUser);
+            }
+
+            return Ok(UserDtos);
+        }
+
+        /// <summary>
+        /// Get all Jobs in the Database
+        /// </summary>
+        /// <returns>List Job Positions</returns>
+        /// <example>
+        /// GET: api/applicationdata/getjobs
+        /// </example>
+        [ResponseType(typeof(IEnumerable<JobDto>))]
+        public IHttpActionResult GetJobs()
+        {
+            //Getting the list of Jobs
+            List<Job> Jobs = db.Jobs.ToList();
+
+
+            List<JobDto> JobDtos = new List<JobDto> { };
+
+
+            foreach (var Job in Jobs)
+            {
+                JobDto NewJob = new JobDto
+                {
+                    JobId = Job.JobId,
+                    Position = Job.Position,
+                    Category = Job.Category,
+                    Type = Job.Type,
+                    Requirement = Job.Requirement,
+                    Deadline = Job.Deadline
+                };
+                JobDtos.Add(NewJob);
+            }
+
+            return Ok(JobDtos);
+        }
 
         /// <summary>
         /// The Application and the user who made the application
         /// </summary>
-        /// <param name="id">id from the selected application</param>
-        /// <returns>The user linked to an specific Application</returns>
+        /// <param name="id">id of the selected application</param>
+        /// <returns></returns>
         /// <example>
-        /// GET: api/ApplicationData/GetUserForApplication/4
+        /// GET: api/applicationdata/getapplicationuser/4
         /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
-        [HttpGet]
         [ResponseType(typeof(UserDto))]
-        public IHttpActionResult GetUserForApplication(int id)
+        public IHttpActionResult GetApplicationUser(int id)
         {
 
-            //Find the User than match the Application
-            User User = db.OurUsers
-                .Where(u => u.Applications.Any(a => a.ApplicationId == id))
-                .FirstOrDefault();
+            //Associate the job Application with user
+            User User = db.OurUsers.Where(c => c.Applications.Any(a => a.ApplicationId == id)).FirstOrDefault();
+
 
             if (User == null)
             {
@@ -114,8 +173,8 @@ namespace SAH.Controllers
                 return NotFound();
             }
 
-            //Information selected to be displayed in the API
-            UserDto UserDto = new UserDto
+            //Here you can choose which information is exposed to the API
+            UserDto OwnerUser = new UserDto
             {
                 UserId = User.UserId,
                 FirstName = User.FirstName,
@@ -126,35 +185,32 @@ namespace SAH.Controllers
                 DateOfBirth = User.DateOfBirth
             };
 
-            return Ok(UserDto);
+            return Ok(OwnerUser);
         }
+
 
         /// <summary>
         /// Get Application associated with the job
         /// </summary>
         /// <param name="id">Application Id</param>
-        /// <returns>Associated Job with an Application</returns>
+        /// <returns>Application and associated jobs </returns>
         /// <example>
-        /// GET: Api/ApplicationData/GetJobForApplication/4
+        /// GET: Api/applicationdata/getapplicationjob/4
         /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
-        
         [ResponseType(typeof(UserDto))]
-        public IHttpActionResult GetJobForApplication(int id)
+        public IHttpActionResult GetApplicationJob(int id)
         {
 
-            //Job associated with the Application
-            Job Job = db.Jobs
-                .Where(j => j.Applications.Any(a => a.ApplicationId == id))
-                .FirstOrDefault();
+            //Application associated with the user and job
+            Job Job = db.Jobs.Where(j => j.Applications.Any(a => a.ApplicationId == id)).FirstOrDefault();
 
             if (Job == null)
             {
 
                 return NotFound();
             }
-            //Information selected to be displayed in the API
-            JobDto JobDto = new JobDto
+
+            JobDto JobFirst = new JobDto
             {
                 JobId = Job.JobId,
                 Position = Job.Position,
@@ -164,17 +220,16 @@ namespace SAH.Controllers
                 Deadline = Job.Deadline
             };
 
-            return Ok(JobDto);
+            return Ok(JobFirst);
         }
 
         /// <summary>
-        /// Get all applications with their linked User and Job
+        /// Get all application, with the user and the job conencted to
         /// </summary>
-        /// <returns>All application and their jobs and users</returns>
+        /// <returns></returns>
         /// <example>
         /// GET: api/applicationdata/getallapplications
         /// </example>
-        
         [ResponseType(typeof(IEnumerable<ShowApplication>))]
         public IHttpActionResult GetAllApplications()
         {
@@ -182,20 +237,17 @@ namespace SAH.Controllers
             //List of the Application from the database
             List<Application> Applications = db.Applications.ToList();
 
-            //Using the ShowApplication View Model
+            //Data transfer object to show information about the Application
             List<ShowApplication> ApplicationDtos = new List<ShowApplication> { };
 
             foreach (var Application in Applications)
             {
                 ShowApplication application = new ShowApplication();
 
-                //Get the user from the OurUsers Database and link them with the application
-                User User = db.OurUsers
-                    .Where(c => c.Applications
-                    .Any(a => a.ApplicationId == Application.ApplicationId))
-                    .FirstOrDefault();
+                //Get the user to which the Application belongs to
+                User User = db.OurUsers.Where(c => c.Applications.Any(a => a.ApplicationId == Application.ApplicationId)).FirstOrDefault();
 
-                UserDto firstUser = new UserDto
+                UserDto parentUser = new UserDto
                 {
                     UserId = User.UserId,
                     FirstName = User.FirstName,
@@ -205,12 +257,8 @@ namespace SAH.Controllers
                     Address = User.Address,
                     DateOfBirth = User.DateOfBirth
                 };
-
-                //Get the Job from Jobs Table and associate them with the application
-                Job Job = db.Jobs
-                    .Where(j => j.Applications
-                    .Any(a => a.ApplicationId == Application.ApplicationId))
-                    .FirstOrDefault();
+                //Get the Jobs of Application
+                Job Job = db.Jobs.Where(j => j.Applications.Any(a => a.ApplicationId == Application.ApplicationId)).FirstOrDefault();
 
                 JobDto job = new JobDto
                 {
@@ -231,7 +279,7 @@ namespace SAH.Controllers
 
                 application.Application = NewApplication;
                 application.Job = job;
-                application.User = firstUser;
+                application.User = parentUser;
                 ApplicationDtos.Add(application);
             }
 
@@ -244,11 +292,7 @@ namespace SAH.Controllers
         /// <param name="id">Application Id</param>
         /// <param name="Application">Received a POST Data</param>
         /// <returns></returns>
-        /// <example>
-        /// POST: api/Applicationdata/UpdateApplication/5
-        /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
-        
+        // POST: api/Applicationdata/updateapplication/5
         [HttpPost]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateApplication(int id, [FromBody] Application Application)
@@ -288,14 +332,13 @@ namespace SAH.Controllers
         /// Add Application to the database
         /// </summary>
         /// <param name="Application">Application Id, Sent a Post Form Data</param>
-        /// <returns>Add a new Application, return a 200 response if it is ok and 404 if it fails</returns>
+        /// <returns>Add a new Application</returns>
         // <example>
-        ///POST: api/Application/AddApplication
+        ///POST: api/Applications
         ///</example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
         [HttpPost]
         [ResponseType(typeof(Application))]
-        public IHttpActionResult AddApplication([FromBody] Application Application)
+        public IHttpActionResult AddApplication(Application Application)
         {
             if (!ModelState.IsValid)
             {
@@ -305,23 +348,18 @@ namespace SAH.Controllers
             db.Applications.Add(Application);
             db.SaveChanges();
 
-            //return CreatedAtRoute("DefaultApi", new { id = Application.ApplicationId }, Application);
-
-            return Ok(Application.ApplicationId);
+            return CreatedAtRoute("DefaultApi", new { id = Application.ApplicationId }, Application);
         }
 
         /// <summary>
         /// Delete an application by Id
         /// </summary>
-        /// <param name="id">Id from the application to delete</param>
+        /// <param name="id">application Id to the aplication to delete</param>
         /// <returns>
-        /// Delete an application by Id        
-        /// </returns>       
-        /// <example>
-        /// Post: api/Applicationdata/deleteapplication/5
-        /// </example>
-        /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
-        [HttpPost]
+        /// Delete an application by Id
+        /// 200 = successful. 404 = not successful
+        /// </returns>        /// 
+        // DELETE: api/Applicationdata/deleteapplication/5
         [ResponseType(typeof(Application))]
         public IHttpActionResult DeleteApplication(int id)
         {
@@ -334,7 +372,7 @@ namespace SAH.Controllers
             db.Applications.Remove(Application);
             db.SaveChanges();
 
-            return Ok();
+            return Ok(Application);
         }
 
         protected override void Dispose(bool disposing)
@@ -346,14 +384,9 @@ namespace SAH.Controllers
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Finds an Application
-        /// </summary>
-        /// <param name="id">The Application id</param>
-        /// <returns>Application exist = True, Application does not exist False</returns>
         private bool ApplicationExists(int id)
         {
-            return db.Applications.Count(a => a.ApplicationId == id) > 0;
+            return db.Applications.Count(e => e.ApplicationId == id) > 0;
         }
     }
 }

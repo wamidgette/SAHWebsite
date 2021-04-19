@@ -1,18 +1,18 @@
 ﻿@model SAH.Models.JobDto
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Sault Area Hospital</h2>
+<h2>Edit Job</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Edit Job @Model.Position</h4>
+        <h4>Job in SAH</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.JobId)
@@ -68,3 +68,5 @@
 <div>
     @Html.ActionLink("Back to List", "List")
 </div>
+
+

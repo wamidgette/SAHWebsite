@@ -7,10 +7,11 @@ namespace SAH.Models.ModelViews
 {
     public class ShowJob
     {
-        //Job data information
+        //Information about the job
         public JobDto Job { get; set; }
 
-        // Data about the application per Job
+        //Information about all application for the Job
+
         public IEnumerable<ApplicationDto> Applications { get; set; }
 
     }
