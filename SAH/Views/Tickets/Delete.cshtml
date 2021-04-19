@@ -45,13 +45,13 @@
     
         </dl>
     
-        @using (Html.BeginForm()) {
+        <form action="/Tickets/Delete/@Model.TicketId" name="delete" method="post">
             @Html.AntiForgeryToken()
     
             <div class="form-actions no-color">
                 <input type="submit" onclick="confirmation();" value="Delete" class="btn btn-default" /> |
                 @Html.ActionLink("Back to tickets List", "TicketList")
             </div>
-        }
+        </form>
     </div>
 
