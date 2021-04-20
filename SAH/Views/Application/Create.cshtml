@@ -1,33 +1,26 @@
-﻿@model SAH.Models.ModelViews.ChangeApplication
+﻿@model SAH.Models.ModelViews.UpdateApplication
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>SAH Job Applications</h2>
+<h2>Sault Area Hospital</h2>
+<h4>Add an Application</h4>
 
-<form action="/Application/Create" method="post" name="create">
-
-
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
-        <h4>Add an Application</h4>
 
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Application.Comment, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Application.UserId">
-                    @foreach (var User in Model.AllUsers)
+                <select name="UserId">
+                    @foreach (var User in Model.Users)
                     {
                         <option value="@User.UserId">@User.FirstName @User.LastName</option>
                     }
@@ -38,12 +31,20 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Application.JobId, "JobId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Application.JobId">
+                <select name="JobId">
                     @foreach (var Job in Model.Jobs)
                     {
-                        <option value="@Job.JobId">@Job.Position</option>
+                        <option value="@Job.JobId">@Job.Position </option>
                     }
                 </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Application.Comment, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -53,7 +54,7 @@
             </div>
         </div>
     </div>
-</form>
+}
 
 <div>
     @Html.ActionLink("Back to List", "List")

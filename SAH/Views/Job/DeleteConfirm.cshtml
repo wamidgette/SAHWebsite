@@ -4,11 +4,11 @@
     ViewBag.Title = "View";
 }
 
-<h2>Delete Job</h2>
+<h2>Sault Area Hospital</h2>
 
 <h3>Are you sure you want to delete this Job?</h3>
 <div>
-    <h4>Job in SAH</h4>
+    <h4>Job</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -34,26 +34,9 @@
         <dd>
             @Html.DisplayFor(model => model.Type)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Requirement)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Requirement)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
-
     </dl>
 
-    @using (Html.BeginForm("Delete", "Job", new { Id = Model.JobId }))
+    @using (Html.BeginForm("Delete", "Job", new { id = Model.JobId }))
     {
         @Html.AntiForgeryToken()
 

@@ -210,6 +210,7 @@
     <Compile Include="Controllers\SpecialityDataController.cs" />
     <Compile Include="Controllers\TicketDataController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\UserDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -283,7 +284,6 @@
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\ModelViews\ChangeApplication.cs" />
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
@@ -299,6 +299,7 @@
     <Compile Include="Models\ModelViews\EditFaq.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
+    <Compile Include="Models\ModelViews\UpdateApplication.cs" />
     <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
     <Compile Include="Models\Role.cs" />
@@ -375,12 +376,7 @@
     <Content Include="Views\ParkingSpots\Details.cshtml" />
     <Content Include="Views\ParkingSpots\Edit.cshtml" />
     <Content Include="Views\ParkingSpots\ParkingSpotList.cshtml" />
-    <Content Include="Views\Job\DeleteConfirm.cshtml" />
     <Content Include="Views\Job\Error.cshtml" />
-    <Content Include="Views\Job\Edit.cshtml" />
-    <Content Include="Views\Job\Details.cshtml" />
-    <Content Include="Views\Job\Create.cshtml" />
-    <Content Include="Views\Job\List.cshtml" />
     <Content Include="Views\Message\Show.cshtml" />
     <Content Include="Views\Message\Edit.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
@@ -410,12 +406,7 @@
     <Content Include="Views\Courses\Error.cshtml" />
     <Content Include="Views\Courses\List.cshtml" />
     <Content Include="Views\Chat\Create.cshtml" />
-    <Content Include="Views\Application\List.cshtml" />
     <Content Include="Views\Application\Error.cshtml" />
-    <Content Include="Views\Application\Create.cshtml" />
-    <Content Include="Views\Application\DeleteConfirm.cshtml" />
-    <Content Include="Views\Application\Details.cshtml" />
-    <Content Include="Views\Application\Edit.cshtml" />
     <Content Include="Views\Faq\PublicView.cshtml" />
     <Content Include="Views\Faq\Edit.cshtml" />
     <Content Include="Views\Faq\Error.cshtml" />
@@ -425,12 +416,6 @@
     <Content Include="Views\Appointment\Error.cshtml" />
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
-    <Content Include="Views\Job\List.cshtml" />
-    <Content Include="Views\Job\DeleteConfirm.cshtml" />
-    <Content Include="Views\Job\Create.cshtml" />
-    <Content Include="Views\Job\Edit.cshtml" />
-    <Content Include="Views\Job\Details.cshtml" />
-    <Content Include="Views\Application\Create.cshtml" />
     <Content Include="Views\EmployeeApplicant\Create.cshtml" />
     <Content Include="Views\EmployeeApplicant\Delete.cshtml" />
     <Content Include="Views\EmployeeApplicant\Details.cshtml" />
@@ -438,12 +423,23 @@
     <Content Include="Views\EmployeeApplicant\Error.cshtml" />
     <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
     <Content Include="Views\EmployeeApplicant\Edit.cshtml" />
+    <Content Include="Views\Job\List.cshtml" />
+    <Content Include="Views\Job\Create.cshtml" />
+    <Content Include="Views\Job\Details.cshtml" />
+    <Content Include="Views\Job\DeleteConfirm.cshtml" />
+    <Content Include="Views\Job\Edit.cshtml" />
+    <Content Include="Views\Application\List.cshtml" />
+    <Content Include="Views\Application\Details.cshtml" />
+    <Content Include="Views\Application\DeleteConfirm.cshtml" />
+    <Content Include="Views\Application\Create.cshtml" />
+    <Content Include="Views\Application\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AppointmentDataController\" />
     <Folder Include="Views\BookAppointmentData\" />
     <Folder Include="Views\BookAppointment\" />
+    <Folder Include="Views\user\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

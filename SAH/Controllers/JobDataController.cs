@@ -14,30 +14,31 @@ using System.IO;
 using System.Web;
 
 
-
 namespace SAH.Controllers
 {
     public class JobDataController : ApiController
     {
+        //The access to the SAH Project Database
         private SAHDataContext db = new SAHDataContext();
 
         /// <summary>
-        /// A list of Job in the database
+        /// Get request from all the Jobs in the Database
         /// </summary>
-        /// <returns>The list of Jobs Posted</returns>
+        /// <returns>Job' List including the Job Id, Position, Category, Type, Requirement and Deadline</returns>
         /// <example>
         /// GET: api/JobData/GetJobs
         /// </example>
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
+        /// Code was scaffolded and adjusted
+
         [ResponseType(typeof(IEnumerable<JobDto>))]
         public IHttpActionResult GetJobs()
         {
-            //Get list of Job from the database
+            //List of Job from the database
             List<Job> Jobs = db.Jobs.ToList();
 
-            //Data transfer model with all the information about a Job
             List<JobDto> JobDtos = new List<JobDto> { };
-
-            //Transfering Job to data transfer object
+            //Information exposed to the API from the Data Transfer Object about a Job
             foreach (var Job in Jobs)
             {
                 JobDto NewJob = new JobDto
@@ -57,22 +58,25 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// Get a list of Applications linked to the Job
+        /// Get a list of Applications linked to the Job.
         /// </summary>
         /// <param name="Id">Job Id</param>
         /// <returns>List of Application associated with the Job</returns>
         /// <example>
-        /// GET: api/JobData/GetJobApplications
+        /// GET: api/JobData/GetJobApplicationsForJob
         /// </example>
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
 
         [ResponseType(typeof(IEnumerable<ApplicationDto>))]
-        public IHttpActionResult GetJobApplications(int id)
+        public IHttpActionResult GetApplicationsForJob(int id)
         {
-            List<Application> Applications = db.Applications.Where(a => a.JobId == id)
+            //List of all application by Job
+            List<Application> Applications = db.Applications
+                .Where(a => a.JobId == id)
                 .ToList();
             List<ApplicationDto> ApplicationDtos = new List<ApplicationDto> { };
 
-            //Here you can choose which information is exposed to the API
+            //Information exposed to the API from the Data Transfer Object about a Job
             foreach (var Application in Applications)
             {
                 ApplicationDto NewApplication = new ApplicationDto
@@ -89,25 +93,27 @@ namespace SAH.Controllers
         }
 
         /// <summary>
-        /// Find an specific Job from the database
+        /// Find a Job by Id from the database
         /// </summary>
         /// <param name="Id">Job Id</param>
-        /// <returns>Information about the Job</returns>
+        /// <returns>Information from the Job:Position, Category, Type, Requirement and Deadline</returns>
+        /// <returns>Return 200 code response if it is ok, 404 status response If it doesnt find the Job</returns>
         /// <example>
         /// GET: api/JobData/FindJob/5
         /// </example>
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
 
         [HttpGet]
         [ResponseType(typeof(JobDto))]
         public IHttpActionResult FindJob(int id)
         {
             Job Job = db.Jobs.Find(id);
-            //if not found, return 404 status code.
+            //It will look for the Job in the database if not it will return 404 status
             if (Job == null)
             {
                 return NotFound();
             }
-            //put into a 'friendly object format'
+
             JobDto JobDto = new JobDto
             {
                 JobId = Job.JobId,
@@ -118,21 +124,21 @@ namespace SAH.Controllers
                 Deadline = Job.Deadline
             };
 
-            //pass along data as 200 status code OK response
+            //Return a 200 status code if everything is OK
             return Ok(JobDto);
 
         }
-
         /// <summary>
-        /// Update a Job in the database, The past information is given
+        /// Update a Job in the database, showing the information already in the system from the player
         /// </summary>
         /// <param name="Id">Job Id</param>
-        /// <param name="Job">Job Object. Received a POST Data</param>
-        /// <returns></returns>
+        /// <param name="Job">Post Data is received</param>
         /// <example>
-        /// PUT: api/Jobs/5
+        /// Post: api/JobData/UpdateJob/5
         /// </example>
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
 
+        [HttpPost]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateJob(int id, [FromBody] Job Job)
         {
@@ -171,12 +177,14 @@ namespace SAH.Controllers
         /// Add a new Job to the database
         /// </summary>
         /// <param name="Job">Sent a Post form Data</param>
-        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <returns>Return 200 code response if it is Ok or 404 response code if it is not ok!</returns>
         /// <example> 
         /// POST: api/JobData/AddJob
         /// </example>
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
 
         [ResponseType(typeof(Job))]
+        [HttpPost]
         public IHttpActionResult AddJob([FromBody] Job Job)
         {
             if (!ModelState.IsValid)
@@ -194,11 +202,12 @@ namespace SAH.Controllers
         /// Delete a Job from the database
         /// </summary>
         /// <param name="Id">The Id from the Job to delete</param>
-        /// <returns>200 = successful. 404 = not successful</returns>
+        /// <returns>Return 200 code response if it is Ok or 404 response code if it is not ok!</returns>
         /// <example>
         /// POST: api/JobData/DeleteJob/5
         /// </example>
-
+        /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
+        [HttpPost]
         [ResponseType(typeof(Job))]
         public IHttpActionResult DeleteJob(int id)
         {
@@ -227,11 +236,11 @@ namespace SAH.Controllers
         /// Find a Job in the System
         /// </summary>
         /// <param name="Id">The Job Id</param>
-        /// <returns>If the team exists return true</returns>
+        /// <returns>If the job exists return true</returns>
 
         private bool JobExists(int id)
         {
-            return db.Jobs.Count(e => e.JobId == id) > 0;
+            return db.Jobs.Count(j => j.JobId == id) > 0;
         }
     }
 }

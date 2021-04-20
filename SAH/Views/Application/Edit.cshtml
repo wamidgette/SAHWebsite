@@ -1,4 +1,4 @@
-﻿@model SAH.Models.ModelViews.ChangeApplication
+﻿@model SAH.Models.ModelViews.UpdateApplication
 
 @{
     ViewBag.Title = "Edit";
@@ -7,37 +7,27 @@
 <h2>SAH Job Applications</h2>
 <h4>Update Applications</h4>
 
-
-<form action="/Application/Edit/@Model.Application.ApplicationId" method="post" name="create">
-
+@using (Html.BeginForm("Edit", "Application", new { id = Model.Application.ApplicationId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Application.ApplicationId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Application.Comment, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.UserId">
-                    @foreach (var user in Model.AllUsers)
+                <select name="UserId">
+                    @foreach (var User in Model.Users)
                     {
                         string selected = "";
-                        if (Model.Application.UserId == user.UserId)
+                        if (Model.Application.UserId == User.UserId)
                         {
                             selected = "";
                         }
-                        <option value="@user.UserId" @selected>@user.FirstName @user.LastName</option>
+                        <option value="@User.UserId" @selected>@User.FirstName @User.LastName</option>
                     }
                 </select>
             </div>
@@ -46,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Application.JobId, "JobId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.SpotId">
+                <select name="JobId">
                     @foreach (var Job in Model.Jobs)
                     {
                         string selected = "";
@@ -61,17 +51,20 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Application.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
-  </form>
-
-    <div>
-        @Html.ActionLink("Back to List", "List")
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+}
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>
