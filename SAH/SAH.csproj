@@ -270,6 +270,10 @@
     <Compile Include="Migrations\202104191638027_danyal_update_employeeapplicant.Designer.cs">
       <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104201542320_the_final_barbara.cs" />
+    <Compile Include="Migrations\202104201542320_the_final_barbara.Designer.cs">
+      <DependentUpon>202104201542320_the_final_barbara.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -496,6 +500,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104191638027_danyal_update_employeeapplicant.resx">
       <DependentUpon>202104191638027_danyal_update_employeeapplicant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104201542320_the_final_barbara.resx">
+      <DependentUpon>202104201542320_the_final_barbara.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
