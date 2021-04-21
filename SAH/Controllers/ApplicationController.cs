@@ -159,13 +159,13 @@ namespace SAH.Controllers
                 ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
                 ModelView.Application = SelectedApplication;
 
-                url = "UserData/GetUsers";
-                response = client.GetAsync(url).Result;
+                string urlUs = "UserData/GetUsers";
+                response = client.GetAsync(urlUs).Result;
                 IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
                 ModelView.Users = SelectedUsers;
 
-                url = "JobData/GetJobs";
-                response = client.GetAsync(url).Result;
+                string urlJb = "JobData/GetJobs";
+                response = client.GetAsync(urlJb).Result;
                 IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
                 ModelView.Jobs = SelectedJobs;
 
@@ -186,6 +186,7 @@ namespace SAH.Controllers
         {
             string url = "ApplicationData/UpdateApplication/" + id;
 
+            Debug.WriteLine(jss.Serialize(ApplicationInfo));
             HttpContent content = new StringContent(jss.Serialize(ApplicationInfo));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
@@ -193,7 +194,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 //Redirect to the list if it is successful
-                return RedirectToAction("List");
+                return RedirectToAction("Details", new { id = id });
             }
             else
             {  //Unsuscessful = error page
