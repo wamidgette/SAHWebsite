@@ -37,9 +37,11 @@
 
     </div>
     <div class="col-sm-12 col-md-6">
-        <ul>
-            List of tickets in the spot @Model.Spot.SpotNumber 
 
+        <h3>List of tickets in the spot @Model.Spot.SpotNumber</h3>
+        @if (@Model.AllTickets.Count() > 0)
+        {
+         <ul>
             @foreach (var ticket in Model.AllTickets)
             {
                 var temp = @Html.DisplayFor(modelItem => ticket.NumberPlate).ToHtmlString();
@@ -47,10 +49,16 @@
                     @Html.ActionLink(temp, "Index", "Tickets/Details/" + ticket.TicketId)
                 </li>
             }
-        </ul>
-        
+         </ul>
+        } else {
 
-    </div>
+                <p>This spot has no ticket! </p>
+        }
+
+           
+
+
+        </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Spot.SpotId }) |

@@ -49,7 +49,7 @@ tr td, tr th{
 h4 {
     margin-top:2em;
     text-align:center;
-    border-bottom:double red;
+    /* border-bottom:double red; */
     font-size:2em;
 }
 .Spot div, .Ticket div {
