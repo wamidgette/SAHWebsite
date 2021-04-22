@@ -7,11 +7,11 @@ namespace SAH.Models.ModelViews
 {
     public class ShowApplication
     {
-        //Information about the Job
+        //Data about the Job
         public JobDto Job { get; set; }
-        //User match the Job Applicatio
+        //Data about the User
         public UserDto User { get; set; }
-        //Information about the Job Application
+        //Data information about Job Application
         public ApplicationDto Application { get; set; }
     }
 }

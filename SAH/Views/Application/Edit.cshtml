@@ -1,4 +1,4 @@
-﻿@model SAH.Models.ModelViews.ChangeApplication
+﻿@model SAH.Models.ModelViews.UpdateApplication
 
 @{
     ViewBag.Title = "Edit";
@@ -7,16 +7,48 @@
 <h2>SAH Job Applications</h2>
 <h4>Update Applications</h4>
 
-
-<form action="/Application/Edit/@Model.Application.ApplicationId" method="post" name="create">
+<form action="/Application/Edit/@Model.Application.ApplicationId" method="post" name="Create">
 
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Application.ApplicationId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="UserId">
+                    @foreach (var User in Model.Users)
+                    {
+                        string selected = "";
+                        if (Model.Application.UserId == User.UserId)
+                        {
+                            selected = "selected";
+                        }
+                        <option value="@User.UserId" @selected>@User.FirstName @User.LastName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Application.JobId, "JobId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="JobId">
+                    @foreach (var Job in Model.Jobs)
+                    {
+                        string selected = "";
+                        if (Model.Application.JobId == Job.JobId)
+                        {
+                            selected = "selected";
+                        }
+                        <option value="@Job.JobId" @selected>@Job.Position </option>
+                    }
+                </select>
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -27,51 +59,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <select name="Ticket.UserId">
-                    @foreach (var user in Model.AllUsers)
-                    {
-                        string selected = "";
-                        if (Model.Application.UserId == user.UserId)
-                        {
-                            selected = "";
-                        }
-                        <option value="@user.UserId" @selected>@user.FirstName @user.LastName</option>
-                    }
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Application.JobId, "JobId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <select name="Ticket.SpotId">
-                    @foreach (var Job in Model.Jobs)
-                    {
-                        string selected = "";
-                        if (Model.Application.JobId == Job.JobId)
-                        {
-                            selected = "";
-                        }
-                        <option value="@Job.JobId" @selected>@Job.Position </option>
-                    }
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
-  </form>
-
-    <div>
-        @Html.ActionLink("Back to List", "List")
-    </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+</form>
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>

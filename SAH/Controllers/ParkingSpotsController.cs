@@ -110,6 +110,8 @@ namespace SAH.Controllers
         /// This method shows the fields of the Parking Spot object to be created
         /// </summary>
         /// <returns>The current Parking Spot fields to the view</returns>
+        /// 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -126,6 +128,7 @@ namespace SAH.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(ParkingSpot newSpot)
         {
             //Saving the new Parking Spot object to the database
@@ -153,6 +156,7 @@ namespace SAH.Controllers
         /// <param name="id">Id of the selected Parking Spot object</param>
         /// <returns>Displays the selected Parking Spot object</returns>
         // 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             string url = "ParkingSpotData/FindParkingSpot/" + id;
@@ -179,6 +183,7 @@ namespace SAH.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, ParkingSpot currentSpot)
         {
             //Update and save the ParkingSpot which ID is given
@@ -209,7 +214,7 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected Parking Spot</param>
         /// <returns>Show the selected Parking Spot </returns>
         // 
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             //Getting the ParkingSpot which id is given
@@ -238,6 +243,7 @@ namespace SAH.Controllers
                 // 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             string url = "ParkingSpotData/DeleteParkingSpot/" + id;

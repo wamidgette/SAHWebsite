@@ -16,3 +16,8 @@
 
 ### Danyal - Internal Education Portal - Courses and EmployeeApplications
 - This feature is for staff who can enroll in any of the listed courses. The CRUD for courses is completed, which will be for admin only to add, edit or remove the courses. The user authentication will be implemented lated after completion of CRUD for all features.
+
+
+### Mahsa - Frequently Asked Question (FAQ) - Book Appointment
+-  FAQ : It has CRUD for the admin side( create, Read, Update and delete) and for the user side Create and Read. Users can submit the question. Admin receives the query and answers them. Besides, the admin can add new questions with answers and even update the existing asked questions.
+-   Book appointment : In this feature user can request for booking an appointment(Create) and Admin user can see the list of the appointments requests, change the date and time, or cancel appointments. Appointment table contains data from the department and user table. The user table contain doctors information when the role is doctor.

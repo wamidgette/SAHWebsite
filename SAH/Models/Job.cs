@@ -18,13 +18,14 @@ namespace SAH.Models
         public string Requirement { get; set; }
         public DateTime Deadline { get; set; }
 
-        //A JobPosition can have many application
+        //A Job Position can have many application
         public ICollection<Application> Applications { get; set; }
 
     }
 
         public class JobDto
         {
+            [DisplayName("Job ID")] 
             public int JobId { get; set; }
 
             [DisplayName("Job Position")]
@@ -32,10 +33,10 @@ namespace SAH.Models
             
             public string Category { get; set; }
 
-            [DisplayName("Type of Job")]
+            [DisplayName("Job Type")]
             public string Type { get; set; }
 
-            [DisplayName("Job Requirements")]
+            [DisplayName("Requirements")]
             public string Requirement { get; set; }
 
             [DisplayName("Deadline")]

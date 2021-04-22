@@ -45,7 +45,7 @@ namespace SAH.Controllers
                     CourseId = Course.CourseId,
                     CourseCode = Course.CourseCode,
                     CourseName = Course.CourseName,
-
+                    StartOn = Course.StartOn
                 };
                 CoursesDtos.Add(NewCourse);
             }
@@ -108,6 +108,7 @@ namespace SAH.Controllers
                 CourseId = Courses.CourseId,
                 CourseCode = Courses.CourseCode,
                 CourseName = Courses.CourseName,
+                StartOn = Courses.StartOn
             };
 
             //pass along data as 200 status code OK response

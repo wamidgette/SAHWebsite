@@ -74,7 +74,7 @@ namespace SAH.Controllers
                 return RedirectToAction("Error");
             }
 
-            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
+            //The view needs to be sent a list of all the Departments so the client can select an Apointmenr for an appointmnet in the view
             modelView.DepartmentsSelectList = GetDepartmentSelectList();
 
             //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
@@ -111,16 +111,16 @@ namespace SAH.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            //Model used to combine a appointmen object, and departments list and doctors list for dropdowns
+            //Model used to combine an appointmen object, departments list and doctors list for dropdowns
             EditAppointment modelView = new EditAppointment();
 
             // Appointment is empty for before creating new Appointment
             modelView.AppointmentDto = new AppointmentDto();
 
-            //The view needs to be sent a list of all the Departments so the client can select a Apointmenr for an appointmnet in the view
+            //The view needs to be sent a list of all the Departments so the client can select an Apointment for an appointmnet in the view
             modelView.DepartmentsSelectList = GetDepartmentSelectList();
 
-            //The view needs to be sent a list of all the Doctors so the client can select a Doctors for appointmnet in the view
+            //The view needs to be sent a list of all the Doctors so the client can select a Doctor for appointmnet in the view
             modelView.DoctorsSelectList = GetDoctorsSelectList();
 
             return View(modelView);
