@@ -113,7 +113,8 @@ namespace SAH.Controllers
         /// <example>// GET: Tickets/Create</example>
         /// </summary>
         /// <returns>Shows the fields required for the new ticket</returns>
-
+        
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Create()
         {
             //Get all the users for dropdown list
@@ -141,6 +142,7 @@ namespace SAH.Controllers
         /// <returns>Creates and saves the new ticket to the database</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Create(Ticket Ticket)//
         {
 
@@ -171,7 +173,8 @@ namespace SAH.Controllers
         /// </summary>
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>Shows the selected ticket in the view</returns>
-
+        
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Edit(int id)
         {
             EditTicket newTicket = new EditTicket();
@@ -228,6 +231,7 @@ namespace SAH.Controllers
         /// <returns>Updates and saves the current ticket to the database</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Edit(int id, Ticket Ticket)//
         {
 
@@ -260,7 +264,7 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>Shows the current ticket</returns>
         // 
-
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Delete(int id)
         {
             //Get current ticket from the database
@@ -291,6 +295,7 @@ namespace SAH.Controllers
         // 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             //Delete current ticket from database
