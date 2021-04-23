@@ -290,6 +290,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ModelViews\CreateChat.cs" />
     <Compile Include="Models\ModelViews\CreateDonation.cs" />
+    <Compile Include="Models\ModelViews\DetailDepartment.cs" />
     <Compile Include="Models\ModelViews\DetailDonation.cs" />
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
     <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />

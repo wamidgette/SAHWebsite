@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using SAH.Models;
+using SAH.Models.ModelViews;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Diagnostics;
@@ -58,15 +59,28 @@ namespace SAH.Controllers
         // GET: Department/Details/5
         public ActionResult Details(int id)
         {
+            DetailDepartment ModelView = new DetailDepartment();
+
             string url = "departmentdata/finddepartment/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             //Can catch the status code (200 OK, 301 REDIRECT), etc.
             //Debug.WriteLine(response.StatusCode);
+            
             if (response.IsSuccessStatusCode)
             {
                 //Put data into department data transfer object
+                //Department data
                 DepartmentDto SelectedDepartment = response.Content.ReadAsAsync<DepartmentDto>().Result;
-                return View(SelectedDepartment);
+                ModelView.Department = SelectedDepartment;
+
+                //Get associated user data
+                string urlDonor = "departmentdata/finddonorsfordepartment/" + id;
+                response = client.GetAsync(urlDonor).Result;
+                IEnumerable<UserDto> selectedUser = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                ModelView.Users = selectedUser;
+
+                return View(ModelView);
+
             }
             else
             {
@@ -75,6 +89,7 @@ namespace SAH.Controllers
         }
 
         // GET: Department/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             DepartmentDto Department = new DepartmentDto();
@@ -82,6 +97,7 @@ namespace SAH.Controllers
         }
 
         // POST: Department/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Create(Department DepartmentInfo)
@@ -106,6 +122,7 @@ namespace SAH.Controllers
         }
 
         // GET: Department/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             string url = "departmentdata/finddepartment/" + id;
@@ -125,6 +142,7 @@ namespace SAH.Controllers
         }
 
         // POST: Department/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Edit(int id, Department DepartmentInfo)
@@ -148,6 +166,7 @@ namespace SAH.Controllers
         }
 
         // GET: Department/DeleteConfirm/5
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
@@ -168,6 +187,7 @@ namespace SAH.Controllers
         }
 
         // POST: Department/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)

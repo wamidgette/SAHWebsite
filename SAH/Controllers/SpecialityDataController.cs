@@ -15,6 +15,7 @@ using System.Diagnostics;
 
 namespace SAH.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SpecialityDataController : ApiController
     {
         private SAHDataContext db = new SAHDataContext();
@@ -26,6 +27,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/SpecialityData/GetSpecialties
         /// </example>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(IEnumerable<SpecialityDto>))]
         public IHttpActionResult GetSpecialities()
@@ -57,6 +59,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/SpecialtyData/FindSpeciality/5
         /// </example>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(SpecialityDto))]
         public IHttpActionResult FindSpeciality(int id)

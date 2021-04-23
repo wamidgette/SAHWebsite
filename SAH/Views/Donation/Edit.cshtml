@@ -34,7 +34,7 @@
             @Html.LabelFor(model => model.Donation.AmountOfDonation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Donation.AmountOfDonation, new { htmlAttributes = new { @class = "form-control", Name = "AmountOfDonation" } })
-                @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger", @data_valmsg_for = "AmountOfDonation" })
             </div>
         </div>
 
@@ -76,7 +76,7 @@
             @Html.LabelFor(model => model.Donation.DonationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Donation.DonationDate, new { htmlAttributes = new { @class = "form-control", Name = "DonationDate" } })
-                @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger", @data_valmsg_for = "DonationDate" })
             </div>
         </div>
 

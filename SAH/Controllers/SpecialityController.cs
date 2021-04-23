@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 
 namespace SAH.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class SpecialityController : Controller
     {
         //Http Client is the proper way to connect to a webapi
@@ -37,6 +38,7 @@ namespace SAH.Controllers
         }
 
         // GET: Speciality/List
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult List()
         {
@@ -55,6 +57,7 @@ namespace SAH.Controllers
         }
 
         // GET: Speciality/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             string url = "specialitydata/findspeciality/" + id;

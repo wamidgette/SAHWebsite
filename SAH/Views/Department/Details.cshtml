@@ -1,4 +1,4 @@
-﻿@model SAH.Models.DepartmentDto
+﻿@model SAH.Models.ModelViews.DetailDepartment
 
 @{
     ViewBag.Title = "Details";
@@ -9,25 +9,42 @@
 <div>
     <h4>Department</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DepartmentId)
-        </dt>
+    <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.DepartmentId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DepartmentName)
-        </dt>
+        <div class="col-lg-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DepartmentId)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DepartmentName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DepartmentId)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                </dt>
 
-    </dl>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DepartmentName)
+                </dd>
+            </dl>
+        </div>
+
+        <div class="col-lg-6">
+            <h5>Donor List</h5>
+            <div>
+                @foreach (var donor in Model.Users)
+                {
+                    <div>
+                        @Html.ActionLink(donor.FirstName + " " + donor.LastName, "Details", "User", new { id = donor.UserId },
+                            new { })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.DepartmentId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Department.DepartmentId }) |
     @Html.ActionLink("Back to List", "List")
 </p>

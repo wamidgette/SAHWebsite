@@ -11,10 +11,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
+using SAH.Models.ModelViews;
 using System.Diagnostics;
 
 namespace SAH.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartmentDataController : ApiController
     {
         private SAHDataContext db = new SAHDataContext();
@@ -26,6 +28,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DepartmentData/GetDepartments
         /// </example>
+        [AllowAnonymous]
         [ResponseType(typeof(IEnumerable<DepartmentDto>))]
         public IHttpActionResult GetDepartments()
         {
@@ -56,6 +59,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DepartmentData/FindDepartment/5
         /// </example>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(DepartmentDto))]
         public IHttpActionResult FindDepartment(int id)
@@ -76,6 +80,80 @@ namespace SAH.Controllers
                 DepartmentName = Department.DepartmentName
             };
 
+            return Ok(DepartmentDto);
+        }
+
+        /// <summary>
+        /// This will find a donor by department ID
+        /// </summary>
+        /// <param name="id">The department ID</param>
+        /// <returns>
+        /// Donor information iclude donor's first/last name
+        /// </returns>
+        /// <example>
+        /// GET: api/DepartmentData/FindDonorsForDepartment/5 
+        /// </example>
+        [AllowAnonymous]
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<UserDto>))]
+        public IHttpActionResult FindDonorsForDepartment(int id)
+        {
+            //SELECET * FROM Department, Donation, User WHERE Department.DepartmentId = Donation.DepartmentId AND DepartmentId = id
+            var Donors = db.Donations
+                .Include(d => d.Department)
+                .Include(d => d.User)
+                .Where(d => d.DepartmentId == id)
+                .ToList();
+
+            List<UserDto> UserDtos = new List<UserDto> { };
+
+            if (Donors == null)
+            {
+                return NotFound();
+            }
+
+            foreach(var donor in Donors)
+            {
+                UserDto NewDonor = new UserDto
+                {
+                    UserId = donor.User.UserId,
+                    FirstName = donor.User.FirstName,
+                    LastName = donor.User.LastName
+                };
+                UserDtos.Add(NewDonor);
+
+            }
+            return Ok(UserDtos);
+        }
+
+        /// <summary>
+        /// This will find a department informaion by donation ID
+        /// </summary>
+        /// <param name="id">The donation ID</param>
+        /// <returns>
+        /// A department id, name
+        /// </returns>
+        /// <example>
+        /// GET: api/DepartmentData/FindDepartmentForDonation/5 
+        /// </example>
+        [AllowAnonymous]
+        [HttpGet]
+        [ResponseType(typeof(DepartmentDto))]
+        public IHttpActionResult FindDepartmentForDonation(int id)
+        {
+            //SELECET * FROM Department, Donation WHERE Department.DepartmentId = Donation.DepartmentId AND DonationId = id
+            Department Department = db.Departments.Where(de => de.Donations.Any(don => don.DonationId == id)).FirstOrDefault();
+
+            if (Department == null)
+            {
+                return NotFound();
+            }
+
+            DepartmentDto DepartmentDto = new DepartmentDto
+            {
+                DepartmentId = Department.DepartmentId,
+                DepartmentName = Department.DepartmentName
+            };
             return Ok(DepartmentDto);
         }
 

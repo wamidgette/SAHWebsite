@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SAH.Models.DonationDto>
+﻿@model IEnumerable<SAH.Models.ModelViews.ListDonation>
 
 @{
     ViewBag.Title = "List";
@@ -7,52 +7,54 @@
 <h2>List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DonationId)
-        </th>
-        <th>
-            Donor name
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AmountOfDonation)
-        </th>
-        <th>
-            Donee name
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DonationDate)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<div class="over">
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonationId)
-            </td>
-            <td>
-                donor name
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AmountOfDonation)
-            </td>
-            <td>
-                Department name
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonationDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.DonationId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.DonationId }) |
-                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.DonationId })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.DonationId)
+            </th>
+            <th>
+                Donor name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountOfDonation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DonationDate)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DonationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountOfDonation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DonationDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DonationId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.DonationId }) |
+                    @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.DonationId })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

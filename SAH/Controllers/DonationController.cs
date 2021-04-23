@@ -10,7 +10,6 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 
-
 namespace SAH.Controllers
 {
     public class DonationController : Controller
@@ -25,7 +24,9 @@ namespace SAH.Controllers
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
+                //Cookies are manually set in RequestHeader
+                //UseCookies = false
             };
 
             client = new HttpClient(handler);
@@ -37,28 +38,44 @@ namespace SAH.Controllers
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
         }
 
+        /// <summary>
+        /// Get the authentication credentials from the cookies.
+        /// Remember this is not considered a proper authentication technique for the webAPI
+        /// </summary>
+       private void GetApplicationCookie()
+        {
+            string token = "";
+            //Reset cookies in HTTP client before get a new one.
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //Collect token and pass it to the WebAPI
+            Debug.WriteLine("Token submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+            
+            return;
+        }
+
         // GET: Donation/List
         public ActionResult List()
         {
             ListDonation ModelView = new ListDonation();
+            ModelView.IsAdmin = User.IsInRole("Admin");
 
-            //Get donation data
-            string url = "donationdata/getdonations";
+            //Get all donation related info
+            string url = "donationdata/getdonationsinfo";
             //Debug.WriteLine(client.GetAsync(url).Result);
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<DonationDto> SelectedDonations = response.Content.ReadAsAsync<IEnumerable<DonationDto>>().Result;
-                Debug.WriteLine(SelectedDonations);
-                //ViewModel.AllDonations = SelectedDonations;
-                //Debug.WriteLine(SelectedDonations);
+                IEnumerable<ListDonation> SelectedInfo = response.Content.ReadAsAsync<IEnumerable<ListDonation>>().Result;
+                Debug.WriteLine(SelectedInfo);
 
-                //Get department data 
-                //string urlDep = "donationsdata/finddepartmentfordonation/" + id;
-
-
-                return View(SelectedDonations);
+                return View(SelectedInfo);
             }
             else
             {
@@ -90,7 +107,7 @@ namespace SAH.Controllers
                 ModelView.User = selectedUser;
 
                 //Get department data
-                string urlDep = "donationdata/finddepartmentfordonation/" + id;
+                string urlDep = "departmentdata/finddepartmentfordonation/" + id;
                 response = client.GetAsync(urlDep).Result;
                 DepartmentDto selectedDepartment = response.Content.ReadAsAsync<DepartmentDto>().Result;
                 ModelView.Department = selectedDepartment;
@@ -105,6 +122,7 @@ namespace SAH.Controllers
         }
 
         // GET: Donation/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             CreateDonation ModelView = new CreateDonation();
@@ -116,22 +134,18 @@ namespace SAH.Controllers
             IEnumerable<DepartmentDto> PotentialDepartments = responseDepartment.Content.ReadAsAsync<IEnumerable<DepartmentDto>>().Result;
             ModelView.AllDepartments = PotentialDepartments;
 
-            //Get donor data
-            /*
-            string urlDon = "Usersdata/getUsers";
-            HttpResponseMessage responseUsers = client.GetAsync(urlDon).Result;
-            Debug.WriteLine(jss.Serialize(responseUsers));
-            IEnumerable<UserDto> PotentialUsers =  responseUsers.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            ModelView.AllUsers = PotentialUsers;
-            */
             return View(ModelView);
         }
 
         // POST: Donation/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Create(Donation DonationInfo)
         {
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
+
             //Debug.WriteLine(DonationInfo.DonationId);
             string url = "donationdata/adddonation";
             //Debug.WriteLine(jss.Serialize(DonationtInfo));
@@ -152,6 +166,7 @@ namespace SAH.Controllers
         }
 
         // GET: Donation/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             CreateDonation ModelView = new CreateDonation();
@@ -189,10 +204,13 @@ namespace SAH.Controllers
         }
 
         // POST: Donation/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Edit(int id, Donation DonationInfo)
         {
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
 
             //Debug.WriteLine(DonationInfo.DonationId);
             string url = "donationdata/updatedonation/" + id;
@@ -213,6 +231,7 @@ namespace SAH.Controllers
         }
 
         // GET: Donation/DeleteConfirm/5
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult DeleteConfirm(int id)
         {
@@ -252,10 +271,14 @@ namespace SAH.Controllers
         }
 
         // POST: Donation/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
+
             string url = "donationdata/deletedonation/" + id;
             //post body is empty
             HttpContent content = new StringContent("");

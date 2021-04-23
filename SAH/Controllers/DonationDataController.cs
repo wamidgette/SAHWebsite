@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
+using SAH.Models.ModelViews;
 using System.Diagnostics;
 
 namespace SAH.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DonationDataController : ApiController
     {
         private SAHDataContext db = new SAHDataContext();
@@ -22,62 +24,80 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>A list of donations information includes ID, amount of donation, payment method, donation date, donor's first name and last name</returns>
         /// <example>
-        /// GET: api/DonationData/GetDonations
+        /// GET: api/DonationData/GetDonationsInfo
         /// </example>
-        [ResponseType(typeof(IEnumerable<DonationDto>))]
-        public IHttpActionResult GetDonations()
+        [AllowAnonymous]
+        [ResponseType(typeof(IEnumerable<ListDonation>))]
+        public IHttpActionResult GetDonationsInfo()
         {
-            //Trying to join three tables
+            //Join three tables
             //SELECT * FROM Donations, Users, Departments WHERE Donations.UserId = Users.UserId AND Donations.DepartmentId = Departments.DepartmentId 
+            var AllInfos = db.Donations
+                 .Include(d => d.User)
+                 .Include(d => d.Department)
+                 .ToList();
+
+            //Initialize object to have all donation related data
+            List<ListDonation> ModelView = new List<ListDonation>();
             /*
-            List<Donation> Donations = db.Donations
-                .Join(db.OurUsers,
-                      donation => donation.UserId,
-                      user => user.UserId,
-                      (donation, user) => new
-                      
-                      {
-                          UserId = donation.UserId,
-                          DonationId = donation.DonationId,
-                          DepartmentId = donation.DepartmentId,
-                          AmountOfDonation = donation.AmountOfDonation,
-                          DonationDate = donation.DonationDate,
-                          FirstName = user.FirstName,
-                          LastName = user.LastName
-                      }
-                )
-                .Join(db.Departments,
-                      donation => donation.DepartmentId,
-                      department => department.DepartmentId,
-                      (donation, department) => new
-                      {
-                          DepartmentId = donation.DepartmentId,
-                          DepartmentName = department.DepartmentName
-                      }
-                 )
-                .ToList();
-              */  
-
-            List<Donation> Donations = db.Donations.ToList();
-            List<DonationDto> DonationDtos = new List<DonationDto> { };
-
-            //Infomation to be exposed to the API
-            foreach (var donation in Donations)
+            List<DonationDto> DonationDtos = new List<DonationDto>();
+            List<UserDto> UserDtos = new List<UserDto>();
+            List<DepartmentDto> DepartmentDtos = new List<DepartmentDto>();
+            ListDonation NewInfo = new ListDonation();
+            */
+            //Infomation to be exposed
+            foreach (var info in AllInfos)
             {
+                
+                ListDonation NewInfo = new ListDonation
+                {
+                    DonationId = info.DonationId,
+                    AmountOfDonation = info.AmountOfDonation,
+                    PaymentMethod = info.PaymentMethod,
+                    DonationDate = info.DonationDate,
+                    UserId = info.UserId,
+                    DepartmentId = info.DepartmentId,
+                    FirstName = info.User.FirstName,
+                    LastName = info.User.LastName,
+                    DepartmentName = info.Department.DepartmentName
+                };
+
+                /*
                 DonationDto NewDonation = new DonationDto
                 {
-                    DonationId = donation.DonationId,
-                    AmountOfDonation = donation.AmountOfDonation,
-                    PaymentMethod = donation.PaymentMethod,
-                    DonationDate = donation.DonationDate,
-                    UserId = donation.UserId,
-                    DepartmentId = donation.DepartmentId
+                    DonationId = info.DonationId,
+                    AmountOfDonation = info.AmountOfDonation,
+                    PaymentMethod = info.PaymentMethod,
+                    DonationDate = info.DonationDate,
+                    UserId = info.UserId,
+                    DepartmentId = info.DepartmentId,
                 };
+
+                UserDto NewUser = new UserDto
+                {
+                    UserId = info.User.UserId,
+                    FirstName = info.User.FirstName,
+                    LastName = info.User.LastName
+                };
+
+                DepartmentDto NewDepartment = new DepartmentDto
+                {
+                    DepartmentId = info.Department.DepartmentId,
+                    DepartmentName = info.Department.DepartmentName
+                };
+
                 DonationDtos.Add(NewDonation);
-
+                UserDtos.Add(NewUser);
+                DepartmentDtos.Add(NewDepartment);
+                */
+                ModelView.Add(NewInfo);
             }
-
-            return Ok(DonationDtos);
+            /*
+            NewInfo.AllDonations = DonationDtos;
+            NewInfo.AllUsers = UserDtos;
+            NewInfo.AllDepartments = DepartmentDtos;
+            */
+            return Ok(ModelView);
         }
 
         /// <summary>
@@ -88,6 +108,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DonationData/FindDonation/5
         /// </example>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(DonationDto))]
         public IHttpActionResult FindDonation(int id)
@@ -125,12 +146,14 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DonationData/FindDonorForDonation/5 
         /// </example>
+        [AllowAnonymous]
         [HttpGet]
         [ResponseType(typeof(UserDto))]
         public IHttpActionResult FindDonorForDonation(int id)
         {
             //SELECET * FROM User, Donation WHERE U.UserID = D.UserID AND DonationId = id
             User User = db.OurUsers.Where(u => u.Donations.Any(d => d.DonationId == id)).FirstOrDefault();
+            
             if (User == null)
             {
                 return NotFound();
@@ -147,35 +170,6 @@ namespace SAH.Controllers
                 PostalCode = User.PostalCode
             };
             return Ok(UserDto);
-        }
-
-        /// <summary>
-        /// This will find a department informaion by donation ID
-        /// </summary>
-        /// <param name="id">The donation ID</param>
-        /// <returns>
-        /// A department id, name
-        /// </returns>
-        /// <example>
-        /// GET: api/DonationData/FindDepartmentForDonation/5 
-        /// </example>
-        [HttpGet]
-        [ResponseType(typeof(DepartmentDto))]
-        public IHttpActionResult FindDepartmentForDonation(int id)
-        {
-            //SELECET * FROM Department, Donation WHERE Department.DepartmentId = Donation.DepartmentId AND DonationId = id
-            Department Department = db.Departments.Where(de => de.Donations.Any(don => don.DonationId == id)).FirstOrDefault();
-            if (Department == null)
-            {
-                return NotFound();
-            }
-
-            DepartmentDto DepartmentDto = new DepartmentDto
-            {
-                DepartmentId = Department.DepartmentId,
-                DepartmentName = Department.DepartmentName
-            };
-            return Ok(DepartmentDto);
         }
 
         /// <summary>
