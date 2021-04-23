@@ -44,7 +44,7 @@ namespace SAH.Controllers
         public ActionResult List()
         {
             //Request data from API controller via http request 
-            string request = "ChatData/getChats/";
+            string request = "ChatData/GetChats/";
             HttpResponseMessage response = client.GetAsync(request).Result;
             //The IHTTPActionResult should send an OK response as well as a ChatDto object list 
             if (response.IsSuccessStatusCode)
@@ -63,7 +63,7 @@ namespace SAH.Controllers
         public ActionResult Create()
         {
             //The view needs to be sent a list of all the users so the client can select a user as the recipient in the view
-            string requestAddress = "ChatData/getDoctors/";
+            string requestAddress = "ChatData/GetDoctors/";
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
             List<UserDto> Doctors = response.Content.ReadAsAsync<List<UserDto>>().Result;
 
@@ -94,7 +94,7 @@ namespace SAH.Controllers
             };
 
             //string to send request to 
-            string requestAddress = "ChatData/createChat";
+            string requestAddress = "ChatData/CreateChat";
             //Create content which sends the Chat info as a Json object
             HttpContent content = new StringContent(JsSerializer.Serialize(NewChat));
             //Headers are Chat headers that preceed the http Chat content (the json object).
@@ -117,7 +117,7 @@ namespace SAH.Controllers
                     Content = CreateChat.FirstMessage.Content,
                 };
 
-                requestAddress = "MessageData/createMessage";
+                requestAddress = "MessageData/CreateMessage";
                 content = new StringContent(JsSerializer.Serialize(NewMessage));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                 response = client.PostAsync(requestAddress, content).Result;
@@ -126,7 +126,7 @@ namespace SAH.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("../Message/chatMessages", new { id = ChatId });
+                    return RedirectToAction("../Message/ChatMessages", new { id = ChatId });
                 }
 
                 else
@@ -152,7 +152,7 @@ namespace SAH.Controllers
         public ActionResult Edit(int id)
         {
             //logic follows 
-            string requestAddress = "Chatdata/getChatById/" + id;
+            string requestAddress = "Chatdata/GetChatById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
 
             if (response.IsSuccessStatusCode)
@@ -172,7 +172,7 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ChatDto updatedChat)
         {
-            string requestAddress = "Chatdata/updateChat";
+            string requestAddress = "Chatdata/UpdateChat";
             Debug.WriteLine("NEW Chat DATA: " + JsSerializer.Serialize(updatedChat));
             HttpContent content = new StringContent(JsSerializer.Serialize(updatedChat));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -180,7 +180,7 @@ namespace SAH.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("chatMessages", new { id = updatedChat.ChatId });
+                return RedirectToAction("ChatMessages", new { id = updatedChat.ChatId });
             }
 
             else
@@ -193,7 +193,7 @@ namespace SAH.Controllers
         public ActionResult ConfirmDelete(int id)
         {
             //logic follows 
-            string requestAddress = "Chatdata/getChatById/" + id;
+            string requestAddress = "Chatdata/GetChatById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
 
             if (response.IsSuccessStatusCode)
@@ -213,7 +213,7 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
-            string requestAddress = "ChatData/deleteChat/" + id;
+            string requestAddress = "ChatData/DeleteChat/" + id;
             Debug.WriteLine("GOING TO DELETE Chat: " + id);
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;

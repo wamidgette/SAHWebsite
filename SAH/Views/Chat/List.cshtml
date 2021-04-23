@@ -29,7 +29,6 @@
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ChatId }) |
             @Html.ActionLink("Messages", "../Message/ChatMessages", new { id=item.ChatId }) |
             @Html.ActionLink("Delete", "ConfirmDelete", new { id=item.ChatId })
         </td>

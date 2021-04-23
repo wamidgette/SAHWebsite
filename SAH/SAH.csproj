@@ -295,6 +295,7 @@
     <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
+    <Compile Include="Models\ModelViews\ListMessages.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\ShowApplication.cs" />
     <Compile Include="Models\ModelViews\ShowCourses.cs" />

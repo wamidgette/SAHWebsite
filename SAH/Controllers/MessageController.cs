@@ -45,13 +45,21 @@ namespace SAH.Controllers
         {
             Debug.WriteLine("MESSAGE/CHATMESSAGES/" + id);
             //Request data from API controller via http request 
-            string request = "MessageData/getMessagesByChatId/" + id;
+            string request = "MessageData/GetMessagesByChatId/" + id;
             HttpResponseMessage response = client.GetAsync(request).Result;
             //The IHTTPActionResult should send an OK response as well as a MessageDto object list 
             if (response.IsSuccessStatusCode)
             {
                 IEnumerable<MessageDto> MessageDtos = response.Content.ReadAsAsync<IEnumerable<MessageDto>>().Result;
-                return View(MessageDtos);
+
+                ListMessages MessageList = new ListMessages();
+
+                MessageList.Messages = MessageDtos;
+                ChatDto thisChat = new ChatDto();
+                thisChat.ChatId = id;
+                MessageList.Chat = thisChat;
+
+                return View(MessageList);
             }
             else
             {
@@ -87,7 +95,7 @@ namespace SAH.Controllers
             //Serialize method returns the object as a Json object - otherwise no way to see contents
             Debug.WriteLine("NEWMESSAGE OBJECT: " + JsSerializer.Serialize(NewMessage));
             //string to send request to - add the chat Id in url
-            string requestAddress = "MessageData/createMessage";
+            string requestAddress = "MessageData/CreateMessage";
             //Create content which sends the message info as a Json object
             HttpContent content = new StringContent(JsSerializer.Serialize(NewMessage));
             //Headers are message headers that preceed the http message content (the json object).
@@ -121,7 +129,7 @@ namespace SAH.Controllers
         {
             Debug.WriteLine("YOU ARE IN THE SHOW CONTROLLER");
             //resquest from the getMessageById controller the team with associated id
-            string requestAddress = "MessageData/getMessageById/" + id;
+            string requestAddress = "MessageData/GetMessageById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
 
             if (response.IsSuccessStatusCode)
@@ -131,14 +139,14 @@ namespace SAH.Controllers
 
                 /*Get chat for messageId - messageDto.ChadId*/
                 id = MessageDto.ChatId;
-                requestAddress = "MessageData/getChatForMessage/" + id;
+                requestAddress = "MessageData/GetChatForMessage/" + id;
                 response = client.GetAsync(requestAddress).Result;
                 ChatDto ThisChat = response.Content.ReadAsAsync<ChatDto>().Result;
 
                 /*Get user for the messageId (sender)*/
                 id = MessageDto.SenderId;
                 Debug.WriteLine("THE USER ID IS! : " + MessageDto.SenderId);
-                requestAddress = "MessageData/getSenderForMessage/" + id;
+                requestAddress = "MessageData/GetSenderForMessage/" + id;
                 response = client.GetAsync(requestAddress).Result;
                 UserDto ThisUser = response.Content.ReadAsAsync<UserDto>().Result;
 
@@ -162,7 +170,7 @@ namespace SAH.Controllers
         public ActionResult Edit(int id)
         {
             //logic follows 
-            string requestAddress = "MessageData/getMessageById/" + id;
+            string requestAddress = "MessageData/GetMessageById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
 
             if (response.IsSuccessStatusCode)
@@ -180,17 +188,17 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Message updatedMessage)
+        public ActionResult Edit(Message UpdatedMessage)
         {
-            string requestAddress = "MessageData/updateMessage";
-            Debug.WriteLine("NEW MESSAGE DATA: " + JsSerializer.Serialize(updatedMessage));
-            HttpContent content = new StringContent(JsSerializer.Serialize(updatedMessage));
+            string requestAddress = "MessageData/UpdateMessage";
+            Debug.WriteLine("NEW MESSAGE DATA: " + JsSerializer.Serialize(UpdatedMessage));
+            HttpContent content = new StringContent(JsSerializer.Serialize(UpdatedMessage));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Show", new { id = updatedMessage.MessageId });
+                return RedirectToAction("Show", new { id = UpdatedMessage.MessageId });
             }
 
             else
@@ -203,7 +211,7 @@ namespace SAH.Controllers
         public ActionResult ConfirmDelete(int id)
         {
             //logic follows 
-            string requestAddress = "MessageData/getMessageById/" + id;
+            string requestAddress = "MessageData/GetMessageById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
 
             if (response.IsSuccessStatusCode)
@@ -224,7 +232,7 @@ namespace SAH.Controllers
         public ActionResult Delete(int id)
         {
             //Ask Christine: Cannot send an integer as http content? Doesnt it defeat the purpose of a post request to send the Id in a url?
-            string requestAddress = "MessageData/deleteMessage/" +  id;
+            string requestAddress = "MessageData/DeleteMessage/" +  id;
             Debug.WriteLine("GOING TO DELETE MESSAGE: " + id);
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;

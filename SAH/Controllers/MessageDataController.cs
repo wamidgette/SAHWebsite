@@ -25,7 +25,7 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(MessageDto))]
-        public IHttpActionResult getMessageById(int id)
+        public IHttpActionResult GetMessageById(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET MESSAGE TEST API METHOD");
             Message Message = db.Messages.Find(id);
@@ -50,7 +50,7 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(ChatDto))]
-        public IHttpActionResult getChatForMessage(int id)
+        public IHttpActionResult GetChatForMessage(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET CHAT FOR MESSAGE TEST API METHOD");
             Chat Chat = db.Chats.Find(id);
@@ -73,7 +73,7 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(UserDto))]
-        public IHttpActionResult getSenderForMessage(int id)
+        public IHttpActionResult GetSenderForMessage(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Sender FOR MESSAGE TEST API METHOD");
             User User = db.OurUsers.Find(id);
@@ -97,7 +97,7 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(IEnumerable<MessageDto>))]
-        public IHttpActionResult getMessagesByChatId(int id)
+        public IHttpActionResult GetMessagesByChatId(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET MESSAGE BY CHAT ID TEST API METHOD");
             List<Message> Messages = db.Messages
@@ -129,7 +129,7 @@ namespace SAH.Controllers
         [HttpPost]
         [ResponseType(typeof(MessageDto))]
 
-        public IHttpActionResult createMessage([FromBody] Message NewMessage)
+        public IHttpActionResult CreateMessage([FromBody] Message NewMessage)
         {
             Debug.WriteLine("IN THE CREATE MESSAGE API CONTROLLER");
 
@@ -145,7 +145,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult updateMessage([FromBody] Message updatedMessage)
+        public IHttpActionResult UpdateMessage([FromBody] Message UpdatedMessage)
         {
             Debug.WriteLine("YOU ARE IN THE UPDATE MESSAGE API METHOD");
 
@@ -154,7 +154,7 @@ namespace SAH.Controllers
                 return BadRequest();
             }
             //update the entry with the message ID to its new state given
-            db.Entry(updatedMessage).State = EntityState.Modified;
+            db.Entry(UpdatedMessage).State = EntityState.Modified;
             try
             {
                 db.SaveChanges();
@@ -169,7 +169,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult deleteMessage(int id)
+        public IHttpActionResult DeleteMessage(int id)
         {
             Debug.WriteLine("IN THE DELETE DATA CONTROLLER");
             Message Message = db.Messages.Find(id);
@@ -186,7 +186,5 @@ namespace SAH.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
         }
-
-        
     }
 }
