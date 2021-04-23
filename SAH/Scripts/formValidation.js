@@ -9,10 +9,10 @@ function verifyTicket() {
 	var fees = document.getElementById("Ticket_Fees");
 	
 
-    //name pattern, only normal characters
+    //Name pattern, only normal characters
     var nameRegex = /^([A-Za-z]\s?)+$/;
     //Simplified Date pattern not fully respecting day counts!
-    var dateRegex = /^(3[0-1]|2[0-9]|1[0-9]|0[0-9])-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/i; //Date
+    var dateRegex = /^(3[0-1]|2[0-9]|1[0-9]|0[0-9])-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}\s(2[0-3]|([0-1]\d)):([0-5]\d):([0-5]\d)$/i; //Date and time
     
     var numberRegex = /^([A-Za-z0-9])+$/; 
     

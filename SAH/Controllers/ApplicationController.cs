@@ -185,7 +185,8 @@ namespace SAH.Controllers
         public ActionResult Edit(int id, Application ApplicationInfo)
         {
             string url = "ApplicationData/UpdateApplication/" + id;
-
+            Debug.WriteLine(id);
+            Debug.WriteLine(jss.Serialize(ApplicationInfo));
             HttpContent content = new StringContent(jss.Serialize(ApplicationInfo));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
@@ -193,7 +194,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 //Redirect to the list if it is successful
-                return RedirectToAction("List");
+                return RedirectToAction("Details", new { id = id });
             }
             else
             {  //Unsuscessful = error page

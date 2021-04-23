@@ -25,7 +25,7 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(ChatDto))]
-        public IHttpActionResult getChatById(int id)
+        public IHttpActionResult GetChatById(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Chat BY ID TEST API METHOD");
             Chat Chat = db.Chats.Find(id);
@@ -53,7 +53,7 @@ namespace SAH.Controllers
         /// <returns></returns>
         [HttpGet]
         [ResponseType(typeof(ChatDto))]
-        public IHttpActionResult getChats()
+        public IHttpActionResult GetChats()
         {
             Debug.WriteLine("YOU ARE IN THE GET Chats TEST API METHOD");
             List<Chat> Chats = db.Chats.ToList();
@@ -76,7 +76,7 @@ namespace SAH.Controllers
         /*When login functionality complete, browser will identify user, and this method can show all of the chats associated with him/her*/
         [HttpGet]
         [ResponseType(typeof(List<ChatDto>))]
-        public IHttpActionResult getChatsForUser(int id)
+        public IHttpActionResult GetChatsForUser(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Chat FOR Chat TEST API METHOD");
             List<Chat> Chats = db.Chats.Where(c => c.Users.Any(u => u.UserId == id)).ToList();
@@ -103,7 +103,7 @@ namespace SAH.Controllers
         /// <returns>List of users (should just be 2) for the chat id given </returns>
         [HttpGet]
         [ResponseType(typeof(UserDto))]
-        public IHttpActionResult getUsersForChat(int id)
+        public IHttpActionResult GetUsersForChat(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Sender FOR Chat TEST API METHOD");
             List<User> Users = db.OurUsers.Where(u => u.Chats.Any(c => c.ChatId == id)).ToList();
@@ -130,7 +130,7 @@ namespace SAH.Controllers
         /// <returns>List of MesssageDto objects</returns>
         [HttpGet]
         [ResponseType(typeof(IEnumerable<MessageDto>))]
-        public IHttpActionResult getMessagesByChatId(int id)
+        public IHttpActionResult GetMessagesByChatId(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET MESSAGES BY Chat ID TEST API METHOD");
             List<Message> Messages = db.Messages.Where(m => m.ChatId.Equals(id)).ToList();
@@ -160,7 +160,7 @@ namespace SAH.Controllers
         [HttpPost]
         [ResponseType(typeof(ChatDto))]
 
-        public IHttpActionResult createChat([FromBody] Chat NewChat)
+        public IHttpActionResult CreateChat([FromBody] Chat NewChat)
         {
             Debug.WriteLine("IN THE CREATE Chat API CONTROLLER");
 
@@ -175,7 +175,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-        public IHttpActionResult deleteChat(int id)
+        public IHttpActionResult DeleteChat(int id)
         {
             //When the chat is deleted, messages associated with the chat will also be deleted
             Debug.WriteLine("IN THE DELETE DATA CONTROLLER");
@@ -197,9 +197,9 @@ namespace SAH.Controllers
         //This is a method to get the full list of users. I would normally put this in the UserController, but since 
         //I know that we have done Users in an unorthodox way, I am putting the method here for now. 
         [HttpGet]
-        public IHttpActionResult getDoctors()
+        public IHttpActionResult GetDoctors()
         {
-            Debug.WriteLine("YOU ARE IN THE Chat/getDoctors API METHOD");
+            Debug.WriteLine("YOU ARE IN THE Chat/GetDoctors API METHOD");
             List<User> Users = db.OurUsers
                 .Where(o => o.Role.RoleName == "Doctor")
                 .ToList();
