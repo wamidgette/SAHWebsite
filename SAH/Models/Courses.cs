@@ -14,6 +14,10 @@ namespace SAH.Models
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
 
+        [Display(Name = "Start Date dd/mm/yyyy")]
+        [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Enter the start date for the course")]
+        public DateTime StartOn { get; set; }
         //A course can have many applicants
         public ICollection<EmployeeApplicant> EmployeeApplicant { get; set; }
     }
@@ -26,5 +30,8 @@ namespace SAH.Models
         public string CourseCode { get; set; }
         [DisplayName("Course Name")]
         public string CourseName { get; set; }
+
+        [Display(Name = "Start Date")]
+        public DateTime StartOn { get; set; }
     }
 }

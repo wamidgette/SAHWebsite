@@ -159,13 +159,13 @@ namespace SAH.Controllers
                 ApplicationDto SelectedApplication = response.Content.ReadAsAsync<ApplicationDto>().Result;
                 ModelView.Application = SelectedApplication;
 
-                string urlUs = "UserData/GetUsers";
-                response = client.GetAsync(urlUs).Result;
+                url = "UserData/GetUsers";
+                response = client.GetAsync(url).Result;
                 IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
                 ModelView.Users = SelectedUsers;
 
-                string urlJb = "JobData/GetJobs";
-                response = client.GetAsync(urlJb).Result;
+                url = "JobData/GetJobs";
+                response = client.GetAsync(url).Result;
                 IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
                 ModelView.Jobs = SelectedJobs;
 
@@ -185,7 +185,7 @@ namespace SAH.Controllers
         public ActionResult Edit(int id, Application ApplicationInfo)
         {
             string url = "ApplicationData/UpdateApplication/" + id;
-
+            Debug.WriteLine(id);
             Debug.WriteLine(jss.Serialize(ApplicationInfo));
             HttpContent content = new StringContent(jss.Serialize(ApplicationInfo));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
