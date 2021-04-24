@@ -73,7 +73,7 @@ namespace SAH.Models
         public string LastName { get; set; }
 
         [Display(Name = "Phone Number")]
-        public int? Phone { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required]
         [Display(Name = "Address")]

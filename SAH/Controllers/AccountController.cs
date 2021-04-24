@@ -151,10 +151,12 @@ namespace SAH.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Phone = model.Phone, Address = model.Address, PostalCode = model.PostalCode, HealthCardNumber = model.HealthCardNumber, Gender = model.Gender, DateOfBirth = model.DateOfBirth };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, PhoneNumber = model.PhoneNumber, Address = model.Address, PostalCode = model.PostalCode, HealthCardNumber = model.HealthCardNumber, Gender = model.Gender, DateOfBirth = model.DateOfBirth };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "Patient");
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
