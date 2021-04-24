@@ -5,9 +5,7 @@
 }
 
 <h2>Create</h2>
-<!--
 
--->
 
 @using (Html.BeginForm())
 {
@@ -21,7 +19,7 @@
             @Html.LabelFor(model => model.Donation.AmountOfDonation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Donation.AmountOfDonation, new { htmlAttributes = new { @class = "form-control", Name = "AmountOfDonation" } })
-                @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger", @data_valmsg_for = "AmountOfDonation" })
+                @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger", data_valmsg_for = "AmountOfDonation" })
             </div>
         </div>
 
@@ -36,7 +34,7 @@
         <div class="form-group">
             <label for="departmentId" class="control-label col-md-2">Where to Donate</label>
             <div class="col-md-10">
-                <select id="departmentId" name="departmentId" class="form-control">
+                <select id="departmentId" name="DepartmentId" class="form-control">
                     <option value="0">Select Department</option>
                     @foreach (var Department in Model.AllDepartments)
                     {
@@ -79,7 +77,7 @@
             @Html.LabelFor(model => model.Donation.DonationDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Donation.DonationDate, new { htmlAttributes = new { @class = "form-control", Name = "DonationDate" } })
-                @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger", @data_valmsg_for = "DonationDate" })
+                @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger", data_valmsg_for = "DonationDate" })
             </div>
         </div>
 
@@ -94,3 +92,6 @@
 <div>
     @Html.ActionLink("Back to List", "List")
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

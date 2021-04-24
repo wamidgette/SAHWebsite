@@ -48,7 +48,7 @@ namespace SAH.Controllers
             //Infomation to be exposed
             foreach (var info in AllInfos)
             {
-                
+
                 ListDonation NewInfo = new ListDonation
                 {
                     DonationId = info.DonationId,
@@ -146,7 +146,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DonationData/FindDonorForDonation/5 
         /// </example>
-        [AllowAnonymous]
+        [AllowAnonymous] 
         [HttpGet]
         [ResponseType(typeof(UserDto))]
         public IHttpActionResult FindDonorForDonation(int id)

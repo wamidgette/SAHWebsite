@@ -31,9 +31,11 @@ namespace SAH.Models
         public int DonationId { get; set; }
 
         [DisplayName("Amount of Donation")]
+        [Required(ErrorMessage = "Please Enter a Donaion amount.")]
         public decimal AmountOfDonation { get; set; }
 
         [DisplayName("Payment Method")]
+        [Required(ErrorMessage = "Please Select a Payment Method.")]
         public string PaymentMethod { get; set; }
 
         [Column(TypeName = "DateTime2")]
@@ -41,6 +43,7 @@ namespace SAH.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
         public DateTime DonationDate { get; set; }
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please Select a Department Name.")]
         public int DepartmentId { get; set; }
     }
 }

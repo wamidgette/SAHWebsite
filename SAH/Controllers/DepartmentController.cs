@@ -25,7 +25,9 @@ namespace SAH.Controllers
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
+                //Cookies are manually set in RequestHeader
+                UseCookies = false
             };
 
             client = new HttpClient(handler);
@@ -35,6 +37,27 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+        }
+
+        /// <summary>
+        /// Get the authentication credentials from the cookies.
+        /// Remember this is not considered a proper authentication technique for the webAPI
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            //Reset cookies in HTTP client before get a new one.
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //Collect token and pass it to the WebAPI
+            Debug.WriteLine("Token submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Department/List
@@ -97,11 +120,14 @@ namespace SAH.Controllers
         }
 
         // POST: Department/Create
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Create(Department DepartmentInfo)
         {
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
+
             //Debug.WriteLine(DepartmentInfo.DepartmentID);
             string url = "departmentdata/adddepartment";
             //Debug.WriteLine(jss.Serialize(DepartmentInfo));
@@ -147,6 +173,10 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken()]
         public ActionResult Edit(int id, Department DepartmentInfo)
         {
+
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
+
             //Debug.WriteLine(DepartmentInfo.DepartmentID);
             string url = "departmentdata/updatedepartment/" + id;
             //Debug.WriteLine(jss.Serialize(DepartmentInfo));
@@ -192,6 +222,9 @@ namespace SAH.Controllers
         [ValidateAntiForgeryToken()]
         public ActionResult Delete(int id)
         {
+            //Pass along authentication credential in http request
+            GetApplicationCookie();
+
             string url = "departmentdata/deletedepartment/" + id;
             //post body is empty
             HttpContent content = new StringContent("");

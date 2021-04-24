@@ -24,6 +24,7 @@ namespace SAH.Models
         [DisplayName("Department ID")]
         public int DepartmentId { get; set; }
         [DisplayName("Department Name")]
+        [Required(ErrorMessage = "Please Enter a Department Name.")]
         public string DepartmentName { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace SAH.Models
         [DisplayName("Speciality ID")]
         public int SpecialityId { get; set; }
         [DisplayName("Speciality Name")]
+        [Required(ErrorMessage = "Please Enter a Speciality Name.")]
         public string SpecialityName { get; set; }
     }
 }

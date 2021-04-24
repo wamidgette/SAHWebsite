@@ -26,7 +26,7 @@ namespace SAH.Controllers
             {
                 AllowAutoRedirect = false,
                 //Cookies are manually set in RequestHeader
-                //UseCookies = false
+                UseCookies = false
             };
 
             client = new HttpClient(handler);
