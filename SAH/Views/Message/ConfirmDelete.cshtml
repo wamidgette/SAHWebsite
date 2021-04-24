@@ -28,12 +28,13 @@
         </dd>
     </dl>
 
-    @using (Html.BeginForm("Delete", "Message", new { id = Model.MessageId})) {
+    @using (Html.BeginForm("Delete", "Message")) {
         @Html.AntiForgeryToken()
-
         <div class="form-actions no-color">
+            @Html.HiddenFor(model => model.ChatId, new { Name = "chatId" })
+            @Html.HiddenFor(model => model.MessageId, new { Name = "messageId" })
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Message", "Show", new{ id = Model.MessageId })
+            @Html.ActionLink("Back to Message", "Show", new { id = Model.MessageId })
         </div>
     }
 </div>

@@ -37,7 +37,7 @@ namespace SAH.Controllers
 
         // GET: Message/ChatMessages
         /// <summary>
-        /// This is not a full list of all messages in database - that feature is not really useful. This will be send a request to getMessagesByChatId. Recieves a chat Id parameter.
+        /// This message recieves request from chat controller containing a chad id
         /// </summary>
         /// <param name="id"</param> This is a chat Id
         /// <returns>A list of messages for the chat id passed to the method</returns>
@@ -68,7 +68,11 @@ namespace SAH.Controllers
         }
 
         // GET: Message/Create
-        //This method will take a chat Id on get request. The chat id will be stored as the ChatId for the new message on form submission
+        /// <summary>
+        /// This method will take a chat Id, and add to a new message object. 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The new message is passed to the create view to create a new message</returns>
         public ActionResult Create(int id)
         {
             MessageDto Message = new MessageDto();
@@ -77,12 +81,12 @@ namespace SAH.Controllers
             return View(Message);
         }
 
-        // POST: Message/Create - will need to recieve a chat Id to add the message to that chat
+        // POST: Message/Create 
         /// <summary>
-        /// Method takes a New Message of object type messageDto and sends to api createmessage controller 
+        /// Method takes a New Message of object type messageDto and sends to api createmessage controller which will add it to the database
         /// </summary>
         /// <param name="NewMessage"></param>
-        /// <returns>adds the message to the database and redirects to the show method to display the new message</returns>
+        /// <returns>If successfully added to database, redirects user to the show method to display the new message</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(MessageDto NewMessage)
@@ -118,12 +122,12 @@ namespace SAH.Controllers
             }
         }
 
+        // GET: Message/Show/5
         /// <summary>
         /// The show method takes an ID parameter of type MessageId sends the id to the messagedata/getMessageById method 
         /// </summary>
         /// <param name="id"></param>
         /// <returns> Show view, sending a messageDto object corresponding to that Id </returns>
-        // GET: Message/Show/5
         [HttpGet]
         public ActionResult Show(int id)
         {
@@ -166,6 +170,12 @@ namespace SAH.Controllers
             }
         }
 
+        // GET: Message/Edit/5
+        /// <summary>
+        /// Method takes parameter of messageId and sends request to GetMessageById to retrieve the message associated with the given Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>If a message is found in the database, the message will be sent to the edit view where a user can update the object properties</returns>
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -186,6 +196,12 @@ namespace SAH.Controllers
             }
         }
 
+        // POST: Message/Edit
+        /// <summary>
+        /// Method accepts post request with a message object parameter called UpdateMessage and calls MessageData/UpdateMessage API method which updates the database record
+        /// </summary>
+        /// <param name="UpdatedMessage"></param>
+        /// <returns>The updated database record to the show view where the user can review the edits they have made</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Message UpdatedMessage)
@@ -207,6 +223,12 @@ namespace SAH.Controllers
             }
         }
 
+        //GET: Message/ConfirmDelete/3
+        /// <summary>
+        /// Method accepts get request containing message Id and sends request to API method messagedata/getmessagebyid to get the corresponding message record in database 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns view where user can confirm they want to delete the record</returns>
         [HttpGet]
         public ActionResult ConfirmDelete(int id)
         {
@@ -227,21 +249,28 @@ namespace SAH.Controllers
             }
         }
 
+        //POST: Message/Delete
+        /// <summary>
+        /// Takes post request containing message Id to be created. Request is validated to come from the confirmdelete page. Sends request to API method messagedata/deletemessage
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>If deletion successful, redirects user to list page where they will no longer see the message</returns>
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int chatId, int messageId)
         {
-            //Ask Christine: Cannot send an integer as http content? Doesnt it defeat the purpose of a post request to send the Id in a url?
-            string requestAddress = "MessageData/DeleteMessage/" +  id;
-            Debug.WriteLine("GOING TO DELETE MESSAGE: " + id);
+/*            Debug.WriteLine("MESSAGE TO DELETE OBJECT: " + JsSerializer.Serialize(MessageToDelete));
+*/          string requestAddress = "MessageData/DeleteMessage/" + messageId;
+            
+            Debug.WriteLine("GOING TO DELETE MESSAGE: " + messageId);
             HttpContent content = new StringContent("");
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;
             Debug.WriteLine(response.StatusCode);
 
             if (response.IsSuccessStatusCode)
             {
-                /*Return to the list of message for the chat - should no longer see this message*/
-                return RedirectToAction("List");
+                /*Return to the list of messages for the chat - should no longer see this message*/
+                return RedirectToAction("ChatMessages", new { id = chatId });
             }
             else
             {
@@ -249,6 +278,7 @@ namespace SAH.Controllers
             }
         }
 
+        //Error view 
         public ActionResult Error()
         {
             return View();
