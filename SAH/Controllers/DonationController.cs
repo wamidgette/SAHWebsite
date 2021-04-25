@@ -63,7 +63,6 @@ namespace SAH.Controllers
         public ActionResult List()
         {
             ListDonation ModelView = new ListDonation();
-            ModelView.IsAdmin = User.IsInRole("Admin");
 
             //Get all donation related info
             string url = "donationdata/getdonationsinfo";
@@ -103,7 +102,7 @@ namespace SAH.Controllers
                 //Get donor data
                 string urlDonor = "donationdata/finddonorfordonation/" + id;
                 response = client.GetAsync(urlDonor).Result;
-                UserDto selectedUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto selectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
                 ModelView.User = selectedUser;
 
                 //Get department data
@@ -192,7 +191,7 @@ namespace SAH.Controllers
                 //Get donor data
                 string urlDonor = "donationdata/finddonorfordonation/" + id;
                 response = client.GetAsync(urlDonor).Result;
-                UserDto selectedUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto selectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
                 ModelView.User = selectedUser;
 
                 return View(ModelView);
@@ -252,11 +251,11 @@ namespace SAH.Controllers
                 //Get donor data
                 string urlDonor = "donationdata/finddonorfordonation/" + id;
                 response = client.GetAsync(urlDonor).Result;
-                UserDto selectedUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto selectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
                 ModelView.User = selectedUser;
 
                 //Get department data
-                string urlDep = "donationdata/finddepartmentfordonation/" + id;
+                string urlDep = "departmentdata/finddepartmentfordonation/" + id;
                 response = client.GetAsync(urlDep).Result;
                 DepartmentDto selectedDepartment = response.Content.ReadAsAsync<DepartmentDto>().Result;
                 ModelView.Department = selectedDepartment;

@@ -12,7 +12,7 @@ namespace SAH.Models.ModelViews
     {
         public DepartmentDto Department { get; set; }
 
-        public IEnumerable<UserDto> Users { get; set; }
+        public IEnumerable<ApplicationUserDto> Users { get; set; }
              
     }
 }

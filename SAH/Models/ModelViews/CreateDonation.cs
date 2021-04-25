@@ -9,6 +9,6 @@ namespace SAH.Models.ModelViews
     {
         public DonationDto Donation { get; set; }
         public IEnumerable<DepartmentDto> AllDepartments { get; set; }
-        public UserDto User { get; set; }
+        public ApplicationUserDto User { get; set; }
     }
 }

@@ -305,6 +305,10 @@
     <Compile Include="Migrations\202104250324048_updateapplicationmodel.designer.cs">
       <DependentUpon>202104250324048_updateapplicationmodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104250416596_ikumi-update donation model.cs" />
+    <Compile Include="Migrations\202104250416596_ikumi-update donation model.designer.cs">
+      <DependentUpon>202104250416596_ikumi-update donation model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -661,6 +665,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104250324048_updateapplicationmodel.resx">
       <DependentUpon>202104250324048_updateapplicationmodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104250416596_ikumi-update donation model.resx">
+      <DependentUpon>202104250416596_ikumi-update donation model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

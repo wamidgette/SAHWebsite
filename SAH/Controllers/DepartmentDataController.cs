@@ -95,17 +95,17 @@ namespace SAH.Controllers
         /// </example>
         [AllowAnonymous]
         [HttpGet]
-        [ResponseType(typeof(IEnumerable<UserDto>))]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult FindDonorsForDepartment(int id)
         {
             //SELECET * FROM Department, Donation, User WHERE Department.DepartmentId = Donation.DepartmentId AND DepartmentId = id
             var Donors = db.Donations
                 .Include(d => d.Department)
-                .Include(d => d.User)
+                .Include(d => d.ApplicationUser)
                 .Where(d => d.DepartmentId == id)
                 .ToList();
 
-            List<UserDto> UserDtos = new List<UserDto> { };
+            List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
             if (Donors == null)
             {
@@ -114,11 +114,11 @@ namespace SAH.Controllers
 
             foreach(var donor in Donors)
             {
-                UserDto NewDonor = new UserDto
+                ApplicationUserDto NewDonor = new ApplicationUserDto
                 {
-                    UserId = donor.User.UserId,
-                    FirstName = donor.User.FirstName,
-                    LastName = donor.User.LastName
+                    Id = donor.ApplicationUser.Id,
+                    FirstName = donor.ApplicationUser.FirstName,
+                    LastName = donor.ApplicationUser.LastName
                 };
                 UserDtos.Add(NewDonor);
 

@@ -36,7 +36,7 @@
                 @foreach (var donor in Model.Users)
                 {
                     <div>
-                        @Html.ActionLink(donor.FirstName + " " + donor.LastName, "Details", "User", new { id = donor.UserId },
+                        @Html.ActionLink(donor.FirstName + " " + donor.LastName, "Details", "User", new { id = donor.Id },
                             new { })
                     </div>
                 }

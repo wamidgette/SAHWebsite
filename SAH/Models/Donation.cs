@@ -16,9 +16,9 @@ namespace SAH.Models
         public string PaymentMethod { get; set; }
         public DateTime DonationDate { get; set; }
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Department")]
         public int DepartmentId { get; set; }
@@ -38,11 +38,10 @@ namespace SAH.Models
         [Required(ErrorMessage = "Please Select a Payment Method.")]
         public string PaymentMethod { get; set; }
 
-        [Column(TypeName = "DateTime2")]
         [DisplayName("Donation Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
         public DateTime DonationDate { get; set; }
-        public int UserId { get; set; }
+        public string Id { get; set; }
         [Required(ErrorMessage = "Please Select a Department Name.")]
         public int DepartmentId { get; set; }
     }

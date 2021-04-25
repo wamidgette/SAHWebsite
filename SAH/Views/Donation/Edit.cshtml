@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Donation.DonationId, new { Name = "DonationId" })
-    @Html.HiddenFor(model => model.Donation.UserId, new { Name = "UserId" })
+    @Html.HiddenFor(model => model.Donation.Id, new { Name = "Id" })
 
     <div class="form-horizontal">
         <h4>Donation</h4>
@@ -20,8 +20,8 @@
 
         <!--User data will be updated in user page-->
         <div class="form-group">
-            <label class="control-label col-md-2">Donor name</label>
-            <div class="col-md-10">
+            <label class="control-label col-xl-2">Donor name</label>
+            <div class="col-xl-10">
                 <a href="">
                     @Html.DisplayFor(model => model.User.FirstName)
                     @Html.DisplayFor(model => model.User.LastName)
@@ -31,16 +31,16 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Donation.AmountOfDonation, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Donation.AmountOfDonation, htmlAttributes: new { @class = "control-label col-xl-3" })
+            <div class="col-xl-10">
                 @Html.EditorFor(model => model.Donation.AmountOfDonation, new { htmlAttributes = new { @class = "form-control", Name = "AmountOfDonation" } })
                 @Html.ValidationMessageFor(model => model.Donation.AmountOfDonation, "", new { @class = "text-danger", data_valmsg_for = "AmountOfDonation" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Donation.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Donation.DepartmentId, htmlAttributes: new { @class = "control-label col-xl-2" })
+            <div class="col-xl-10">
                 <select class="form-control" name="DepartmentId">
                     <option value="0">Select Departments</option>
                     @foreach (var department in Model.AllDepartments)
@@ -57,8 +57,8 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Donation.PaymentMethod, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Donation.PaymentMethod, htmlAttributes: new { @class = "control-label col-xl-3" })
+            <div class="col-xl-10">
                 @{
                     string[] paymentMethods = new[] { "credit", "debit" };
                     foreach (var payment in paymentMethods)
@@ -73,15 +73,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Donation.DonationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Donation.DonationDate, htmlAttributes: new { @class = "control-label col-xl-2" })
+            <div class="col-xl-10">
                 @Html.EditorFor(model => model.Donation.DonationDate, new { htmlAttributes = new { @class = "form-control", Name = "DonationDate" } })
                 @Html.ValidationMessageFor(model => model.Donation.DonationDate, "", new { @class = "text-danger", data_valmsg_for = "DonationDate" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-offset-2 col-xl-10">
                 <input type="submit" value="Update" class="btn btn-default" />
             </div>
         </div>

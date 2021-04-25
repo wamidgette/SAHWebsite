@@ -10,10 +10,9 @@ namespace SAH.Models.ModelViews
 {
     public class ListDonation
     {
-        public bool IsAdmin { get; set; }
 
         public IEnumerable<DonationDto> AllDonations { get; set; }
-        public IEnumerable<UserDto> AllUsers { get; set; }
+        public IEnumerable<ApplicationUserDto> AllUsers { get; set; }
         public IEnumerable<DepartmentDto> AllDepartments { get; set; }
         
         [DisplayName("Donation ID")]
@@ -25,7 +24,7 @@ namespace SAH.Models.ModelViews
         [DisplayName("Donation Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
         public DateTime DonationDate { get; set; }
-        public int UserId { get; set; }
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int DepartmentId { get; set; }

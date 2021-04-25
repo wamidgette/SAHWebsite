@@ -99,7 +99,7 @@ namespace SAH.Controllers
                 //Get associated user data
                 string urlDonor = "departmentdata/finddonorsfordepartment/" + id;
                 response = client.GetAsync(urlDonor).Result;
-                IEnumerable<UserDto> selectedUser = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                IEnumerable<ApplicationUserDto> selectedUser = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
                 ModelView.Users = selectedUser;
 
                 return View(ModelView);

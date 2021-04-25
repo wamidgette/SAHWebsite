@@ -33,7 +33,7 @@ namespace SAH.Controllers
             //Join three tables
             //SELECT * FROM Donations, Users, Departments WHERE Donations.UserId = Users.UserId AND Donations.DepartmentId = Departments.DepartmentId 
             var AllInfos = db.Donations
-                 .Include(d => d.User)
+                 .Include(d => d.ApplicationUser)
                  .Include(d => d.Department)
                  .ToList();
 
@@ -55,10 +55,10 @@ namespace SAH.Controllers
                     AmountOfDonation = info.AmountOfDonation,
                     PaymentMethod = info.PaymentMethod,
                     DonationDate = info.DonationDate,
-                    UserId = info.UserId,
+                    Id = info.Id,
                     DepartmentId = info.DepartmentId,
-                    FirstName = info.User.FirstName,
-                    LastName = info.User.LastName,
+                    FirstName = info.ApplicationUser.FirstName,
+                    LastName = info.ApplicationUser.LastName,
                     DepartmentName = info.Department.DepartmentName
                 };
 
@@ -129,7 +129,7 @@ namespace SAH.Controllers
                 AmountOfDonation = Donation.AmountOfDonation,
                 PaymentMethod = Donation.PaymentMethod,
                 DonationDate = Donation.DonationDate,
-                UserId = Donation.UserId,
+                Id = Donation.Id,
                 DepartmentId = Donation.DepartmentId
             };
 
