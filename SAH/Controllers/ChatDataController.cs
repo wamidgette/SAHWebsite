@@ -80,7 +80,7 @@ namespace SAH.Controllers
         [ResponseType(typeof(List<ChatDto>))]
         public IHttpActionResult GetChatsForUser(string id)
         {
-            Debug.WriteLine("YOU ARE IN THE GET Chat FOR Chat TEST API METHOD");
+            Debug.WriteLine("YOU ARE IN THE GET Chats FOR User TEST API METHOD");
             List<Chat> Chats = db.Chats.Where(c => c.ApplicationUsers.Any(u => u.Id == id)).ToList();
             List<ChatDto> ChatDtos = new List<ChatDto> { };
 
@@ -154,25 +154,48 @@ namespace SAH.Controllers
 
             return Ok(MessageDtos);
         }
+        
+
+        //POST: ChatData/CreateChat/RecipientId/SenderId
         /// <summary>
         /// api/messagedata/createchat takes a Chat object and adds it to the database. 
         /// </summary>
         /// <returns>OK if sucessful, badrequest if object passed does not match model</returns>
-
+        
         [HttpPost]
         [ResponseType(typeof(ChatDto))]
 
         public IHttpActionResult CreateChat([FromBody] Chat NewChat)
         {
             Debug.WriteLine("IN THE CREATE Chat API CONTROLLER");
+                       
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            /*Add the chat to database*/
             db.Chats.Add(NewChat);
             db.SaveChanges();
             return Ok(NewChat.ChatId);
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(void))]
+        [Route("api/ChatData/AddUserForChat/{UserId}/{ChatId}")]
+        public IHttpActionResult AddUserForChat(string UserId, int ChatId)
+        {
+            Debug.WriteLine("IN THE ADD USER FOR Chat API CONTROLLER");
+
+            ApplicationUser NewUser = db.Users.Find(UserId);
+
+            Chat ThisChat = db.Chats.Include(c=>c.ApplicationUsers).Where(c=>c.ChatId == ChatId).FirstOrDefault();
+
+            /*Add the user to the chat*/
+
+            ThisChat.ApplicationUsers.Add(NewUser);
+            db.SaveChanges();
+            return Ok();
         }
 
         [HttpPost]

@@ -114,12 +114,13 @@ namespace SAH.Controllers
 
             return Ok(User);
         }
-
-        [ResponseType(typeof(IEnumerable<UserDto>))]
-        public IHttpActionResult GetUsersByRoleId(int id)
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+        public IHttpActionResult GetUsersByRoleId(string id)
         {
+            Debug.WriteLine("YOU ARE IN THE GET USERS BY ROLE ID API METHOD");
             // List of all the users
-            List<ApplicationUser> Users = db.Users.Where(u => u.Roles.Any(r => r.RoleId.Equals(id))).ToList(); ;
+            List<ApplicationUser> Users = db.Users.Where(u => u.Roles.Any(r => r.RoleId==id)).ToList(); ;
 
             List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
@@ -150,6 +151,8 @@ namespace SAH.Controllers
 
                 UserDtos.Add(ThisUser);
             }
+
+            Debug.WriteLine("THISUSER APPLICATIONUSERDTO OBJECT: " + UserDtos);
 
             return Ok(UserDtos);
         }

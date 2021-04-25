@@ -33,7 +33,7 @@ namespace SAH.Controllers
             Message Message = db.Messages.Find(id);
 
             
-if (Message == null)
+            if (Message == null)
             {
                 Debug.WriteLine("COULD NOT FIND MESSAGE IN API");
                 return NotFound();

@@ -16,9 +16,9 @@
         <div class="form-group">
             <div class="col-md-10">
                 <select name="RecipientId">
-                    @foreach (var user in Model.Doctors)
+                    @foreach (var Doctor in Model.Doctors)
                     {
-                    <option value="@user.UserId">Dr. @user.FirstName @user.FirstName</option>
+                    <option value="@Doctor.Id">Dr. @Doctor.FirstName @Doctor.LastName</option>
                     }
                 </select>
             </div>
