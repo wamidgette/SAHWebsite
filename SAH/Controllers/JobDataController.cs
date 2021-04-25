@@ -84,7 +84,7 @@ namespace SAH.Controllers
                     ApplicationId = Application.ApplicationId,
                     Comment = Application.Comment,
                     JobId = Application.JobId,
-                    UserId = Application.UserId
+                    Id = Application.Id
                 };
                 ApplicationDtos.Add(NewApplication);
             }

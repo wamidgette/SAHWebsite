@@ -30,43 +30,43 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle
         /// Code was scaffolded and adjusted
 
-        [ResponseType(typeof(IEnumerable<UserDto>))]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult GetUsers()
         {
 
             // List of all the users
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> ApplicationUsers = db.Users.ToList();
 
-            List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
+            List<ApplicationUserDto> ApplicationUserDtos = new List<ApplicationUserDto> { };
 
-            foreach (var User in Users)
+            foreach (var ApplicationUser in ApplicationUsers)
             {
                 ApplicationUserDto NewUser = new ApplicationUserDto
 
                 {
-                    Id = User.Id,
+                    Id = ApplicationUser.Id,
 /*                    RoleId = User.RoleId,
-*/                  FirstName = User.FirstName,
-                    LastName = User.LastName,
-                    SpecialityId = User.SpecialityId,
-                    DepartmentId = User.DepartmentId,
-                    Email = User.Email,
-                    PhoneNumber = User.PhoneNumber,
-                    Address = User.Address,
-                    PostalCode = User.PostalCode,
-                    PasswordHash = User.PasswordHash,
-                    UserName = User.UserName,
-                    EmployeeNumber = User.EmployeeNumber,
-                    HealthCardNumber = User.HealthCardNumber,
-                    Gender = User.Gender,
-                    DateOfBirth = User.DateOfBirth
+*/                  FirstName = ApplicationUser.FirstName,
+                    LastName = ApplicationUser.LastName,
+                    SpecialityId = ApplicationUser.SpecialityId,
+                    DepartmentId = ApplicationUser.DepartmentId,
+                    Email = ApplicationUser.Email,
+                    PhoneNumber = ApplicationUser.PhoneNumber,
+                    Address = ApplicationUser.Address,
+                    PostalCode = ApplicationUser.PostalCode,
+                    PasswordHash = ApplicationUser.PasswordHash,
+                    UserName = ApplicationUser.UserName,
+                    EmployeeNumber = ApplicationUser.EmployeeNumber,
+                    HealthCardNumber = ApplicationUser.HealthCardNumber,
+                    Gender = ApplicationUser.Gender,
+                    DateOfBirth = ApplicationUser.DateOfBirth
 
                 };
 
-                UserDtos.Add(NewUser);
+                ApplicationUserDtos.Add(NewUser);
             }
 
-            return Ok(UserDtos);
+            return Ok(ApplicationUserDtos);
         }
         //Get: userdata/GetUserbyId
         /// <summary>

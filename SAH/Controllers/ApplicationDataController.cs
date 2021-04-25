@@ -44,7 +44,7 @@ namespace SAH.Controllers
                 {
                     ApplicationId = Application.ApplicationId,
                     Comment = Application.Comment,
-                    UserId = Application.UserId,
+                    Id = Application.Id,
                     JobId = Application.JobId
                 };
                 ApplicationDtos.Add(NewApplication);
@@ -80,7 +80,7 @@ namespace SAH.Controllers
             {
                 ApplicationId = Application.ApplicationId,
                 Comment = Application.Comment,
-                UserId = Application.UserId,
+                Id = Application.Id,
                 JobId = Application.JobId
             };
 
@@ -99,12 +99,12 @@ namespace SAH.Controllers
         /// </example>
         /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetUserForApplication(int id)
         {
 
             //Find the User than match the Application
-            User User = db.OurUsers
+            ApplicationUser ApplicationUser = db.Users
                 .Where(u => u.Applications.Any(a => a.ApplicationId == id))
                 .FirstOrDefault();
 
@@ -115,18 +115,18 @@ namespace SAH.Controllers
             }
 
             //Information selected to be displayed in the API
-            UserDto UserDto = new UserDto
+            ApplicationUserDto ApplicationUserDto = new ApplicationUserDto
             {
-                UserId = User.UserId,
-                FirstName = User.FirstName,
-                LastName = User.LastName,
-                Email = User.Email,
-                Phone = User.Phone,
-                Address = User.Address,
-                DateOfBirth = User.DateOfBirth
+                Id = ApplicationUser.Id,
+                FirstName = ApplicationUser.FirstName,
+                LastName = ApplicationUser.LastName,
+                Email = ApplicationUser.Email,
+                PhoneNumber = ApplicationUser.PhoneNumber,
+                Address = ApplicationUser.Address,
+                DateOfBirth = ApplicationUser.DateOfBirth
             };
 
-            return Ok(UserDto);
+            return Ok(ApplicationUserDto);
         }
 
         /// <summary>
@@ -190,20 +190,20 @@ namespace SAH.Controllers
                 ShowApplication application = new ShowApplication();
 
                 //Get the user from the OurUsers Database and link them with the application
-                User User = db.OurUsers
+                ApplicationUser ApplicationUser = db.Users
                     .Where(c => c.Applications
                     .Any(a => a.ApplicationId == Application.ApplicationId))
                     .FirstOrDefault();
 
-                UserDto firstUser = new UserDto
+                ApplicationUserDto firstUser = new ApplicationUserDto
                 {
-                    UserId = User.UserId,
-                    FirstName = User.FirstName,
-                    LastName = User.LastName,
-                    Email = User.Email,
-                    Phone = User.Phone,
-                    Address = User.Address,
-                    DateOfBirth = User.DateOfBirth
+                    Id = ApplicationUser.Id,
+                    FirstName = ApplicationUser.FirstName,
+                    LastName = ApplicationUser.LastName,
+                    Email = ApplicationUser.Email,
+                    PhoneNumber = ApplicationUser.PhoneNumber,
+                    Address = ApplicationUser.Address,
+                    DateOfBirth = ApplicationUser.DateOfBirth
                 };
 
                 //Get the Job from Jobs Table and associate them with the application
@@ -226,12 +226,12 @@ namespace SAH.Controllers
                     ApplicationId = Application.ApplicationId,
                     Comment = Application.Comment,
                     JobId = Application.JobId,
-                    UserId = Application.UserId
+                    Id = Application.Id
                 };
 
                 application.Application = NewApplication;
                 application.Job = job;
-                application.User = firstUser;
+                application.ApplicationUser = firstUser;
                 ApplicationDtos.Add(application);
             }
 

@@ -74,8 +74,8 @@ namespace SAH.Controllers
                 //Associated Application with User
                 url = "ApplicationData/GetUserForApplication/" + id;
                 response = client.GetAsync(url).Result;
-                UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
-                ModelView.User = SelectedUser;
+                ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
+                ModelView.ApplicationUser = SelectedUser;
 
                 //Errors n/a if it is null
                 //Associated application with Job
@@ -112,8 +112,8 @@ namespace SAH.Controllers
             url = "UserData/GetUsers";
             response = client.GetAsync(url).Result;
 
-            IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-            ModelView.Users = SelectedUsers;
+            IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
+            ModelView.ApplicationUsers = SelectedUsers;
 
             return View(ModelView);
         }
@@ -161,8 +161,8 @@ namespace SAH.Controllers
 
                 url = "UserData/GetUsers";
                 response = client.GetAsync(url).Result;
-                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
-                ModelView.Users = SelectedUsers;
+                IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
+                ModelView.ApplicationUsers = SelectedUsers;
 
                 url = "JobData/GetJobs";
                 response = client.GetAsync(url).Result;

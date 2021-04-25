@@ -10,7 +10,7 @@ namespace SAH.Models.ModelViews
         //Data about the Job
         public JobDto Job { get; set; }
         //Data about the User
-        public UserDto User { get; set; }
+        public ApplicationUserDto ApplicationUser { get; set; }
         //Data information about Job Application
         public ApplicationDto Application { get; set; }
     }

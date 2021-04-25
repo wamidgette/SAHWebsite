@@ -17,9 +17,9 @@ namespace SAH.Models
 
 
         //One application one user
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
 
         //One application per Job
@@ -40,7 +40,7 @@ namespace SAH.Models
         public string Comment { get; set; }
 
         [DisplayName("User ID")]                
-        public int UserId { get; set; }
+        public string Id { get; set; }
 
         [DisplayName("Job ID")]
         public int JobId { get; set; }

@@ -13,7 +13,7 @@ namespace SAH.Models.ModelViews
         public IEnumerable<JobDto> Jobs { get; set; }
 
         //Shows all users in order to create a dropdown menu
-        public IEnumerable<UserDto> Users { get; set; }
+        public IEnumerable<ApplicationUserDto> ApplicationUsers { get; set; }
 
 
 
