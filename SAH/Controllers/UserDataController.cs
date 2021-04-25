@@ -75,11 +75,11 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>The user corresponding to the id given</returns>
         [ResponseType(typeof(ApplicationUserDto))]
-        public IHttpActionResult GetUserById(string id)
+        public IHttpActionResult GetUserById(string UserId)
         {
 
             // List of all the users
-            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == id).First();
+            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == UserId).First();
 
             if (SelectedUser == null)
             {
