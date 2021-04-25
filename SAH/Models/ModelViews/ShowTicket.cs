@@ -10,7 +10,7 @@ namespace SAH.Models.ModelViews
         //Information about the ticket
         public TicketDto Ticket { get; set; }
         //User to which ticket belongs 
-        public UserDto User { get; set; }
+        public ApplicationUserDto User { get; set; }
         //Parking spot for which ticket is issued
         public ParkingSpotDto Spot { get; set; }
     }

@@ -17,9 +17,9 @@ namespace SAH.Models
         public Decimal Fees { get; set; }
 
         //A ticket belongs to a user e
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         //A ticket is linked to a parking spot
         [ForeignKey("ParkingSpot")]
@@ -35,8 +35,8 @@ namespace SAH.Models
         public Decimal Duration { get; set; }
         public Decimal Fees { get; set; }
 
-        //A ticket belongs to a user e
-        public int UserId { get; set; }
+        //A ticket belongs to a user 
+        public string Id { get; set; }
 
         //A ticket is linked to a parking spot
         public int SpotId { get; set; }

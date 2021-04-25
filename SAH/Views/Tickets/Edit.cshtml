@@ -49,17 +49,17 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Ticket.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Ticket.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.UserId">
+                <select name="Ticket.Id">
                     @foreach (var user in Model.AllUsers)
                     {
                         string selected = "";
-                        if (Model.Ticket.UserId == user.UserId)
+                        if (Model.Ticket.Id == user.Id)
                         {
                             selected = "";
                         }
-                        <option value="@user.UserId" @selected>@user.FirstName @user.LastName</option>
+                        <option value="@user.Id" @selected>@user.FirstName @user.LastName</option>
                     }
                 </select>
             </div>
