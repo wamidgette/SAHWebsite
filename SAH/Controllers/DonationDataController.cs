@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace SAH.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class DonationDataController : ApiController
     {
         private SAHDataContext db = new SAHDataContext();
@@ -24,11 +23,11 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>A list of donations information includes ID, amount of donation, payment method, donation date, donor's first name and last name</returns>
         /// <example>
-        /// GET: api/DonationData/GetDonationsInfo
+        /// GET: api/DonationData/GetDonationInfo
         /// </example>
-        [AllowAnonymous]
+
         [ResponseType(typeof(IEnumerable<ListDonation>))]
-        public IHttpActionResult GetDonationsInfo()
+        public IHttpActionResult GetDonationInfo()
         {
             //Join three tables
             //SELECT * FROM Donations, Users, Departments WHERE Donations.UserId = Users.UserId AND Donations.DepartmentId = Departments.DepartmentId 
@@ -38,10 +37,10 @@ namespace SAH.Controllers
                  .ToList();
 
             //Initialize object to have all donation related data
-            List<ListDonation> ModelView = new List<ListDonation>();
+            List<ListDonation> ModelView = new List<ListDonation> { };
             /*
             List<DonationDto> DonationDtos = new List<DonationDto>();
-            List<UserDto> UserDtos = new List<UserDto>();
+            List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto>();
             List<DepartmentDto> DepartmentDtos = new List<DepartmentDto>();
             ListDonation NewInfo = new ListDonation();
             */
@@ -55,13 +54,15 @@ namespace SAH.Controllers
                     AmountOfDonation = info.AmountOfDonation,
                     PaymentMethod = info.PaymentMethod,
                     DonationDate = info.DonationDate,
-                    Id = info.Id,
+                    //Id = info.Id,
                     DepartmentId = info.DepartmentId,
+                    Id = info.ApplicationUser.Id,
                     FirstName = info.ApplicationUser.FirstName,
                     LastName = info.ApplicationUser.LastName,
                     DepartmentName = info.Department.DepartmentName
+                    
                 };
-
+                
                 /*
                 DonationDto NewDonation = new DonationDto
                 {
@@ -69,15 +70,15 @@ namespace SAH.Controllers
                     AmountOfDonation = info.AmountOfDonation,
                     PaymentMethod = info.PaymentMethod,
                     DonationDate = info.DonationDate,
-                    UserId = info.UserId,
+                    Id = info.Id,
                     DepartmentId = info.DepartmentId,
                 };
 
-                UserDto NewUser = new UserDto
+                ApplicationUserDto NewUser = new ApplicationUserDto
                 {
-                    UserId = info.User.UserId,
-                    FirstName = info.User.FirstName,
-                    LastName = info.User.LastName
+                    Id = info.ApplicationUser.Id,
+                    FirstName = info.ApplicationUser.FirstName,
+                    LastName = info.ApplicationUser.LastName
                 };
 
                 DepartmentDto NewDepartment = new DepartmentDto
@@ -108,7 +109,7 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DonationData/FindDonation/5
         /// </example>
-        [AllowAnonymous]
+
         [HttpGet]
         [ResponseType(typeof(DonationDto))]
         public IHttpActionResult FindDonation(int id)
@@ -117,6 +118,45 @@ namespace SAH.Controllers
             Donation Donation = db.Donations.Find(id);
 
             //If not found, return 404
+            if (Donation == null)
+            {
+                return NotFound();
+            }
+
+            //Information to be return
+            DonationDto DonationDto = new DonationDto
+            {
+                DonationId = Donation.DonationId,
+                AmountOfDonation = Donation.AmountOfDonation,
+                PaymentMethod = Donation.PaymentMethod,
+                DonationDate = Donation.DonationDate,
+                Id = Donation.Id,
+                DepartmentId = Donation.DepartmentId
+            };
+
+            return Ok(DonationDto);
+        }
+
+        /// <summary>
+        /// This will find a donation informaion by donor ID
+        /// </summary>
+        /// <param name="id">The Donor ID</param>
+        /// <returns>
+        /// A donation information includes donationId, amount of donation, payment method, donation date, department Id
+        /// </returns>
+        /// <example>
+        /// GET: api/DonationData/FindDonationForDonor/5 
+        /// </example>
+
+        [HttpGet]
+        [ResponseType(typeof(DonationDto))]
+        public IHttpActionResult FindDonationForDonor(string id)
+        {
+            //SELECET * FROM User, Donation WHERE U.UserID = D.UserID AND DonationId = id
+            Donation Donation = db.Donations
+                .Where(d => d.Id == id)
+                .FirstOrDefault();
+
             if (Donation == null)
             {
                 return NotFound();
@@ -146,26 +186,25 @@ namespace SAH.Controllers
         /// <example>
         /// GET: api/DonationData/FindDonorForDonation/5 
         /// </example>
-        [AllowAnonymous] 
+
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult FindDonorForDonation(int id)
         {
             //SELECET * FROM User, Donation WHERE U.UserID = D.UserID AND DonationId = id
-            User User = db.OurUsers.Where(u => u.Donations.Any(d => d.DonationId == id)).FirstOrDefault();
+            ApplicationUser User = db.Users.Where(u => u.Donations.Any(d => d.DonationId == id)).FirstOrDefault();
             
             if (User == null)
             {
                 return NotFound();
             }
 
-            UserDto UserDto = new UserDto
+            ApplicationUserDto UserDto = new ApplicationUserDto
             {
-                UserId = User.UserId,
+                Id = User.Id,
                 FirstName = User.FirstName,
                 LastName = User.LastName,
                 Email = User.Email,
-                Phone = User.Phone,
                 Address = User.Address,
                 PostalCode = User.PostalCode
             };
@@ -182,6 +221,7 @@ namespace SAH.Controllers
         /// POST: api/DonationData/UpdateDonation/5
         /// FORM DATA: Donation JSON Object
         /// </example>
+        [Authorize(Roles = "Admin")]
         [ResponseType(typeof(void))]
         [HttpPost]
         public IHttpActionResult UpdateDonation(int id, [FromBody] Donation donation)
@@ -226,6 +266,7 @@ namespace SAH.Controllers
         /// POST: api/DonationData/AddDonation
         /// FORM DATA: Donation JSON Object
         /// </example>
+        [Authorize(Roles = "Admin,Patient,Donor")]
         [HttpPost]
         [ResponseType(typeof(Donation))]
         public IHttpActionResult AddDonation([FromBody] Donation donation)
@@ -250,6 +291,7 @@ namespace SAH.Controllers
         /// <example>
         /// POST: api/DonationData/DeleteDonation/5
         /// </example>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ResponseType(typeof(Donation))]
         public IHttpActionResult DeleteDonation(int id)
