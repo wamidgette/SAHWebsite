@@ -12,7 +12,7 @@ namespace SAH.Models.ModelViews
         public EmployeeApplicantDto EmployeeApplicant { get; set; }
 
         //Needed for a dropdownlist for users
-        public IEnumerable<UserDto> AllUsers { get; set; }
+        public IEnumerable<ApplicationUserDto> AllUsers { get; set; }
         //Needed for a dropdownlist for parking spots
         public IEnumerable<CoursesDto> AllCourses { get; set; }
     }
