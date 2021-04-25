@@ -91,7 +91,7 @@ namespace SAH.Controllers
         public IHttpActionResult GetUsers()
         {
             //List of all users who potentially use the parking
-            List<User> Users = db.OurUsers.ToList();
+            List<User> Users = db.Users.ToList();
             List<UserDto> UserDtos = new List<UserDto> { };
 
             foreach (var User in Users)
@@ -153,7 +153,7 @@ namespace SAH.Controllers
         {
 
             //Find the user to which the current application belongs
-            User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
+            User user = db.Users.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (user == null)
@@ -320,7 +320,7 @@ namespace SAH.Controllers
                 ShowEmployeeApplicant EmployeeApplication = new ShowEmployeeApplicant();
 
                 //Get the user to which the ticket belongs to
-                User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
+                User user = db.Users.Where(c => c.EmployeeApplicants.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
 
                 UserDto parentUser = new UserDto
                 {
