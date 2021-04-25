@@ -15,9 +15,9 @@ namespace SAH.Models
         public int EmployeeApplicantId { get; set; }
 
         //THe applicant will be a user
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public int Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         //Applicant will apply for course
         [ForeignKey("Courses")]
