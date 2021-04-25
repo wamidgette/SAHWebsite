@@ -6,8 +6,8 @@
 - For the MVP I have created CRUD functionality for the chat and messages entities. A user can create, read and/or delete a chat. A user can read, update, create and/or delete a message. The details view for a chat shows all of the messages associated with a chat. This essentially doubles as the list view for messages. 
 
 ### Ikumi - Departments, Specialities, and Donations database entities
-- MVP: a user can create, read, update and delete each entities respectively. The donation table contains data from the departments and users table, so a user also can see username and department name in the donation update, details, and delete confirm views. Displaying usernames and department names in the donation list view is still in progress.
-- Updates: 
+- MVP : a user can create, read, update and delete each entities respectively. The donation table contains data from the departments and users table, so a user also can see username and department name in the donation update, details, and delete confirm views. Displaying usernames and department names in the donation list view is still in progress.
+- Updates : 
   - The donation table’s user class is extended into the ApplicationUser class.
   - Donor and department names are now displayed on the donation list page. 
   - A list of donations(donor name) is displayed on the department details page.
@@ -15,10 +15,10 @@
   - A logged-in user as a patient (we set it as a default role) or donor can make a new donation.
   - Validation is added but only for the fields that are populated by Razor.
   - All pages are responsive for desktop, tablet, mobile screen size.
-- Things I tried but not completed yet:
+- Things I tried but not completed yet :
   - Displaying donation information on the user account page. 
   - Updating donation data operation is not working.
-- Extra:
+- Extra :
   - I recieved supports from all of my teammates.
   
 ### Bakary - Parking spots and tickets database entities
