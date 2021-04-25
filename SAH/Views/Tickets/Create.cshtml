@@ -46,12 +46,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Ticket.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Ticket.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.UserId">
+                <select name="Ticket.Id">
                     @foreach (var User in Model.AllUsers)
                     {
-                        <option value="@User.UserId">@User.FirstName @User.LastName</option>
+                        <option value="@User.Id">@User.FirstName @User.LastName</option>
                     }
                 </select>
             </div>

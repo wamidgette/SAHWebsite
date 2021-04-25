@@ -11,7 +11,7 @@ namespace SAH.Models.ModelViews
         public TicketDto Ticket { get; set; }
 
         //Needed for a dropdownlist for users
-        public IEnumerable<UserDto> AllUsers { get; set; }
+        public IEnumerable<ApplicationUserDto> AllUsers { get; set; }
         //Needed for a dropdownlist for parking spots
         public IEnumerable<ParkingSpotDto> AllSpots { get; set; }
     }

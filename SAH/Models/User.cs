@@ -36,7 +36,7 @@ namespace SAH.Models
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         //A user can have many tickets
-        public ICollection<Ticket> Tickets { get; set; }
+        //public ICollection<Ticket> Tickets { get; set; }
         public ICollection<Chat> Chats { get; set; }
         public ICollection<Donation> Donations { get; set; }
         public ICollection<Courses> Courses { get; set; }

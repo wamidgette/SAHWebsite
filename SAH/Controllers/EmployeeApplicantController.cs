@@ -68,7 +68,7 @@ namespace SAH.Controllers
                 //Associated Employee Application with User
                 url = "EmployeeApplicantsData/GetApplicationUser/" + id;
                 response = client.GetAsync(url).Result;
-                UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
                 ShowEmployeeApplicant.User = SelectedUser;
 
                 //Associated Employee application with Course
@@ -93,7 +93,7 @@ namespace SAH.Controllers
             string url = "EmployeeApplicantsData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+            IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
             EditEmployeeApplicant.AllUsers = SelectedUsers;
 
             //Get all the Courses for dropdown list
@@ -155,7 +155,7 @@ namespace SAH.Controllers
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
                 NewEmployeeApplicant.AllUsers = SelectedUsers;
             }
             else

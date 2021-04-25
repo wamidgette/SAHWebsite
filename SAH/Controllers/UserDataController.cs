@@ -74,7 +74,7 @@ namespace SAH.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The user corresponding to the id given</returns>
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetUserById(string id)
         {
 

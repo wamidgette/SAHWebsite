@@ -96,7 +96,7 @@ namespace SAH.Controllers
         public IHttpActionResult GetSpotTickets(int id)
         {
             //List of all tickets for the current ParkingSpot 
-            List<Ticket> Tickets = db.Tickets.Where(p => p.SpotId == id).ToList();
+            List<Ticket> Tickets = db.Tickets.Where(s => s.SpotId == id).ToList();
             List<TicketDto> TicketDtos = new List<TicketDto> { };
 
             foreach (var Ticket in Tickets)
@@ -107,8 +107,8 @@ namespace SAH.Controllers
                     NumberPlate = Ticket.NumberPlate,
                     EntryTime = Ticket.EntryTime,
                     Duration = Ticket.Duration,
-                    Fees = Ticket.Fees,
-                    UserId = Ticket.UserId,
+                    Fees = 5 * Ticket.Duration,
+                    Id = Ticket.Id,
                     SpotId=Ticket.SpotId
                 };
                 TicketDtos.Add(NewTicket);

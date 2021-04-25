@@ -91,7 +91,7 @@ namespace SAH.Controllers
                 //Get the user/owner of the selected ticket
                 url = "TicketData/GetTicketUser/" + id;
                 response = client.GetAsync(url).Result;
-                UserDto SelectedUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
                 showTicket.User = SelectedUser;
 
                 //Get the parking spot of the selected ticket
@@ -114,7 +114,7 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>Shows the fields required for the new ticket</returns>
         
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+        //[Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Create()
         {
             //Get all the users for dropdown list
@@ -122,7 +122,7 @@ namespace SAH.Controllers
             string url = "TicketData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+            IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
             editTicket.AllUsers = SelectedUsers;
 
             //Get all the parking spots for dropdown list
@@ -142,7 +142,7 @@ namespace SAH.Controllers
         /// <returns>Creates and saves the new ticket to the database</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+       // [Authorize(Roles = "Visitor,Doctor,Admin")]
         public ActionResult Create(Ticket Ticket)//
         {
 
@@ -198,7 +198,7 @@ namespace SAH.Controllers
             response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<UserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<UserDto>>().Result;
+                IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
                 newTicket.AllUsers = SelectedUsers;
             }
             else

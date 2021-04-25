@@ -139,7 +139,7 @@ namespace SAH.Controllers
         /// </example>
         /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
 
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetJobForApplication(int id)
         {
 

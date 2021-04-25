@@ -39,7 +39,7 @@ namespace SAH.Controllers
                 EmployeeApplicantDto NewEmployeeApplicant = new EmployeeApplicantDto
                 {
                     EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
-                    UserId = EmployeeApplicant.UserId,
+                    Id = EmployeeApplicant.Id,
                     CourseId = EmployeeApplicant.CourseId
                 };
                 EmployeeApplicantDtos.Add(NewEmployeeApplicant);
@@ -73,7 +73,7 @@ namespace SAH.Controllers
             EmployeeApplicantDto TempEmployeeApplicant = new EmployeeApplicantDto
             {
                 EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
-                UserId = EmployeeApplicant.UserId,
+                Id = EmployeeApplicant.Id,
                 CourseId = EmployeeApplicant.CourseId
             };
 
@@ -87,22 +87,21 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>The list of all users</returns>
 
-        [ResponseType(typeof(IEnumerable<UserDto>))]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult GetUsers()
         {
             //List of all users who potentially use the parking
-            List<User> Users = db.OurUsers.ToList();
-            List<UserDto> UserDtos = new List<UserDto> { };
+            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
             foreach (var User in Users)
             {
-                UserDto NewUser = new UserDto
+                ApplicationUserDto NewUser = new ApplicationUserDto
                 {
-                    UserId = User.UserId,
+                    Id = User.Id,
                     FirstName = User.FirstName,
                     LastName = User.LastName,
-                    EmployeeNumber = User.EmployeeNumber,
-                    RoleId = User.RoleId
+                    EmployeeNumber = User.EmployeeNumber
                 };
                 UserDtos.Add(NewUser);
             }
@@ -148,12 +147,12 @@ namespace SAH.Controllers
         /// <returns>The user to which current application belongs</returns>
 
 
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetApplicationUser(int id)
         {
 
             //Find the user to which the current application belongs
-            User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
+            ApplicationUser user = db.Users.Where(c => c.EmployeeApplicants.Any(p => p.EmployeeApplicantId == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (user == null)
@@ -162,13 +161,12 @@ namespace SAH.Controllers
                 return NotFound();
             }
 
-            UserDto OwnerUser = new UserDto
+            ApplicationUserDto OwnerUser = new ApplicationUserDto
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                EmployeeNumber = user.EmployeeNumber,
-                RoleId = user.RoleId
+                EmployeeNumber = user.EmployeeNumber
             };
 
             return Ok(OwnerUser);
@@ -185,7 +183,7 @@ namespace SAH.Controllers
         {
 
             //Find the user role to which the current application belongs
-            Role role = db.OurRoles.Where(c => c.RoleId.Any(p => p.UserId == id)).FirstOrDefault();
+            Role role = db.OurRoles.Where(c => c.RoleId.Any(p => p.Id == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (role == null)
@@ -210,7 +208,7 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected application</param>
         /// <returns>The course to which current application belongs</returns>
 
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(CoursesDto))]
         public IHttpActionResult GetApplicationCourse(int id)
         {
 
@@ -320,14 +318,14 @@ namespace SAH.Controllers
                 ShowEmployeeApplicant EmployeeApplication = new ShowEmployeeApplicant();
 
                 //Get the user to which the ticket belongs to
-                User user = db.OurUsers.Where(c => c.EmployeeApplicants.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
+                ApplicationUser user = db.Users.Where(c => c.EmployeeApplicants.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
 
-                UserDto parentUser = new UserDto
+                ApplicationUserDto parentUser = new ApplicationUserDto
                 {
-                    UserId = user.UserId,
+                    Id = user.Id,
                     FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    RoleId = user.RoleId
+                    LastName = user.LastName
+                    
                 };
                 //Get the parking spot of ticket
                 Courses Course = db.Courses.Where(l => l.EmployeeApplicant.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
@@ -344,7 +342,7 @@ namespace SAH.Controllers
                 EmployeeApplicantDto NewEmployeeApplicant = new EmployeeApplicantDto
                 {
                     EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
-                    UserId = EmployeeApplicant.UserId,
+                    Id = EmployeeApplicant.Id,
                     CourseId = EmployeeApplicant.CourseId
                 };
 

@@ -23,33 +23,33 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns> The list of tickets from the database</returns>
 
-        [ResponseType(typeof(IEnumerable<ParkingSpotDto>))]
-        public IHttpActionResult GetTickets()
-        {
-            //Getting the list of tickets  objects from the databse
-            List<Ticket> Tickets = db.Tickets.ToList();
+        //[ResponseType(typeof(IEnumerable<ParkingSpotDto>))]
+        //public IHttpActionResult GetTickets()
+        //{
+        //    //Getting the list of tickets  objects from the databse
+        //    List<Ticket> Tickets = db.Tickets.ToList();
 
-            //Here a data transfer model is used to keep only the information to be displayed about a parking spot object
-            List<TicketDto> TicketDtos = new List<TicketDto> { };
+        //    //Here a data transfer model is used to keep only the information to be displayed about a parking spot object
+        //    List<TicketDto> TicketDtos = new List<TicketDto> { };
 
-            //Transfering Ticket to data transfer object
-            foreach (var Ticket in Tickets)
-            {
-                TicketDto NewTicket = new TicketDto
-                {
-                    TicketId = Ticket.TicketId,
-                    NumberPlate = Ticket.NumberPlate,
-                    EntryTime = Ticket.EntryTime,
-                    Duration = Ticket.Duration,
-                    Fees = 5*Ticket.Duration,       // Ticket.Fees=5*Ticket.Duration
-                    UserId = Ticket.UserId,
-                    SpotId = Ticket.SpotId
-                };
-                TicketDtos.Add(NewTicket);
-            }
+        //    //Transfering Ticket to data transfer object
+        //    foreach (var Ticket in Tickets)
+        //    {
+        //        TicketDto NewTicket = new TicketDto
+        //        {
+        //            TicketId = Ticket.TicketId,
+        //            NumberPlate = Ticket.NumberPlate,
+        //            EntryTime = Ticket.EntryTime,
+        //            Duration = Ticket.Duration,
+        //            Fees = 5*Ticket.Duration,       // Ticket.Fees=5*Ticket.Duration
+        //            Id = Ticket.Id,
+        //            SpotId = Ticket.SpotId
+        //        };
+        //        TicketDtos.Add(NewTicket);
+        //    }
 
-            return Ok(TicketDtos);
-        }
+        //    return Ok(TicketDtos);
+        //}
 
         /// <summary>
         /// This method allows getting the specified ticket
@@ -78,7 +78,7 @@ namespace SAH.Controllers
                 EntryTime = Ticket.EntryTime,
                 Duration = Ticket.Duration,
                 Fees = 5 * Ticket.Duration,
-                UserId = Ticket.UserId,
+                Id = Ticket.Id,
                 SpotId = Ticket.SpotId
             };
 
@@ -94,25 +94,25 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>The list of all users</returns>
 
-        [ResponseType(typeof(IEnumerable<UserDto>))]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult GetUsers()
         {
             //List of all users who potentially use the parking
-            List<User> Users = db.OurUsers.ToList();
-            List<UserDto> UserDtos = new List<UserDto> { };
+            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUserDto> ApplicationUserDtos = new List<ApplicationUserDto> { };
 
             foreach (var User in Users)
             {
-                UserDto NewUser = new UserDto
+                ApplicationUserDto NewUser = new ApplicationUserDto
                 {
-                    UserId = User.UserId,
+                    Id = User.Id,
                     FirstName = User.FirstName,
                     LastName = User.LastName
                 };
-                UserDtos.Add(NewUser);
+                ApplicationUserDtos.Add(NewUser);
             }
 
-            return Ok(UserDtos);
+            return Ok(ApplicationUserDtos);
         }
 
 
@@ -157,12 +157,12 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>The user to which current ticket belongs</returns>
 
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetTicketUser(int id)
         {
 
             //Find the owner/user to which the current ticket belongs
-            User user = db.OurUsers.Where(c => c.Tickets.Any(p => p.TicketId == id)).FirstOrDefault();
+            ApplicationUser user = db.Users.Where(u => u.Tickets.Any(t => t.TicketId == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (user == null)
@@ -171,9 +171,9 @@ namespace SAH.Controllers
                 return NotFound();
             }
 
-            UserDto OwnerUser = new UserDto
+            ApplicationUserDto OwnerUser = new ApplicationUserDto
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName
             };
@@ -191,12 +191,12 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>The parking spot to which current ticket belongs</returns>
 
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetTicketSpot(int id)
         {
 
             //Find the owner/user to which the current ticket belongs
-            ParkingSpot Spot = db.Spots.Where(c => c.Tickets.Any(p => p.TicketId == id)).FirstOrDefault();
+            ParkingSpot Spot = db.Spots.Where(s => s.Tickets.Any(t => t.TicketId == id)).FirstOrDefault();
 
             //In case this user does not exist
             if (Spot == null)
@@ -318,16 +318,16 @@ namespace SAH.Controllers
                 ShowTicket ticket = new ShowTicket();
 
                 //Get the user to which the ticket belongs to
-                User user = db.OurUsers.Where(c => c.Tickets.Any(m => m.TicketId == Ticket.TicketId)).FirstOrDefault();
+                ApplicationUser user = db.Users.Where(u => u.Tickets.Any(t => t.TicketId == Ticket.TicketId)).FirstOrDefault();
 
-                UserDto parentUser = new UserDto
+                ApplicationUserDto parentUser = new ApplicationUserDto
                 {
-                    UserId = user.UserId,
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName
                 };
                 //Get the parking spot of ticket
-                ParkingSpot Spot = db.Spots.Where(l => l.Tickets.Any(m => m.TicketId == Ticket.TicketId)).FirstOrDefault();
+                ParkingSpot Spot = db.Spots.Where(s => s.Tickets.Any(t => t.TicketId == Ticket.TicketId)).FirstOrDefault();
 
                 ParkingSpotDto spot = new ParkingSpotDto
                 {
@@ -346,7 +346,7 @@ namespace SAH.Controllers
                     EntryTime = Ticket.EntryTime,
                     Duration = Ticket.Duration,
                     Fees = 5 * Ticket.Duration,
-                    UserId = Ticket.UserId,
+                    Id = Ticket.Id,
                     SpotId = Ticket.SpotId
                 };
 
