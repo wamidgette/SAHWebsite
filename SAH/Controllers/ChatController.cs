@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Web.Http.Description;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -35,12 +36,13 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // GET: Chat/ListForChat
+        // GET: Chat/List
         /// <summary>
-        ///Full lis of chats in the database - this is for an admin user and will be restricted for admin usage at a later time
+        ///Full list of all chats. This is only available to an admin user. Users should not be able to see the chats of other users
         /// </summary>
         /// <returns>The full list of chats in the database</returns>
         [HttpGet]
+        [Authorize(Roles="Admin")]
         public ActionResult List()
         {
             //Request data from API controller via http request 
@@ -65,7 +67,7 @@ namespace SAH.Controllers
             //The view needs to be sent a list of all the users so the client can select a user as the recipient in the view
             string requestAddress = "ChatData/GetDoctors/";
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
-            List<UserDto> Doctors = response.Content.ReadAsAsync<List<UserDto>>().Result;
+            List<ApplicationUserDto> Doctors = response.Content.ReadAsAsync<List<ApplicationUserDto>>().Result;
 
             CreateChat CreateChat = new CreateChat();
             CreateChat.Doctors = Doctors;
@@ -90,16 +92,19 @@ namespace SAH.Controllers
             ChatDto NewChat = new ChatDto
             {
                 Subject = CreateChat.Chat.Subject,
-                DateCreated = DateTime.Now,
+                DateCreated = DateTime.Now
             };
 
             //string to send request to 
             string requestAddress = "ChatData/CreateChat";
+
             //Create content which sends the Chat info as a Json object
             HttpContent content = new StringContent(JsSerializer.Serialize(NewChat));
+
             //Headers are Chat headers that preceed the http Chat content (the json object).
             //Set the headervalue in  "content" to json
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
             //Send the data object to the request address and store Result in HttpResponseMessage 
             HttpResponseMessage response = client.PostAsync(requestAddress, content).Result;
             //if response is success status code, display the details of the Chat in the "Show" view
@@ -111,7 +116,7 @@ namespace SAH.Controllers
                 MessageDto NewMessage = new MessageDto
                 {
                     //Leaving this as 7 for now. Later on, this will take the userId cookie from the logged in user who created the chat
-                    SenderId = 7,
+                    SenderId = User.Identity.GetUserId(),
                     ChatId = ChatId,  
                     DateSent = DateTime.Now,
                     Content = CreateChat.FirstMessage.Content,

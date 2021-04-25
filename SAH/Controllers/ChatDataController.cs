@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity;
+
 
 namespace SAH.Controllers
 {
@@ -76,10 +78,10 @@ namespace SAH.Controllers
         /*When login functionality complete, browser will identify user, and this method can show all of the chats associated with him/her*/
         [HttpGet]
         [ResponseType(typeof(List<ChatDto>))]
-        public IHttpActionResult GetChatsForUser(int id)
+        public IHttpActionResult GetChatsForUser(string id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Chat FOR Chat TEST API METHOD");
-            List<Chat> Chats = db.Chats.Where(c => c.Users.Any(u => u.UserId == id)).ToList();
+            List<Chat> Chats = db.Chats.Where(c => c.ApplicationUsers.Any(u => u.Id == id)).ToList();
             List<ChatDto> ChatDtos = new List<ChatDto> { };
 
             foreach (var Chat in Chats)
@@ -106,15 +108,15 @@ namespace SAH.Controllers
         public IHttpActionResult GetUsersForChat(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Sender FOR Chat TEST API METHOD");
-            List<User> Users = db.OurUsers.Where(u => u.Chats.Any(c => c.ChatId == id)).ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Chats.Any(c => c.ChatId == id)).ToList();
 
-            List<UserDto> UserDtos = new List<UserDto> { };
+            List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
             foreach (var User in Users)
             {
-                UserDto UserDto = new UserDto
+                ApplicationUserDto UserDto = new ApplicationUserDto
                 {
-                    UserId = User.UserId,
+                    Id = User.Id,
                     FirstName = User.FirstName,
                     LastName = User.LastName
                 };
@@ -194,9 +196,8 @@ namespace SAH.Controllers
             }
         }
 
-        //This is a method to get the full list of users. I would normally put this in the UserController, but since 
-        //I know that we have done Users in an unorthodox way, I am putting the method here for now. 
-        [HttpGet]
+        //This has been replace with the  getUsersByRoleId in the userdata controller
+       /* [HttpGet]
         public IHttpActionResult GetDoctors()
         {
             Debug.WriteLine("YOU ARE IN THE Chat/GetDoctors API METHOD");
@@ -218,6 +219,6 @@ namespace SAH.Controllers
                 Debug.WriteLine("this User object:" + ThisUser);
             }
             return Ok(UserDtos);
-        }
+        }*/
     }
 }

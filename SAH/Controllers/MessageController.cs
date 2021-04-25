@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Web.Http.Description;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -34,10 +35,9 @@ namespace SAH.Controllers
             client.BaseAddress = new Uri("https://localhost:44378/api/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
         // GET: Message/ChatMessages
         /// <summary>
-        /// This message recieves request from chat controller containing a chad id
+        /// This message recieves request from chat controller containing a chat id
         /// </summary>
         /// <param name="id"</param> This is a chat Id
         /// <returns>A list of messages for the chat id passed to the method</returns>
@@ -94,7 +94,7 @@ namespace SAH.Controllers
             //Create today's date and store as Message.Datesent **
             NewMessage.DateSent = DateTime.Now;
             //Create A sender for now. After the next stage of development, this userId will come from the logged in user's userId cookie
-            NewMessage.SenderId = 7;
+            NewMessage.SenderId = User.Identity.GetUserId();
 
             //Serialize method returns the object as a Json object - otherwise no way to see contents
             Debug.WriteLine("NEWMESSAGE OBJECT: " + JsSerializer.Serialize(NewMessage));
@@ -143,16 +143,16 @@ namespace SAH.Controllers
 
                 /*Get chat for messageId - messageDto.ChadId*/
                 id = MessageDto.ChatId;
-                requestAddress = "MessageData/GetChatForMessage/" + id;
+                requestAddress = "ChatData/GetChatById/" + id;
                 response = client.GetAsync(requestAddress).Result;
                 ChatDto ThisChat = response.Content.ReadAsAsync<ChatDto>().Result;
 
                 /*Get user for the messageId (sender)*/
-                id = MessageDto.SenderId;
-                Debug.WriteLine("THE USER ID IS! : " + MessageDto.SenderId);
-                requestAddress = "MessageData/GetSenderForMessage/" + id;
+                string senderId = MessageDto.SenderId;
+                Debug.WriteLine("THE USER ID IS : " + MessageDto.SenderId);
+                requestAddress = "UserData/GetUserById/" + id;
                 response = client.GetAsync(requestAddress).Result;
-                UserDto ThisUser = response.Content.ReadAsAsync<UserDto>().Result;
+                ApplicationUserDto ThisUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
 
                 /*Make vessel for message information*/
                 ShowMessage ShowMessage = new ShowMessage();

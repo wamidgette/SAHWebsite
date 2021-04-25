@@ -11,6 +11,6 @@ namespace SAH.Models.ModelViews
         //Chat associated with message
         public ChatDto MessageChat { get; set; }
         //User (or sender) associated with chat
-        public UserDto MessageSender { get; set; }
+        public ApplicationUserDto MessageSender { get; set; }
     }
 }

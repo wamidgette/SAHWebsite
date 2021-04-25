@@ -10,6 +10,8 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
 using System.Diagnostics;
+using Microsoft.AspNet.Identity;
+
 
 namespace SAH.Controllers
 {
@@ -30,12 +32,12 @@ namespace SAH.Controllers
             Debug.WriteLine("YOU ARE IN THE GET MESSAGE TEST API METHOD");
             Message Message = db.Messages.Find(id);
 
-            if (Message == null)
+            
+if (Message == null)
             {
                 Debug.WriteLine("COULD NOT FIND MESSAGE IN API");
                 return NotFound();
             }
-
             MessageDto MessageDto = new MessageDto
             {
                 MessageId = Message.MessageId,

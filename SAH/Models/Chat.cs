@@ -16,7 +16,7 @@ namespace SAH.Models
         public string Subject { get; set; }
         public DateTime DateCreated { get; set; }
         public ICollection<Message> Messages { get; set; }
-        public ICollection<User> Users { get; set; }
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
     public class ChatDto
     {
@@ -26,5 +26,6 @@ namespace SAH.Models
         public string Subject { get; set; }
         [DisplayName("Date Created")]
         public DateTime DateCreated { get; set; }
+        public ICollection<ApplicationUserDto> ApplicationUsers { get; set; }
     }
 }

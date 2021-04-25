@@ -16,8 +16,8 @@ namespace SAH.Models
         public int ChatId { get; set; }
         public virtual Chat Chat { get; set; }*/
         [ForeignKey("Sender")]
-        public int SenderId { get; set; }
-        public virtual User Sender { get; set; }
+        public string SenderId { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
         public virtual Chat Chat { get; set; }
@@ -30,7 +30,7 @@ namespace SAH.Models
         [DisplayName("Message Id")]
         public int MessageId { get; set; }
         [DisplayName("Sender Id")]
-        public int SenderId { get; set; }
+        public string SenderId { get; set; }
         [DisplayName("Chat Id")]
         public int ChatId { get; set; }
         [DisplayName("Date Sent")]
