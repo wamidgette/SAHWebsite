@@ -53,14 +53,14 @@ namespace SAH.Controllers
                     AppintmentDateTime = appointment.AppintmentDateTime,
                     IsFirstTimeVisit = appointment.IsFirstTimeVisit,
                     IsUrgent = appointment.IsUrgent,
-                    UserId = appointment.UserID,
+                    Id = appointment.Id,
                     DepartmentID = appointment.DepartmentID
             };
 
-                if (appointment.User != null)
+                if (appointment.Id != null)
                 {
                     //We get the doctor name from user table when role is doctor
-                    newAppointment.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
+                    newAppointment.DoctorName = appointment.FirstName + " " + appointment.LastName;
                 }
 
                 if (appointment.Department != null)
@@ -109,13 +109,13 @@ namespace SAH.Controllers
                 IsFirstTimeVisit = appointment.IsFirstTimeVisit,
                 IsUrgent = appointment.IsUrgent,
                 DepartmentID = appointment.DepartmentID,
-                UserId = appointment.UserID
+                Id = appointment.Id
             }; 
             
-            if (appointment.User != null)
+            if (appointment.Id != null)
             {
                 //We get the doctor name from user table when role is doctor
-                appointmentDto.DoctorName = appointment.User.FirstName + " " + appointment.User.LastName;
+                appointmentDto.DoctorName = appointment.FirstName + " " + appointment.LastName;
             }
             if (appointment.Department != null)
             {

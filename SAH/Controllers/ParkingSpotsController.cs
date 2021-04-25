@@ -70,6 +70,7 @@ namespace SAH.Controllers
         /// <param name="id">The ID of the selected ParkingSpot object</param>
         /// <returns>ParkingSpot object details with pupils and modules</returns>
         /// 
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             //Model used to combine a Parking Spot object and its tickets

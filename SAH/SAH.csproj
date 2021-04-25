@@ -221,9 +221,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202104251228013_appliUser-diarra.cs" />
-    <Compile Include="Migrations\202104251228013_appliUser-diarra.designer.cs">
-      <DependentUpon>202104251228013_appliUser-diarra.cs</DependentUpon>
+    <Compile Include="Migrations\202104251828194_Brand_NewDatabase_Diarra.cs" />
+    <Compile Include="Migrations\202104251828194_Brand_NewDatabase_Diarra.designer.cs">
+      <DependentUpon>202104251828194_Brand_NewDatabase_Diarra.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -259,10 +259,8 @@
     <Compile Include="Models\ModelViews\UpdateApplication.cs" />
     <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Speciality.cs" />
     <Compile Include="Models\Ticket.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -525,8 +523,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104251228013_appliUser-diarra.resx">
-      <DependentUpon>202104251228013_appliUser-diarra.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104251828194_Brand_NewDatabase_Diarra.resx">
+      <DependentUpon>202104251828194_Brand_NewDatabase_Diarra.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

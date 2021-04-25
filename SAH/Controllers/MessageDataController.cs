@@ -74,11 +74,11 @@ if (Message == null)
         }
 
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetSenderForMessage(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Sender FOR MESSAGE TEST API METHOD");
-            User User = db.OurUsers.Find(id);
+            ApplicationUser User = db.Users.Find(id);
 
             if (User == null)
             {
@@ -86,9 +86,9 @@ if (Message == null)
                 return NotFound();
             }
 
-            UserDto UserDto = new UserDto
+            ApplicationUserDto UserDto = new ApplicationUserDto
             {
-                UserId = User.UserId,
+                Id = User.Id,
                 FirstName = User.FirstName,
                 LastName = User.LastName
             };

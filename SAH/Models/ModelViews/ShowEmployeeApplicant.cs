@@ -14,6 +14,5 @@ namespace SAH.Models.ModelViews
         //Information about the Application
         public EmployeeApplicantDto EmployeeApplicant { get; set; }
         //Information about the Role of User
-        public RoleDto Role { get; set; }
     }
 }

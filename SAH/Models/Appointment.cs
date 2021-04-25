@@ -31,9 +31,9 @@ namespace SAH.Models
         public bool IsUrgent { get; set; }
 
         //Doctor
-        [ForeignKey("User")]
-        public int? UserID { get; set; }
-        public virtual User User { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
         [ForeignKey("Department")]
         public int? DepartmentID { get; set; }
@@ -114,6 +114,8 @@ namespace SAH.Models
 
         [DisplayName("Doctor")]
         public string DoctorName { get; set; }
+
+        public string Id { get; set; }
 
     }
 }

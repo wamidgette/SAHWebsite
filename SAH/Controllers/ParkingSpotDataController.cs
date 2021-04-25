@@ -107,7 +107,7 @@ namespace SAH.Controllers
                     NumberPlate = Ticket.NumberPlate,
                     EntryTime = Ticket.EntryTime,
                     Duration = Ticket.Duration,
-                    Fees = Ticket.Fees,
+                    Fees = 5 * Ticket.Duration,
                     Id = Ticket.Id,
                     SpotId=Ticket.SpotId
                 };

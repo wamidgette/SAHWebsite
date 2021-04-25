@@ -104,7 +104,7 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>List of users (should just be 2) for the chat id given </returns>
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetUsersForChat(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET Sender FOR Chat TEST API METHOD");

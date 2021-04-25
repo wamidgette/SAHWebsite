@@ -74,7 +74,7 @@ namespace SAH.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The user corresponding to the id given</returns>
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(ApplicationUserDto))]
         public IHttpActionResult GetUserById(string id)
         {
 
@@ -115,7 +115,7 @@ namespace SAH.Controllers
             return Ok(User);
         }
 
-        [ResponseType(typeof(IEnumerable<UserDto>))]
+        [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult GetUsersByRoleId(int id)
         {
             // List of all the users

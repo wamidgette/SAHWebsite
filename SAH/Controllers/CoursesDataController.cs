@@ -75,7 +75,7 @@ namespace SAH.Controllers
                 EmployeeApplicantDto NewEmployeeApplication = new EmployeeApplicantDto
                 {
                     EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,                    
-                    UserId = EmployeeApplicant.UserId
+                    Id = EmployeeApplicant.Id
                 };
                 EmployeeApplicantDtos.Add(NewEmployeeApplication);
             }
