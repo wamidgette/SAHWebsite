@@ -229,6 +229,10 @@
     <Compile Include="Migrations\202104260531585_Danyal_new.designer.cs">
       <DependentUpon>202104260531585_Danyal_new.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104261250178_barbaradowloaddatabase_again.cs" />
+    <Compile Include="Migrations\202104261250178_barbaradowloaddatabase_again.designer.cs">
+      <DependentUpon>202104261250178_barbaradowloaddatabase_again.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -533,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104260531585_Danyal_new.resx">
       <DependentUpon>202104260531585_Danyal_new.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104261250178_barbaradowloaddatabase_again.resx">
+      <DependentUpon>202104261250178_barbaradowloaddatabase_again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
