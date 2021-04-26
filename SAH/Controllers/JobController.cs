@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 
 namespace SAH.Controllers
@@ -87,6 +88,7 @@ namespace SAH.Controllers
         }
 
         // GET: Job/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -96,6 +98,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Job JobInfo)
         {
             Debug.WriteLine(JobInfo.Position);
@@ -121,6 +124,7 @@ namespace SAH.Controllers
 
         // GET: Job/Edit/5
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             //Get the selected Job from the database
@@ -144,6 +148,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, Job JobInfo)
         {
             Debug.WriteLine(JobInfo.Position);
@@ -168,6 +173,7 @@ namespace SAH.Controllers
         // GET: Job/Delete/5
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get requested Job from the database
@@ -190,6 +196,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             string url = "Jobdata/DeleteJob/" + id;

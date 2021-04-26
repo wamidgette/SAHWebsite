@@ -12,6 +12,7 @@ using SAH.Models;
 using System.Diagnostics;
 using System.IO;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 
 namespace SAH.Controllers
@@ -140,6 +141,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult UpdateJob(int id, [FromBody] Job Job)
         {
             if (!ModelState.IsValid)
@@ -185,6 +187,7 @@ namespace SAH.Controllers
 
         [ResponseType(typeof(Job))]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult AddJob([FromBody] Job Job)
         {
             if (!ModelState.IsValid)
@@ -209,6 +212,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         [HttpPost]
         [ResponseType(typeof(Job))]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult DeleteJob(int id)
         {
             Job Job = db.Jobs.Find(id);

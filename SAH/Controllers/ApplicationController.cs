@@ -94,6 +94,7 @@ namespace SAH.Controllers
 
         // GET: Application/Create
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+        
         public ActionResult Create()
         {
             //Using an Update Application View Model
@@ -194,7 +195,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 //Redirect to the list if it is successful
-                return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("List");
             }
             else
             {  //Unsuscessful = error page

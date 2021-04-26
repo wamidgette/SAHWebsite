@@ -15,10 +15,10 @@
             @Html.DisplayNameFor(model => model.Application.ApplicationId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.ApplicationUser.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.LastName)
+            @Html.DisplayNameFor(model => model.ApplicationUser.LastName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Job.Position)
@@ -32,10 +32,10 @@
                 @Html.DisplayFor(modelItem => item.Application.ApplicationId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
+                @Html.DisplayFor(modelItem => item.ApplicationUser.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.LastName)
+                @Html.DisplayFor(modelItem => item.ApplicationUser.LastName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Job.Position)

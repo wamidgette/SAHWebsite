@@ -203,7 +203,7 @@ namespace SAH.Controllers
                     Email = ApplicationUser.Email,
                     PhoneNumber = ApplicationUser.PhoneNumber,
                     Address = ApplicationUser.Address,
-                    DateOfBirth = ApplicationUser.DateOfBirth
+                    
                 };
 
                 //Get the Job from Jobs Table and associate them with the application

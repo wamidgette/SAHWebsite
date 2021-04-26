@@ -17,17 +17,17 @@
         @Html.HiddenFor(model => model.Application.ApplicationId, htmlAttributes: new { Name = "ApplicationId" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Application.Id, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="UserId">
-                    @foreach (var User in Model.Users)
+                <select name="Id">
+                    @foreach (var ApplicationUser in Model.ApplicationUsers)
                     {
                         string selected = "";
-                        if (Model.Application.UserId == User.UserId)
+                        if (Model.Application.Id == ApplicationUser.Id)
                         {
                             selected = "selected";
                         }
-                        <option value="@User.UserId" @selected>@User.FirstName @User.LastName</option>
+                        <option value="@ApplicationUser.Id" @selected>@ApplicationUser.FirstName @ApplicationUser.LastName</option>
                     }
                 </select>
             </div>
