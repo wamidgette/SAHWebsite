@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
+using SAH.Models.ModelViews;
 using System.Diagnostics;
 using System.IO;
 using System.Web;
@@ -32,7 +33,8 @@ namespace SAH.Controllers
         public IHttpActionResult GetCourses()
         {
             //Get list of Course from the database
-            List<Courses> Courses = db.Courses.ToList();
+            List<Courses> Courses = db.Courses.Include(t => t.EmployeeApplicant).ToList();
+            
 
             //Data transfer model with all the information about a Courses
             List<CoursesDto> CoursesDtos = new List<CoursesDto> { };
@@ -45,13 +47,18 @@ namespace SAH.Controllers
                     CourseId = Course.CourseId,
                     CourseCode = Course.CourseCode,
                     CourseName = Course.CourseName,
-                    StartOn = Course.StartOn
+                    StartOn = Course.StartOn,
+                    CourseDuration = Course.CourseDuration
+                    //NumApplications = Course.EmployeeApplicant.Count()
                 };
                 CoursesDtos.Add(NewCourse);
             }
 
             return Ok(CoursesDtos);
         }
+
+
+    
 
         /// <summary>
         /// Get a list of Employee Applications linked to the Course
@@ -83,6 +90,8 @@ namespace SAH.Controllers
             return Ok(EmployeeApplicantDtos);
         }
 
+      
+
         /// <summary>
         /// Find an specific Course from the database
         /// </summary>
@@ -96,6 +105,7 @@ namespace SAH.Controllers
         [ResponseType(typeof(CoursesDto))]
         public IHttpActionResult FindCourse(int id)
         {
+            
             Courses Courses = db.Courses.Find(id);
             //if not found, return 404 status code.
             if (Courses == null)
@@ -105,10 +115,12 @@ namespace SAH.Controllers
             //put into a 'friendly object format'
             CoursesDto CoursesDto = new CoursesDto
             {
+                
                 CourseId = Courses.CourseId,
                 CourseCode = Courses.CourseCode,
                 CourseName = Courses.CourseName,
-                StartOn = Courses.StartOn
+                StartOn = Courses.StartOn,
+                CourseDuration = Courses.CourseDuration
             };
 
             //pass along data as 200 status code OK response
@@ -127,6 +139,7 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(void))]
+        [HttpPost]
         public IHttpActionResult UpdateCourse(int id, [FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -170,6 +183,7 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(Courses))]
+        [HttpPost]
         public IHttpActionResult AddCourse([FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -189,7 +203,7 @@ namespace SAH.Controllers
         /// <param name="Id">The Id from the Course to delete</param>
         /// <returns>200 = successful. 404 = not successful</returns>
         /// <example>
-        /// POST: api/CourseData/DeleteCourse/5
+        /// POST: api/CoursesData/DeleteCourse/5
         /// </example>
 
         [HttpPost]

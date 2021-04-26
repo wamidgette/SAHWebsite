@@ -23,7 +23,7 @@
     <form action="/ParkingSpots/Delete/@Model.SpotId" name="delete" method="post">
         @Html.AntiForgeryToken()
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" onclick="confirmation();" class="btn btn-default" /> |
+            <input type="submit" value="Delete" onclick="confirmation();" class="btn btn-danger" /> |
             @Html.ActionLink("Back to Parking Spots List", "ParkingSpotList")
         </div>
     </form>

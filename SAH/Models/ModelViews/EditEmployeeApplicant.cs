@@ -15,5 +15,9 @@ namespace SAH.Models.ModelViews
         public IEnumerable<ApplicationUserDto> AllUsers { get; set; }
         //Needed for a dropdownlist for parking spots
         public IEnumerable<CoursesDto> AllCourses { get; set; }
+
+        public bool isadmin { get; set; }
+
+        public string userid { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace SAH.Models
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public IEnumerable<EmployeeApplicantDto> EmployeeApplicantId { get; set; }
     }
 
     public class ManageLoginsViewModel

@@ -14,6 +14,9 @@ namespace SAH.Models
         [Key]
         public int EmployeeApplicantId { get; set; }
 
+        //Applicant reason
+        public string Reason { get; set; }
+
         //THe applicant will be a user
         [ForeignKey("ApplicationUser")]
         public string Id { get; set; }
@@ -34,6 +37,8 @@ namespace SAH.Models
         [DisplayName("Registration Number")]
         public int EmployeeApplicantId { get; set; }
 
+        //Applicant reason
+        public string Reason { get; set; }
         //Applicant is a user
         public string Id { get; set; }
 

@@ -17,12 +17,12 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Application.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Application.Id, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="UserId">
-                    @foreach (var User in Model.Users)
+                <select name="Id">
+                    @foreach (var ApplicationUser in Model.ApplicationUsers)
                     {
-                        <option value="@User.UserId">@User.FirstName @User.LastName</option>
+                        <option value="@ApplicationUser.Id">@ApplicationUser.FirstName @ApplicationUser.LastName</option>
                     }
                 </select>
             </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Application.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Application.Comment, new { htmlAttributes = new { @class = "form-control", Name = "Comment" } })
                 @Html.ValidationMessageFor(model => model.Application.Comment, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -14,5 +14,8 @@ namespace SAH.Models.ModelViews
 
         public IEnumerable<EmployeeApplicantDto> EmployeeApplications { get; set; }
 
+
+        //Conditionally render update/delete links if admin
+        public bool isadmin { get; set; }
     }
 }

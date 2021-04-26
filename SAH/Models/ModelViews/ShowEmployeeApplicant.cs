@@ -13,6 +13,10 @@ namespace SAH.Models.ModelViews
         public ApplicationUserDto User { get; set; }
         //Information about the Application
         public EmployeeApplicantDto EmployeeApplicant { get; set; }
-        //Information about the Role of User
+
+
+        //Pass this flag to conditionally render update/new links
+        public bool isadmin { get; set; }
+
     }
 }

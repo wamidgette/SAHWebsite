@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -32,12 +33,35 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-
-
         }
+
+        /// Grabs the authentication credentials which are sent to the Controller.
+
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
         // GET: EmployeeApplicant/List
+        [Authorize(Roles = "admin")]
         public ActionResult List()
         {
+            GetApplicationCookie();
+
+            
+
             string url = "EmployeeApplicantsData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -52,9 +76,13 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Details/5
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Details(int id)
         {
+            GetApplicationCookie();
+
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
+            ShowEmployeeApplicant.isadmin = User.IsInRole("admin");
 
             //Find the Employee application from the database
             string url = "EmployeeApplicantsData/FindApplication/" + id;
@@ -72,7 +100,7 @@ namespace SAH.Controllers
                 ShowEmployeeApplicant.User = SelectedUser;
 
                 //Associated Employee application with Course
-                url = "EmployeeApplicantsData/GetApplicationCourse/" + id;
+                url = "EmployeeApplicantsData/GetCourseForApplication/" + id;
                 response = client.GetAsync(url).Result;
                 CoursesDto SelectedCourse = response.Content.ReadAsAsync<CoursesDto>().Result;
                 ShowEmployeeApplicant.Courses = SelectedCourse;
@@ -86,8 +114,10 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Create
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Create()
         {
+            GetApplicationCookie();
             //Get all the users for dropdown list
             EditEmployeeApplicant EditEmployeeApplicant = new EditEmployeeApplicant();
             string url = "EmployeeApplicantsData/GetUsers";
@@ -95,6 +125,8 @@ namespace SAH.Controllers
 
             IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
             EditEmployeeApplicant.AllUsers = SelectedUsers;
+
+            User.Identity.GetUserId();
 
             //Get all the Courses for dropdown list
             url = "EmployeeApplicantsData/GetCourses";
@@ -110,8 +142,13 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
+            GetApplicationCookie();
+
+            
+
             //Add a new application to the database
             string url = "EmployeeApplicantsData/AddApplication";
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
@@ -122,8 +159,8 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                //Redirect to the Application List
-                return RedirectToAction("List");
+                int EmployeeApplicantId = response.Content.ReadAsAsync<int>().Result;
+                return RedirectToAction("Details", new { id = EmployeeApplicantId });
             }
             else
             {
@@ -132,6 +169,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id)
         {
             EditEmployeeApplicant NewEmployeeApplicant = new EditEmployeeApplicant();
@@ -182,6 +220,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)
         {
             string url = "EmployeeApplicantsData/UpdateApplication/" + id;
@@ -204,6 +243,7 @@ namespace SAH.Controllers
 
         // GET: EmployeeApplicant/Delete/5
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get current employee application from the database
@@ -226,6 +266,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)
         {
             string url = "EmployeeApplicantsData/DeleteApplication/" + id;

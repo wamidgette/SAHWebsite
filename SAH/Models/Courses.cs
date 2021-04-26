@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -18,8 +19,11 @@ namespace SAH.Models
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Enter the start date for the course")]
         public DateTime StartOn { get; set; }
+
+        public string CourseDuration { get; set; }
         //A course can have many applicants
         public ICollection<EmployeeApplicant> EmployeeApplicant { get; set; }
+
     }
 
     public class CoursesDto
@@ -32,6 +36,12 @@ namespace SAH.Models
         public string CourseName { get; set; }
 
         [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime StartOn { get; set; }
+
+        [DisplayName("Course Duration")]
+        public string CourseDuration { get; set; }
+        //number of applications for respective course
+        public int NumApplications { get; set; }
     }
 }

@@ -51,6 +51,13 @@ namespace SAH.Controllers
         /// <returns>Tickets list with users and parking spots</returns>
         public ActionResult TicketList()
         {
+            //Role based rendering applied to ticket list
+            TicketList ViewModel = new TicketList();
+            //Checking if current user is admin
+            ViewModel.isadmin = User.IsInRole("Admin");
+            //Get the user name
+            ViewModel.firstname=User.Identity.Name;
+
             //Getting the list of all tickets with their information
             string url = "TicketData/GetAllTickets";
 
@@ -58,7 +65,8 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 IEnumerable<ShowTicket> AllTickets = response.Content.ReadAsAsync<IEnumerable<ShowTicket>>().Result;
-                return View(AllTickets);
+                ViewModel.AllTickets = AllTickets;
+                return View(ViewModel);
             }
             else
             {
@@ -114,11 +122,19 @@ namespace SAH.Controllers
         /// </summary>
         /// <returns>Shows the fields required for the new ticket</returns>
         
-        //[Authorize(Roles = "Visitor,Doctor,Admin")]
+        [Authorize(Roles = "Visitor,Doctor,Admin, Patient")]
         public ActionResult Create()
         {
+
             //Get all the users for dropdown list
             EditTicket editTicket = new EditTicket();
+
+            //Checking if current user is admin
+            editTicket.isadmin = User.IsInRole("Admin");
+            //Get the user name
+            editTicket.firstname = User.Identity.Name;
+
+
             string url = "TicketData/GetUsers";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
@@ -142,7 +158,7 @@ namespace SAH.Controllers
         /// <returns>Creates and saves the new ticket to the database</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-       // [Authorize(Roles = "Visitor,Doctor,Admin")]
+       [Authorize(Roles = "Visitor,Doctor,Admin, Patient")]
         public ActionResult Create(Ticket Ticket)//
         {
 
@@ -174,10 +190,15 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>Shows the selected ticket in the view</returns>
         
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+        [Authorize(Roles = "Visitor,Doctor,Admin, Patient")]
         public ActionResult Edit(int id)
         {
             EditTicket newTicket = new EditTicket();
+
+            //Checking if current user is admin
+            newTicket.isadmin = User.IsInRole("Admin");
+            //Get the user name
+            newTicket.firstname = User.Identity.Name;
 
             //Get the selected ticket from the database
             string url = "TicketData/FindTicket/" + id;
@@ -231,7 +252,7 @@ namespace SAH.Controllers
         /// <returns>Updates and saves the current ticket to the database</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+        [Authorize(Roles = "Visitor,Doctor,Admin,Patient")]
         public ActionResult Edit(int id, Ticket Ticket)//
         {
 
@@ -264,7 +285,7 @@ namespace SAH.Controllers
         /// <param name="id">ID of the selected ticket</param>
         /// <returns>Shows the current ticket</returns>
         // 
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+        [Authorize(Roles = "Visitor,Doctor,Admin, Patient")]
         public ActionResult Delete(int id)
         {
             //Get current ticket from the database
@@ -295,7 +316,7 @@ namespace SAH.Controllers
         // 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Visitor,Doctor,Admin")]
+        [Authorize(Roles = "Visitor,Doctor,Admin, Patient")]
         public ActionResult DeleteConfirmed(int id)
         {
             //Delete current ticket from database

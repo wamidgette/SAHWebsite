@@ -48,10 +48,16 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.Id">
+                <select name="Ticket.Id" class="form-control">
+
                     @foreach (var User in Model.AllUsers)
                     {
-                        <option value="@User.Id">@User.FirstName @User.LastName</option>
+                        string[] tempName = Model.firstname.Split(new[] { '@' });
+                        if (User.FirstName.ToLower().Equals(tempName[0].ToLower()))
+                        {
+                            <option value="@User.Id">@User.FirstName @User.LastName</option>
+                        }
+
                     }
                 </select>
             </div>
@@ -60,7 +66,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.SpotId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.SpotId">
+                <select name="Ticket.SpotId" class="form-control">
                     @foreach (var Spot in Model.AllSpots)
                     {
                         <option value="@Spot.SpotId">@Spot.SpotNumber</option>
@@ -71,7 +77,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" onclick="verifyTicket();" class="btn btn-default" />
+                <input type="submit" value="Create" onclick="verifyTicket();" class="btn btn-success" />
             </div>
         </div>
     </div>

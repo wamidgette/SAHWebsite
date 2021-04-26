@@ -28,6 +28,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.CourseDuration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseDuration)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.StartOn)
         </dt>
 
@@ -41,7 +49,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-actions ">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to List", "List")
         </div>
