@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SAH.Models.ModelViews.ShowTicket>
+﻿@*@model IEnumerable<SAH.Models.ModelViews.ShowTicket>*@
+@model SAH.Models.ModelViews.TicketList
 
 @{
     ViewBag.Title = "Ticket list";
@@ -13,73 +14,130 @@
     <tr>
 
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.NumberPlate)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Ticket.NumberPlate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.EntryTime)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Ticket.EntryTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.Duration)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Ticket.Duration)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.Fees)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Ticket.Fees)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Spot.Zone)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Spot.Zone)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Spot.SpotNumber)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().Spot.SpotNumber)
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().User.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.LastName)
+            @Html.DisplayNameFor(model => model.AllTickets.ToList().FirstOrDefault().User.LastName)
         </th>
 
         <th></th>
     </tr>
-
-    @foreach (var item in Model)
+    @if (Model.isadmin)
     {
-        //var temp = @Html.DisplayFor(modelItem => item.User.FirstName + " " + item.User.LastName).ToHtmlString();
-        var temp = @Html.DisplayFor(modelItem => item.Spot.SpotNumber).ToHtmlString();
-<tr>
 
-    <td>
-        @Html.DisplayFor(modelItem => item.Ticket.NumberPlate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Ticket.EntryTime)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Ticket.Duration)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Ticket.Fees)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Spot.Zone)
-    </td>
+        foreach (var item in Model.AllTickets)
+        {
+            //var temp = @Html.DisplayFor(modelItem => item.User.FirstName + " " + item.User.LastName).ToHtmlString();
+            var temp = Html.DisplayFor(modelItem => item.Spot.SpotNumber).ToHtmlString();
+            <tr>
 
-    <td>
-        @Html.ActionLink(temp, "Index", "ParkingSpots/Details/" + item.Spot.SpotId)
-        @*@Html.DisplayFor(modelItem => item.Classe.className)*@
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.User.FirstName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.User.LastName)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Ticket.TicketId }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Ticket.TicketId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Ticket.TicketId })
-    </td>
-</tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.NumberPlate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.EntryTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ticket.Fees)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Spot.Zone)
+                </td>
+
+                <td>
+                    @Html.ActionLink(temp, "Index", "ParkingSpots/Details/" + item.Spot.SpotId)
+                    @*@Html.DisplayFor(modelItem => item.Classe.className)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Ticket.TicketId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Ticket.TicketId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Ticket.TicketId })
+                </td>
+            </tr>
+        }
     }
+    else
+    {
+
+        string[] tempName = Model.firstname.Split(new[] { '@' });
+
+        @*@Html.DisplayFor(modelItem => tempName[0])*@
+
+        foreach (var item in Model.AllTickets)
+        {
+            var temp = Html.DisplayFor(modelItem => item.Spot.SpotNumber).ToHtmlString();
+
+            if (item.User.FirstName.ToLower().Equals(tempName[0].ToLower()))
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.NumberPlate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.EntryTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Duration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ticket.Fees)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Spot.Zone)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(temp, "Index", "ParkingSpots/Details/" + item.Spot.SpotId)
+                        @*@Html.DisplayFor(modelItem => item.Classe.className)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.LastName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Ticket.TicketId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Ticket.TicketId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Ticket.TicketId })
+                    </td>
+                </tr>
+            }
+
+        }
+    }
+
+
+
 
 </table>
 
