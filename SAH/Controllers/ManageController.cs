@@ -119,7 +119,7 @@ namespace SAH.Controllers
             /*
             url = "donationdata/finddonationfordonor/" + userId;
             response = client.GetAsync(url).Result;
-            IEnumeranle<DonationDto> SelectedDonations = response.Content.ReadAsAsync<IList<DonationDto>>().Result;
+            IEnumerable<DonationDto> SelectedDonations = response.Content.ReadAsAsync<IEnumerable<DonationDto>>().Result;
             */
 
             var model = new IndexViewModel
