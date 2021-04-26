@@ -225,6 +225,10 @@
     <Compile Include="Migrations\202104251828194_Brand_NewDatabase_Diarra.designer.cs">
       <DependentUpon>202104251828194_Brand_NewDatabase_Diarra.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104260531585_Danyal_new.cs" />
+    <Compile Include="Migrations\202104260531585_Danyal_new.designer.cs">
+      <DependentUpon>202104260531585_Danyal_new.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -246,6 +250,7 @@
     <Compile Include="Models\ModelViews\EditAppointment.cs" />
     <Compile Include="Models\ModelViews\EditEmployeeApplicant.cs" />
     <Compile Include="Models\ModelViews\EditTicket.cs" />
+    <Compile Include="Models\ModelViews\ListCourses.cs" />
     <Compile Include="Models\ModelViews\ListDonation.cs" />
     <Compile Include="Models\ModelViews\ListMessages.cs" />
     <Compile Include="Models\ModelViews\ShowEmployeeApplicant.cs" />
@@ -525,6 +530,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202104251828194_Brand_NewDatabase_Diarra.resx">
       <DependentUpon>202104251828194_Brand_NewDatabase_Diarra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104260531585_Danyal_new.resx">
+      <DependentUpon>202104260531585_Danyal_new.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -26,6 +26,15 @@
             <dd>
                 @Html.DisplayFor(model => model.Courses.CourseName)
             </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Courses.CourseDuration)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Courses.CourseDuration) week(s)
+            </dd>
+
             <dt>
                 @Html.DisplayNameFor(model => model.Courses.StartOn)
             </dt>
@@ -38,11 +47,18 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <ul>
-            Registered Employees for this Course @Model.Courses.CourseCode
+            <h5>Registered Applications for @Model.Courses.CourseCode Course </h5>
+            @Model.Courses.NumApplications
+
+            @if (Model.EmployeeApplications.Count() == 0)
+            {
+                <span class="asidemsg">There are no registrations yet.</span>
+            }
+
 
             @foreach (var EmployeeApplicant in Model.EmployeeApplications)
             {
-                var temp = @Html.DisplayFor(modelItem => EmployeeApplicant.UserId).ToHtmlString();
+                var temp = @Html.DisplayFor(modelItem => EmployeeApplicant.EmployeeApplicantId).ToHtmlString();
                 <li>
                     @Html.ActionLink(temp, "Index", "EmployeeApplicant/Details/" + EmployeeApplicant.EmployeeApplicantId)
                 </li>
@@ -53,6 +69,7 @@
     </div>
 </div>
 <p>
+    @Html.ActionLink("Register", "../EmployeeApplicant/Create") |
     @Html.ActionLink("Edit", "Edit", new { id = Model.Courses.CourseId }) |
     @Html.ActionLink("Back to List", "List")
 </p>

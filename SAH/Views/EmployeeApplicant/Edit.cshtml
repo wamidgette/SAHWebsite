@@ -18,17 +18,17 @@
        
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeApplicant.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EmployeeApplicant.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="EmployeeApplicant.UserId">
+                <select name="EmployeeApplicant.Id">
                     @foreach (var user in Model.AllUsers)
                     {
                         string selected = "";
-                        if (Model.EmployeeApplicant.UserId == user.UserId)
+                        if (Model.EmployeeApplicant.Id == user.Id)
                         {
                             selected = "";
                         }
-                        <option value="@user.UserId" @selected>@user.FirstName @user.LastName</option>
+                        <option value="@user.Id" @selected>@user.FirstName @user.LastName</option>
                     }
                 </select>
             </div>
@@ -60,7 +60,7 @@
 </form>
 
 <div>
-    @Html.ActionLink("Back to Ticket List", "TicketList")
+    @Html.ActionLink("Back to List", "List")
 </div>
 
 @section Scripts {

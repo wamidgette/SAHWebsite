@@ -18,59 +18,34 @@
             <dd>
                 @Html.DisplayFor(model => model.EmployeeApplicant.EmployeeApplicantId)
             </dd>
-        </div>
-        <div>
             <dt>
-                @Html.DisplayNameFor(model => model.User.FirstName)
+                Employee Name
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.User.FirstName)
+                @Html.DisplayFor(model => model.User.FirstName)  @Html.DisplayFor(model => model.User.LastName)
             </dd>
-        </div>
-        <div>
             <dt>
-                @Html.DisplayNameFor(model => model.User.LastName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.User.LastName)
-            </dd>
-        </div>
-        <div>
-            <dt>
-                @Html.DisplayNameFor(model => model.User.EmployeeNumber)
+                Employee Number
             </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.User.EmployeeNumber)
             </dd>
-        </div>
-        <div>
             <dt>
-                @Html.DisplayNameFor(model => model.Role.RoleName)
+                Email
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Role.RoleName)
+                @Html.DisplayFor(model => model.User.Email)
             </dd>
-        </div>
-        <div>
+        
             <dt>
-                @Html.DisplayNameFor(model => model.Courses.CourseCode)
+                Course Registered
             </dt>
-
             <dd>
-                @Html.DisplayFor(model => model.Courses.CourseCode)
-            </dd>
-        </div>
-        <div>
-            <dt>
-                @Html.DisplayNameFor(model => model.Courses.CourseName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Courses.CourseName)
+                @Html.ActionLink(Model.Courses.CourseCode, "Details", "Courses", new { id = Model.Courses.CourseId }, new { })
+                @Html.ActionLink(Model.Courses.CourseName, "Details", "Courses", new { id = Model.Courses.CourseId }, new { })
             </dd>
         </div>
 

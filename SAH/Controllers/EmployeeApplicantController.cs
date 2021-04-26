@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -32,12 +33,35 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-
-
         }
+
+        /// Grabs the authentication credentials which are sent to the Controller.
+
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
         // GET: EmployeeApplicant/List
+        [Authorize(Roles = "admin")]
         public ActionResult List()
         {
+            GetApplicationCookie();
+
+            
+
             string url = "EmployeeApplicantsData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -52,6 +76,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Details/5
+        [Authorize(Roles = "admin")]
         public ActionResult Details(int id)
         {
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
@@ -86,6 +111,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Create
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Create()
         {
             //Get all the users for dropdown list
@@ -110,6 +136,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
             //Add a new application to the database
@@ -132,6 +159,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id)
         {
             EditEmployeeApplicant NewEmployeeApplicant = new EditEmployeeApplicant();
@@ -182,6 +210,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)
         {
             string url = "EmployeeApplicantsData/UpdateApplication/" + id;
@@ -204,6 +233,7 @@ namespace SAH.Controllers
 
         // GET: EmployeeApplicant/Delete/5
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get current employee application from the database
@@ -226,6 +256,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)
         {
             string url = "EmployeeApplicantsData/DeleteApplication/" + id;

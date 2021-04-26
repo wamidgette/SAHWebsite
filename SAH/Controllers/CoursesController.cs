@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -36,9 +37,32 @@ namespace SAH.Controllers
 
         }
 
+        
+        /// Grabs the authentication credentials which are sent to the Controller.
+        
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
         // GET: Courses/List
         public ActionResult List()
         {
+            ListCourses ModelViews = new ListCourses();
+            ModelViews.isadmin = User.IsInRole("admin");
+
             string url = "CoursesData/GetCourses";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -54,9 +78,10 @@ namespace SAH.Controllers
 
         // GET: Courses/Details/5
         public ActionResult Details(int id)
-        {
+        {            
             //Model used to combine a Parking Spot object and its tickets
             ShowCourses ModelViews = new ShowCourses();
+            ModelViews.isadmin = User.IsInRole("admin");
 
             //Get the current ParkingSpot object
             string url = "CoursesData/FindCourse/" + id;
@@ -95,6 +120,7 @@ namespace SAH.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -103,8 +129,12 @@ namespace SAH.Controllers
         // POST: Courses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create(Courses CoursesInfo)
         {
+            //pass authorization up to the data access layer
+            GetApplicationCookie();
+
             Debug.WriteLine(CoursesInfo.CourseName);
             string url = "Coursesdata/AddCourse";
             Debug.WriteLine(jss.Serialize(CoursesInfo));
@@ -125,6 +155,7 @@ namespace SAH.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id)
         {
             string url = "Coursesdata/FindCourse/" + id;
@@ -146,6 +177,7 @@ namespace SAH.Controllers
         // POST: Courses/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int id, Courses CoursesInfo)
         {
             Debug.WriteLine(CoursesInfo.CourseName);
@@ -167,6 +199,7 @@ namespace SAH.Controllers
 
         // GET: Courses/Delete/5
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "CoursesData/FindCourse/" + id;
@@ -188,8 +221,12 @@ namespace SAH.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)
         {
+            //pass authorization up to the data access layer
+            GetApplicationCookie();
+
             string url = "Coursesdata/DeleteCourse/" + id;
             //post body is empty
             HttpContent content = new StringContent("");

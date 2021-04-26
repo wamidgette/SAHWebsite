@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
+using SAH.Models.ModelViews;
 using System.Diagnostics;
 using System.IO;
 using System.Web;
@@ -45,7 +46,8 @@ namespace SAH.Controllers
                     CourseId = Course.CourseId,
                     CourseCode = Course.CourseCode,
                     CourseName = Course.CourseName,
-                    StartOn = Course.StartOn
+                    StartOn = Course.StartOn,
+                    CourseDuration = Course.CourseDuration
                 };
                 CoursesDtos.Add(NewCourse);
             }
@@ -108,7 +110,8 @@ namespace SAH.Controllers
                 CourseId = Courses.CourseId,
                 CourseCode = Courses.CourseCode,
                 CourseName = Courses.CourseName,
-                StartOn = Courses.StartOn
+                StartOn = Courses.StartOn,
+                CourseDuration = Courses.CourseDuration
             };
 
             //pass along data as 200 status code OK response
@@ -127,6 +130,8 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(void))]
+        [HttpPost]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult UpdateCourse(int id, [FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -170,6 +175,8 @@ namespace SAH.Controllers
         /// </example>
 
         [ResponseType(typeof(Courses))]
+        [HttpPost]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult AddCourse([FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -193,6 +200,7 @@ namespace SAH.Controllers
         /// </example>
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult DeleteCourse(int id)
         {
             Courses Courses = db.Courses.Find(id);

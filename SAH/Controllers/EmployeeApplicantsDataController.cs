@@ -26,14 +26,15 @@ namespace SAH.Controllers
         /// GET: api/EmployeeApplicantsData/GetAllApplications
         /// </example>
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [ResponseType(typeof(IEnumerable<CoursesDto>))]
         public IHttpActionResult GetEmployeeApplicant()
         {
-            //Getting the list of tickets  objects from the databse
+            //Getting the list of application  objects from the databse
             List<EmployeeApplicant> EmployeeApplicants = db.EmployeeApplicant.ToList();
             List<EmployeeApplicantDto> EmployeeApplicantDtos = new List<EmployeeApplicantDto> { };
 
-            //Transfering Ticket to data transfer object
+            //Transfering application to data transfer object
             foreach (var EmployeeApplicant in EmployeeApplicants)
             {
                 EmployeeApplicantDto NewEmployeeApplicant = new EmployeeApplicantDto
@@ -60,6 +61,7 @@ namespace SAH.Controllers
         /// </example>
         [HttpGet]
         [ResponseType(typeof(EmployeeApplicantDto))]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult FindApplication(int id)
         {
             EmployeeApplicant EmployeeApplicant = db.EmployeeApplicant.Find(id);
@@ -90,7 +92,7 @@ namespace SAH.Controllers
         [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
         public IHttpActionResult GetUsers()
         {
-            //List of all users who potentially use the parking
+            //List of all users who can apply for course
             List<ApplicationUser> Users = db.Users.ToList();
             List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
@@ -166,41 +168,13 @@ namespace SAH.Controllers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                EmployeeNumber = user.EmployeeNumber
+                EmployeeNumber = user.EmployeeNumber,
+                Email = user.Email
             };
 
             return Ok(OwnerUser);
         }
-        /// <summary>
-        /// This method provides the role of the user to which the current application belongs
-        /// <example>api/EmployeeApplicantsData/GetApplicationRole/2</example>
-        /// </summary>
-        /// <param name="id">ID of the selected Employee Application</param>
-        /// <returns>The Role of the user who created theapplication </returns>
-        /*
-        [ResponseType(typeof(UserDto))]
-        public IHttpActionResult GetApplicationRole(int id)
-        {
-
-            //Find the user role to which the current application belongs
-            Role role = db.OurRoles.Where(c => c.RoleId.Any(p => p.Id == id)).FirstOrDefault();
-
-            //In case this user does not exist
-            if (role == null)
-            {
-
-                return NotFound();
-            }
-
-            RoleDto userRole = new RoleDto
-            {
-               RoleId = role.RoleId,
-               RoleName = role.RoleName
-            };
-
-            return Ok(userRole);
-        }
-        */
+     
         /// <summary>
         /// This method provides the course to which the current application belongs
         /// <example>api/EmployeeApplicantsData/GetCourses/1</example>
@@ -242,6 +216,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult UpdateApplication(int id, [FromBody] EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
@@ -284,6 +259,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]
+        [Authorize(Roles = "admin,staff")]
         public IHttpActionResult AddApplication(EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
@@ -307,27 +283,29 @@ namespace SAH.Controllers
         public IHttpActionResult GetAllApplications()
         {
 
-            //List of the tickets from the database
+            //List of the applications from the database
             List<EmployeeApplicant> EmployeeApplicants = db.EmployeeApplicant.ToList();
 
-            //Data transfer object to show information about the ticket
+            //Data transfer object to show information about the application
             List<ShowEmployeeApplicant> EmployeeApplicantDtos = new List<ShowEmployeeApplicant> { };
 
             foreach (var EmployeeApplicant in EmployeeApplicants)
             {
                 ShowEmployeeApplicant EmployeeApplication = new ShowEmployeeApplicant();
 
-                //Get the user to which the ticket belongs to
+                //Get the user to which the application belongs to
                 ApplicationUser user = db.Users.Where(c => c.EmployeeApplicants.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
 
                 ApplicationUserDto parentUser = new ApplicationUserDto
                 {
                     Id = user.Id,
                     FirstName = user.FirstName,
-                    LastName = user.LastName
-                    
+                    LastName = user.LastName,  
+                    EmployeeNumber = user.EmployeeNumber,
+                    Email = user.Email
+
                 };
-                //Get the parking spot of ticket
+                //Get the course of application
                 Courses Course = db.Courses.Where(l => l.EmployeeApplicant.Any(m => m.EmployeeApplicantId == EmployeeApplicant.EmployeeApplicantId)).FirstOrDefault();
 
           
@@ -344,6 +322,7 @@ namespace SAH.Controllers
                     EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
                     Id = EmployeeApplicant.Id,
                     CourseId = EmployeeApplicant.CourseId
+
                 };
 
 
@@ -366,6 +345,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]
+        [Authorize(Roles = "admin")]
         public IHttpActionResult DeleteApplication(int id)
         {
             EmployeeApplicant EmployeeApplicant = db.EmployeeApplicant.Find(id);

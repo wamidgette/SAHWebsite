@@ -10,18 +10,18 @@
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
 
-        <h4>Add an Employee Application</h4>
+        <h4>Register for Course</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeApplicant.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EmployeeApplicant.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="EmployeeApplicant.UserId">
+                <select name="EmployeeApplicant.Id">
                     @foreach (var User in Model.AllUsers)
                     {
-                        <option value="@User.UserId">@User.FirstName @User.LastName</option>
+                        <option value="@User.Id">@User.FirstName @User.LastName</option>
                     }
                 </select>
             </div>
@@ -48,7 +48,7 @@
 </form>
 
 <div>
-    @Html.ActionLink("Back to Ticket List", "TicketList")
+    @Html.ActionLink("Back to List", "List")
 </div>
 
 @section Scripts {
