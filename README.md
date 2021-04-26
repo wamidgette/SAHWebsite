@@ -26,8 +26,8 @@
 ### Bakary - Parking spots and tickets database entities
 - The CRUD (create,read, update and delete) functionalities are functioning for the two entities. The user can also see on a details page the relationships between the two entities and the user table. Currently any user can realise the CRUD actions but role based authentication and authorization will be implemented in the next step to restrict the user actions depending on his/her role.
 - Updates
-  - Only Admin can do Create, edit and delete parking spots entity
-  - others users can only read parking spots
+  - Only Admin can do Create, edit and delete for parking spots entity
+  - other users can only read parking spots
   - Role based rendering on Tickets entity
   - Only Admin can CRUD all the tickets 
   - Other logged in users can CRUD only their on tickets
