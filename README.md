@@ -30,7 +30,7 @@
     - Only Admin can do Create, edit and delete for parking spots entity
     - other users can only read parking spots
   - Tickets entity
-    - Role based rendering on all CRUD
+    - Role based rendering on all actions
     - Only Admin can CRUD all the tickets 
     - Other logged in users can CRUD only their own tickets
   - JS validation for all the entities
