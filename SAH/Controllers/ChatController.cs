@@ -36,36 +36,63 @@ namespace SAH.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+
         // GET: Chat/List
         /// <summary>
         ///Full list of all chats. This is only available to an admin user. Users should not be able to see the chats of other users
         /// </summary>
         /// <returns>The full list of chats in the database</returns>
         [HttpGet]
-        [Authorize(Roles="Admin")]
+        [Authorize]
         public ActionResult List()
         {
-            //Request data from API controller via http request 
-            string request = "ChatData/GetChats/";
-            HttpResponseMessage response = client.GetAsync(request).Result;
-            //The IHTTPActionResult should send an OK response as well as a ChatDto object list 
-            if (response.IsSuccessStatusCode)
-            {
-                IEnumerable<ChatDto> ChatDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
-                return View(ChatDtos);
+            /*If logged in user is Admin, show all chats*/
+            if (User.IsInRole("Admin")){
+                //Request data from API controller via http request 
+                string request = "ChatData/GetChats/";
+                HttpResponseMessage response = client.GetAsync(request).Result;
+                //The IHTTPActionResult should send an OK response as well as a ChatDto object list 
+                if (response.IsSuccessStatusCode)
+                {
+                    IEnumerable<ChatDto> ChatDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
+                    return View(ChatDtos);
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
+
+            /*Otherwise, get just the chats for the user logged in*/
             else
             {
-                return RedirectToAction("Error");
+                string id = User.Identity.GetUserId();
+                //Request data from API controller via http request 
+                string request = "ChatData/GetChatsForUser/" + id;
+                HttpResponseMessage response = client.GetAsync(request).Result;
+                //The IHTTPActionResult should send an OK response as well as a ChatDto object list 
+                if (response.IsSuccessStatusCode)
+                {
+                    IEnumerable<ChatDto> ChatDtos = response.Content.ReadAsAsync<IEnumerable<ChatDto>>().Result;
+                    return View(ChatDtos);
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
+
+            
         }
 
         // GET: Chat/Create
         /// <returns>The create view, where a user can create a new chat</returns>
         public ActionResult Create()
         {
+            /*Search by User ID of Doctor == */
+            string id = "4";
             //The view needs to be sent a list of all the users so the client can select a user as the recipient in the view
-            string requestAddress = "ChatData/GetDoctors/";
+            string requestAddress = "UserData/GetUsersByRoleId/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
             List<ApplicationUserDto> Doctors = response.Content.ReadAsAsync<List<ApplicationUserDto>>().Result;
 
@@ -83,24 +110,22 @@ namespace SAH.Controllers
         /// <returns>If succesful, the client will be redirected to the ChatMessages view where they will be prompted to create a new message for their new chat </returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateChat CreateChat, int RecipientId)
+        public ActionResult Create(CreateChat CreateChat, string RecipientId)
         {
             /*Separate Chat from message. Create new chat, then create new message.*/
-
+            string SenderId = User.Identity.GetUserId(); 
             Debug.WriteLine("Recipient:" + RecipientId);
             Debug.WriteLine("CreateChat OBJECT: " + JsSerializer.Serialize(CreateChat));
-            ChatDto NewChat = new ChatDto
-            {
-                Subject = CreateChat.Chat.Subject,
-                DateCreated = DateTime.Now
-            };
+            ChatDto NewChat = CreateChat.Chat;
+            NewChat.DateCreated = DateTime.Now;
 
-            //string to send request to 
+            //string to send request to the createchat API method with the id of the recipient and sender
             string requestAddress = "ChatData/CreateChat";
 
             //Create content which sends the Chat info as a Json object
             HttpContent content = new StringContent(JsSerializer.Serialize(NewChat));
-
+            Debug.WriteLine("NEW CHAT OBJECT: " + JsSerializer.Serialize(NewChat));
+            Debug.WriteLine("Request Address: " + requestAddress);
             //Headers are Chat headers that preceed the http Chat content (the json object).
             //Set the headervalue in  "content" to json
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -110,13 +135,38 @@ namespace SAH.Controllers
             //if response is success status code, display the details of the Chat in the "Show" view
             if (response.IsSuccessStatusCode)
             {
+                Debug.WriteLine("SUCCESS ADDING CHAT");
                 //ASSIGN New Chat Id Var FROM RETURNED CHAT ID
                 int ChatId = response.Content.ReadAsAsync<int>().Result;
+                /*Add the users to the chat (sender and recipient) via ChatData/AddUsersForChat/UserId api method */
+                //Add sender
+                string UserId = SenderId;
+                requestAddress = "ChatData/AddUserForChat/"+ UserId + "/" + ChatId;
+                Debug.WriteLine("THIS CHAT ID IS: " + ChatId);
+                content = new StringContent("");
+                response = client.PostAsync(requestAddress, content).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Error");
+                }
+
+                //Add Recipient
+                UserId = RecipientId;
+                requestAddress = "ChatData/AddUserForChat/" + UserId + "/" + ChatId;
+                content = new StringContent("");
+                response = client.PostAsync(requestAddress, content).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Error");
+                }
+
+                //Add the initial message to the chat
 
                 MessageDto NewMessage = new MessageDto
                 {
-                    //Leaving this as 7 for now. Later on, this will take the userId cookie from the logged in user who created the chat
-                    SenderId = User.Identity.GetUserId(),
+                    SenderId = SenderId,
                     ChatId = ChatId,  
                     DateSent = DateTime.Now,
                     Content = CreateChat.FirstMessage.Content,
@@ -129,14 +179,16 @@ namespace SAH.Controllers
 
                 //reads messageId from response and sends to show method
 
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("../Message/ChatMessages", new { id = ChatId });
+                    return RedirectToAction("Error");
                 }
+
+                /*Add the message sender to the chat */
 
                 else
                 {
-                    return RedirectToAction("Error");
+                    return RedirectToAction("../Message/ChatMessages", new { id = ChatId });
                 }
 
             }
