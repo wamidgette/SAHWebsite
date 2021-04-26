@@ -374,8 +374,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]
-        [Authorize(Roles = "admin")]
-        public IHttpActionResult DeleteApplication(int id)
+                public IHttpActionResult DeleteApplication(int id)
         {
             EmployeeApplicant EmployeeApplicant = db.EmployeeApplicant.Find(id);
             if (EmployeeApplicant == null)

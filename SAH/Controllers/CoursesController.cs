@@ -59,7 +59,7 @@ namespace SAH.Controllers
         public ActionResult List()
         {
             ListCourses ModelViews = new ListCourses();
-            ModelViews.isadmin = User.IsInRole("admin");
+            ModelViews.isadmin = User.IsInRole("Admin");
 
             string url = "CoursesData/GetCourses";
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -119,7 +119,7 @@ namespace SAH.Controllers
         }
 
         // GET: Courses/Create
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -128,7 +128,7 @@ namespace SAH.Controllers
         // POST: Courses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Courses CoursesInfo)
         {
             //pass authorization up to the data access layer
@@ -154,7 +154,7 @@ namespace SAH.Controllers
         }
 
         // GET: Courses/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             string url = "Coursesdata/FindCourse/" + id;
@@ -176,7 +176,7 @@ namespace SAH.Controllers
         // POST: Courses/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, Courses CoursesInfo)
         {
             Debug.WriteLine(CoursesInfo.CourseName);
@@ -198,7 +198,7 @@ namespace SAH.Controllers
 
         // GET: Courses/Delete/5
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "CoursesData/FindCourse/" + id;
@@ -220,7 +220,7 @@ namespace SAH.Controllers
         // POST: Courses/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             //pass authorization up to the data access layer

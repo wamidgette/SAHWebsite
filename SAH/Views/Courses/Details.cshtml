@@ -56,14 +56,17 @@
                 <span class="asidemsg">There are no registrations yet.</span>
             }
 
-
-            @foreach (var EmployeeApplicant in Model.EmployeeApplications)
+            @if (Model.isadmin)
             {
-                var temp = @Html.DisplayFor(modelItem => EmployeeApplicant.EmployeeApplicantId).ToHtmlString();
-                <li>
-                    @Html.ActionLink(temp, "Index", "EmployeeApplicant/Details/" + EmployeeApplicant.EmployeeApplicantId)
-                </li>
-            }
+                foreach (var EmployeeApplicant in Model.EmployeeApplications)
+                {
+                    var temp = @Html.DisplayFor(modelItem => EmployeeApplicant.EmployeeApplicantId).ToHtmlString();
+                    <li>
+                        @Html.ActionLink(temp, "Index", "EmployeeApplicant/Details/" + EmployeeApplicant.EmployeeApplicantId)
+                    </li>
+
+               }
+           }
         </ul>
 
 
