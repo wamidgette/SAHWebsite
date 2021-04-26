@@ -27,6 +27,8 @@ namespace SAH.Controllers
 
         [HttpGet]
         [ResponseType(typeof(MessageDto))]
+      /*  [Authorize()]*/
+
         public IHttpActionResult GetMessageById(int id)
         {
             Debug.WriteLine("YOU ARE IN THE GET MESSAGE TEST API METHOD");

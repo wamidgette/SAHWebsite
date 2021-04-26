@@ -104,5 +104,6 @@ namespace SAH.Models
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
 
+
     }
 }

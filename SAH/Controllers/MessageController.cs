@@ -35,14 +35,50 @@ namespace SAH.Controllers
             client.BaseAddress = new Uri("https://localhost:44378/api/");
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
+
+        //Following method code taken from Christine Bittle's Varisty_w_auth project
+        /// <summary>
+        /// Grabs the authentication credentials which are sent to the Controller.
+        /// This is NOT considered a proper authentication technique for the WebAPI. It piggybacks the existing authentication set up in the template for Individual User Accounts. Considering the existing scope and complexity of the course, it works for now.
+        /// 
+        /// Here is a descriptive article which walks through the process of setting up authorization/authentication directly.
+        /// https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            //HTTP client is set up to be reused, otherwise it will exhaust server resources.
+            //This is a bit dangerous because a previously authenticated cookie could be cached for
+            //a follow-up request from someone else. Reset cookies in HTTP client before grabbing a new one.
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //collect token as it is submitted to the controller
+            //use it to pass along to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
+
         // GET: Message/ChatMessages
         /// <summary>
         /// This message recieves request from chat controller containing a chat id
         /// </summary>
         /// <param name="id"</param> This is a chat Id
         /// <returns>A list of messages for the chat id passed to the method</returns>
+        /// 
+        [HttpGet]
+        [Authorize()]
         public ActionResult ChatMessages(int id)
         {
+
+            GetApplicationCookie();
+
             Debug.WriteLine("MESSAGE/CHATMESSAGES/" + id);
             //Request data from API controller via http request 
             string request = "MessageData/GetMessagesByChatId/" + id;
@@ -73,6 +109,9 @@ namespace SAH.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The new message is passed to the create view to create a new message</returns>
+
+        [HttpGet]
+        [Authorize()]
         public ActionResult Create(int id)
         {
             MessageDto Message = new MessageDto();
@@ -88,9 +127,12 @@ namespace SAH.Controllers
         /// <param name="NewMessage"></param>
         /// <returns>If successfully added to database, redirects user to the show method to display the new message</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken()]
+        [Authorize()]
         public ActionResult Create(MessageDto NewMessage)
         {
+            GetApplicationCookie();
+
             //Create today's date and store as Message.Datesent **
             NewMessage.DateSent = DateTime.Now;
             //Create A sender for now. After the next stage of development, this userId will come from the logged in user's userId cookie
@@ -129,8 +171,11 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns> Show view, sending a messageDto object corresponding to that Id </returns>
         [HttpGet]
+        [Authorize()]
         public ActionResult Show(int id)
         {
+            GetApplicationCookie();
+
             Debug.WriteLine("YOU ARE IN THE SHOW CONTROLLER");
             //resquest from the getMessageById controller the team with associated id
             string requestAddress = "MessageData/GetMessageById/" + id;
@@ -146,13 +191,15 @@ namespace SAH.Controllers
                 requestAddress = "ChatData/GetChatById/" + id;
                 response = client.GetAsync(requestAddress).Result;
                 ChatDto ThisChat = response.Content.ReadAsAsync<ChatDto>().Result;
+                Debug.WriteLine("THIS CHAT IS: " + JsSerializer.Serialize(ThisChat));
 
                 /*Get user for the messageId (sender)*/
-                string senderId = MessageDto.SenderId;
+                string UserId = MessageDto.SenderId;
                 Debug.WriteLine("THE USER ID IS : " + MessageDto.SenderId);
-                requestAddress = "UserData/GetUserById/" + id;
+                requestAddress = "UserData/GetUserById/" + UserId;
                 response = client.GetAsync(requestAddress).Result;
                 ApplicationUserDto ThisUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
+                Debug.WriteLine("THIS USER :" + JsSerializer.Serialize(ThisUser));
 
                 /*Make vessel for message information*/
                 ShowMessage ShowMessage = new ShowMessage();
@@ -177,8 +224,11 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>If a message is found in the database, the message will be sent to the edit view where a user can update the object properties</returns>
         [HttpGet]
+        [Authorize(Roles ="Admin")]
         public ActionResult Edit(int id)
         {
+            GetApplicationCookie();
+
             //logic follows 
             string requestAddress = "MessageData/GetMessageById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
@@ -204,8 +254,12 @@ namespace SAH.Controllers
         /// <returns>The updated database record to the show view where the user can review the edits they have made</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+
         public ActionResult Edit(Message UpdatedMessage)
         {
+            GetApplicationCookie();
+
             string requestAddress = "MessageData/UpdateMessage";
             Debug.WriteLine("NEW MESSAGE DATA: " + JsSerializer.Serialize(UpdatedMessage));
             HttpContent content = new StringContent(JsSerializer.Serialize(UpdatedMessage));
@@ -230,8 +284,12 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>Returns view where user can confirm they want to delete the record</returns>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public ActionResult ConfirmDelete(int id)
         {
+            GetApplicationCookie();
+
             //logic follows 
             string requestAddress = "MessageData/GetMessageById/" + id;
             HttpResponseMessage response = client.GetAsync(requestAddress).Result;
@@ -257,10 +315,15 @@ namespace SAH.Controllers
         /// <returns>If deletion successful, redirects user to list page where they will no longer see the message</returns>
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
+
         public ActionResult Delete(int chatId, int messageId)
         {
+            GetApplicationCookie();
+
 /*            Debug.WriteLine("MESSAGE TO DELETE OBJECT: " + JsSerializer.Serialize(MessageToDelete));
-*/          string requestAddress = "MessageData/DeleteMessage/" + messageId;
+*/           
+            string requestAddress = "MessageData/DeleteMessage/" + messageId;
             
             Debug.WriteLine("GOING TO DELETE MESSAGE: " + messageId);
             HttpContent content = new StringContent("");

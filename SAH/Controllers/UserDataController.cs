@@ -12,6 +12,8 @@ using SAH.Models;
 using System.Diagnostics;
 using System.IO;
 using System.Web;
+using Microsoft.AspNet.Identity;
+
 
 namespace SAH.Controllers
 {
@@ -45,8 +47,9 @@ namespace SAH.Controllers
 
                 {
                     Id = ApplicationUser.Id,
-/*                    RoleId = User.RoleId,
-*/                  FirstName = ApplicationUser.FirstName,
+                    /*                    RoleId = User.RoleId,
+                    */
+                    FirstName = ApplicationUser.FirstName,
                     LastName = ApplicationUser.LastName,
                     SpecialityId = ApplicationUser.SpecialityId,
                     DepartmentId = ApplicationUser.DepartmentId,
@@ -68,18 +71,23 @@ namespace SAH.Controllers
 
             return Ok(ApplicationUserDtos);
         }
+
         //Get: userdata/GetUserbyId
         /// <summary>
         /// Takes get request with parameter of type applicationuser id (string)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The user corresponding to the id given</returns>
+        [HttpGet]
         [ResponseType(typeof(ApplicationUserDto))]
-        public IHttpActionResult GetUserById(string UserId)
+/*        [Authorize()]*/
+        public IHttpActionResult GetUserById(string Id)
         {
-
+            Debug.WriteLine("IN GET USER METHOD - USER ID " + Id);
             // List of all the users
-            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == UserId).First();
+            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == Id).First();
+
+            Debug.WriteLine(SelectedUser.Id);
 
             if (SelectedUser == null)
             {
@@ -114,8 +122,12 @@ namespace SAH.Controllers
 
             return Ok(User);
         }
+
+
+
         [HttpGet]
         [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
+/*        [Authorize()]*/
         public IHttpActionResult GetUsersByRoleId(string id)
         {
             Debug.WriteLine("YOU ARE IN THE GET USERS BY ROLE ID API METHOD");
@@ -157,6 +169,7 @@ namespace SAH.Controllers
             return Ok(UserDtos);
         }
 
+        
 
     }
 }
