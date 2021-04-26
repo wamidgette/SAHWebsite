@@ -80,7 +80,7 @@ namespace SAH.Controllers
         {            
             //Model used to combine a course and its applications
             ShowCourses ModelViews = new ShowCourses();
-            ModelViews.isadmin = User.IsInRole("admin");
+            
 
             //Get the current ParkingSpot object
             string url = "CoursesData/FindCourse/" + id;
@@ -145,7 +145,7 @@ namespace SAH.Controllers
             {
 
                 int CourseId = response.Content.ReadAsAsync<int>().Result;
-                return RedirectToAction("Details", new { id = CourseId });
+                return RedirectToAction("List", new { id = CourseId });
             }
             else
             {
@@ -218,7 +218,7 @@ namespace SAH.Controllers
         }
 
         // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int id)

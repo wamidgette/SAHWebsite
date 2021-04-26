@@ -233,6 +233,10 @@
     <Compile Include="Migrations\202104261250178_barbaradowloaddatabase_again.designer.cs">
       <DependentUpon>202104261250178_barbaradowloaddatabase_again.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104261641508_danyal_improv.cs" />
+    <Compile Include="Migrations\202104261641508_danyal_improv.designer.cs">
+      <DependentUpon>202104261641508_danyal_improv.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Application.cs" />
@@ -497,11 +501,10 @@
     <Content Include="Views\Faq\DeleteConfirm.cshtml" />
     <Content Include="Views\Appointment\DeleteConfirm.cshtml" />
     <Content Include="Views\EmployeeApplicant\Create.cshtml" />
-    <Content Include="Views\EmployeeApplicant\Delete.cshtml" />
+    <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
     <Content Include="Views\EmployeeApplicant\Details.cshtml" />
     <Content Include="Views\EmployeeApplicant\List.cshtml" />
     <Content Include="Views\EmployeeApplicant\Error.cshtml" />
-    <Content Include="Views\EmployeeApplicant\DeleteConfirm.cshtml" />
     <Content Include="Views\EmployeeApplicant\Edit.cshtml" />
     <Content Include="Views\Job\List.cshtml" />
     <Content Include="Views\Job\Create.cshtml" />
@@ -540,6 +543,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104261250178_barbaradowloaddatabase_again.resx">
       <DependentUpon>202104261250178_barbaradowloaddatabase_again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104261641508_danyal_improv.resx">
+      <DependentUpon>202104261641508_danyal_improv.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
