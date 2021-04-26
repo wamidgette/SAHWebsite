@@ -103,7 +103,8 @@ namespace SAH.Controllers
                     Id = User.Id,
                     FirstName = User.FirstName,
                     LastName = User.LastName,
-                    EmployeeNumber = User.EmployeeNumber
+                    EmployeeNumber = User.EmployeeNumber,
+                    Email = User.Email
                 };
                 UserDtos.Add(NewUser);
             }

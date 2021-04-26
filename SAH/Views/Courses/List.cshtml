@@ -7,9 +7,14 @@
 <h2>Internal Education Portal</h2>
 @if (Model.isadmin)
 {
-
-    @Html.ActionLink("Add New", "Create")
+        @Html.ActionLink("Add New Course", "Create") 
 }
+<div>
+    @if (Model.isadmin)
+    {
+        @Html.ActionLink("See All Applications", "../EmployeeApplicant/List")
+    }
+</div>
     <h4>Course List</h4>
 
     <table class="table">
@@ -35,13 +40,13 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Register", "../EmployeeApplicant/Register", new { id = course.CourseId }) |
-                    @Html.ActionLink("Details", "Details", new { id = course.CourseId })
+                    @Html.ActionLink("  Details  ", "Details", new { id = course.CourseId }) 
+                    @Html.ActionLink("  Register  ", "../EmployeeApplicant/Create")
 
                     @if (Model.isadmin)
                     {
-                        @Html.ActionLink("Edit", "Edit", new { id = course.CourseId }) 
-                        @Html.ActionLink("Delete", "DeleteConfirm", new { id = course.CourseId })
+                        @Html.ActionLink("  Edit  ", "Edit", new { id = course.CourseId })   
+                        @Html.ActionLink("  Delete  ", "DeleteConfirm", new { id = course.CourseId })
                     }
                 </td>
             </tr>

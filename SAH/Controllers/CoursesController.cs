@@ -28,13 +28,11 @@ namespace SAH.Controllers
                 AllowAutoRedirect = false
             };
             client = new HttpClient(handler);
-            //change this to match your own local port number
             client.BaseAddress = new Uri("https://localhost:44378/api/");
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
-
+           
         }
 
         
@@ -68,7 +66,8 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
                 IEnumerable<CoursesDto> SelectedCourse = response.Content.ReadAsAsync<IEnumerable<CoursesDto>>().Result;
-                return View(SelectedCourse);
+                ModelViews.courselist = SelectedCourse;
+                return View(ModelViews);
             }
             else
             {
@@ -79,7 +78,7 @@ namespace SAH.Controllers
         // GET: Courses/Details/5
         public ActionResult Details(int id)
         {            
-            //Model used to combine a Parking Spot object and its tickets
+            //Model used to combine a course and its applications
             ShowCourses ModelViews = new ShowCourses();
             ModelViews.isadmin = User.IsInRole("admin");
 
@@ -103,7 +102,7 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                //No an error because a Course not having any applicants is not a problem
+                //Avoid an error when a Course does not have applications
 
                 //Can catch the status code (200 OK, 301 REDIRECT), etc.
                 //Debug.WriteLine(response.StatusCode);

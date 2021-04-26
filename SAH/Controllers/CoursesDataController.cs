@@ -33,7 +33,8 @@ namespace SAH.Controllers
         public IHttpActionResult GetCourses()
         {
             //Get list of Course from the database
-            List<Courses> Courses = db.Courses.ToList();
+            List<Courses> Courses = db.Courses.Include(t => t.EmployeeApplicant).ToList();
+            
 
             //Data transfer model with all the information about a Courses
             List<CoursesDto> CoursesDtos = new List<CoursesDto> { };
@@ -48,12 +49,16 @@ namespace SAH.Controllers
                     CourseName = Course.CourseName,
                     StartOn = Course.StartOn,
                     CourseDuration = Course.CourseDuration
+                    //NumApplications = Course.EmployeeApplicant.Count()
                 };
                 CoursesDtos.Add(NewCourse);
             }
 
             return Ok(CoursesDtos);
         }
+
+
+    
 
         /// <summary>
         /// Get a list of Employee Applications linked to the Course
