@@ -100,19 +100,20 @@
 
 <div style="margin-top:30px;">
     <h5 class="p-5">Course Applications Applied By You:</h5>
-        
+    @*
 
         @if (Model.EmployeeApplicantId.Count() == 0)
         {
             <span>You haven't applied for any course yet. See   @Html.ActionLink("Available Courses", "List", "Courses")  Here!</span>
         }
-        @foreach (var application in Model.EmployeeApplicantId)
-        {
-            <div class="">
-                <nav class="linknav" style="margin-bottom:10px;">
-                    <a href="/EmployeeApplicant/Details/@application.EmployeeApplicantId"> @application.EmployeeApplicantId</a>
-                </nav>
-            </div>
-        }
-        
+
+            @foreach (var application in Model.EmployeeApplicantId)
+            {
+                <div class="">
+                    <nav class="linknav" style="margin-bottom:10px;">
+                        <a href="/EmployeeApplicant/Details/@application.EmployeeApplicantId"> @application.EmployeeApplicantId</a>
+                    </nav>
+                </div>
+            }
+    *@
 </div>

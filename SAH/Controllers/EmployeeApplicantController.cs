@@ -76,7 +76,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Details/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin,staff")]
         public ActionResult Details(int id)
         {
             GetApplicationCookie();
@@ -159,8 +159,8 @@ namespace SAH.Controllers
             if (response.IsSuccessStatusCode)
             {
 
-                //Redirect to the Application List
-                return RedirectToAction("Details", new { id = EmployeeApplicant.EmployeeApplicantId });
+                int EmployeeApplicantId = response.Content.ReadAsAsync<int>().Result;
+                return RedirectToAction("Details", new { id = EmployeeApplicantId });
             }
             else
             {

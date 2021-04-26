@@ -119,9 +119,9 @@ namespace SAH.Controllers
             ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
 
             //Get the applied courses for staff users
-             url = "EmployeeApplicantData/GetApplicationsForUser/" + userId;
-             response = client.GetAsync(url).Result;
-            IEnumerable<EmployeeApplicantDto> EmployeeApplicantId = response.Content.ReadAsAsync<IEnumerable<EmployeeApplicantDto>>().Result;
+            // url = "EmployeeApplicantData/GetApplicationsForUser/" + userId;
+            // response = client.GetAsync(url).Result;
+            //IEnumerable<EmployeeApplicantDto> EmployeeApplicants = response.Content.ReadAsAsync<IEnumerable<EmployeeApplicantDto>>().Result;
             
 
 

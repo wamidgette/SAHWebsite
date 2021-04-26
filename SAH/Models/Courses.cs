@@ -36,6 +36,7 @@ namespace SAH.Models
         public string CourseName { get; set; }
 
         [Display(Name = "Start Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime StartOn { get; set; }
 
         [DisplayName("Course Duration")]

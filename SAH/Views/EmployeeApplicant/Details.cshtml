@@ -62,8 +62,13 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EmployeeApplicant.EmployeeApplicantId }) |
-    @Html.ActionLink("Back", "List") |
-    @Html.ActionLink("Delete", "DeleteConfirm", new { id = Model.EmployeeApplicant.EmployeeApplicantId })
+
+
+    @if (Model.isadmin)
+    {
+    @Html.ActionLink(" Back |", "List") 
+    @Html.ActionLink(" Edit |", "Edit", new { id = Model.EmployeeApplicant.EmployeeApplicantId })
+    @Html.ActionLink(" Delete ", "DeleteConfirm", new { id = Model.EmployeeApplicant.EmployeeApplicantId })
+    }
 </p>
 

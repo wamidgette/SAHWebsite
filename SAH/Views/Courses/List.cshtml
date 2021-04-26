@@ -40,13 +40,13 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("  Details  ", "Details", new { id = course.CourseId }) 
-                    @Html.ActionLink("  Register  ", "../EmployeeApplicant/Create")
+                    @Html.ActionLink(" Details |", "Details", new { id = course.CourseId }) 
+                    @Html.ActionLink(" Register ", "../EmployeeApplicant/Create")
 
                     @if (Model.isadmin)
                     {
-                        @Html.ActionLink("  Edit  ", "Edit", new { id = course.CourseId })   
-                        @Html.ActionLink("  Delete  ", "DeleteConfirm", new { id = course.CourseId })
+                        @Html.ActionLink(" | Edit |", "Edit", new { id = course.CourseId })   
+                        @Html.ActionLink(" Delete ", "DeleteConfirm", new { id = course.CourseId })
                     }
                 </td>
             </tr>

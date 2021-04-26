@@ -105,6 +105,7 @@ namespace SAH.Controllers
         [ResponseType(typeof(CoursesDto))]
         public IHttpActionResult FindCourse(int id)
         {
+            
             Courses Courses = db.Courses.Find(id);
             //if not found, return 404 status code.
             if (Courses == null)
@@ -114,6 +115,7 @@ namespace SAH.Controllers
             //put into a 'friendly object format'
             CoursesDto CoursesDto = new CoursesDto
             {
+                
                 CourseId = Courses.CourseId,
                 CourseCode = Courses.CourseCode,
                 CourseName = Courses.CourseName,
@@ -138,7 +140,6 @@ namespace SAH.Controllers
 
         [ResponseType(typeof(void))]
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public IHttpActionResult UpdateCourse(int id, [FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -183,7 +184,6 @@ namespace SAH.Controllers
 
         [ResponseType(typeof(Courses))]
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public IHttpActionResult AddCourse([FromBody] Courses Courses)
         {
             if (!ModelState.IsValid)
@@ -207,7 +207,6 @@ namespace SAH.Controllers
         /// </example>
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public IHttpActionResult DeleteCourse(int id)
         {
             Courses Courses = db.Courses.Find(id);

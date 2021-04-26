@@ -246,7 +246,6 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-        [Authorize(Roles = "admin")]
         public IHttpActionResult UpdateApplication(int id, [FromBody] EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
@@ -289,7 +288,6 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(EmployeeApplicant))]
-        [Authorize(Roles = "admin,staff")]
         public IHttpActionResult AddApplication(EmployeeApplicant EmployeeApplicant)
         {
             if (!ModelState.IsValid)
