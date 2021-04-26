@@ -7,13 +7,13 @@ namespace SAH.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class danyal_improv : IMigrationMetadata
+    public sealed partial class danyalchanges : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(danyal_improv));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(danyalchanges));
         
         string IMigrationMetadata.Id
         {
-            get { return "202104261641508_danyal_improv"; }
+            get { return "202104261946351_danyalchanges"; }
         }
         
         string IMigrationMetadata.Source

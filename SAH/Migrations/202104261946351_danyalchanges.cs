@@ -3,16 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class danyal_improv : DbMigration
+    public partial class danyalchanges : DbMigration
     {
         public override void Up()
         {
-            AlterColumn("dbo.EmployeeApplicants", "Reason", c => c.String());
+            AddColumn("dbo.EmployeeApplicants", "Reason", c => c.String());
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.EmployeeApplicants", "Reason", c => c.Int(nullable: false));
+            DropColumn("dbo.EmployeeApplicants", "Reason");
         }
     }
 }
