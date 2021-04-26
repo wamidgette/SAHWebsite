@@ -25,8 +25,13 @@
   
 ### Bakary - Parking spots and tickets database entities
 - The CRUD (create,read, update and delete) functionalities are functioning for the two entities. The user can also see on a details page the relationships between the two entities and the user table. Currently any user can realise the CRUD actions but role based authentication and authorization will be implemented in the next step to restrict the user actions depending on his/her role.
-- In the current version, only Admin can do CRUD for parking spots entity
-- JS validation for all the entities
+- Updates
+  - Only Admin can do Create, edit and delete parking spots entity
+  - others users can only read parking spots
+  - Role based rendering on Tickets entity
+  - Only Admin can CRUD all the tickets 
+  - Other logged in users can CRUD only their on tickets
+  - JS validation for all the entities
 
 ### Barbara - Jobs and Applications database entities
 - My MVP has create, read, update and delete fuctionality for the application and job entities. The application table is a bridge table for users table and jobs table. The application(details) will provide all the information from the job and the user as well. Views for the application table are still in process as part of the application's controller havent been verified.
