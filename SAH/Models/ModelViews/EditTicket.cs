@@ -7,6 +7,12 @@ namespace SAH.Models.ModelViews
 {
     public class EditTicket
     {
+        //Conditionally render all tickets for admin otherwise only current user ticket
+        public bool isadmin { get; set; }
+
+        //First name used to select user tickets
+        public string firstname { get; set; }
+
         //Information about the ticket
         public TicketDto Ticket { get; set; }
 

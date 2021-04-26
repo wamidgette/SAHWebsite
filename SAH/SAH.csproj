@@ -269,6 +269,7 @@
     <Compile Include="Models\ModelViews\EditFaq.cs" />
     <Compile Include="Models\ModelViews\ShowParkingSpot.cs" />
     <Compile Include="Models\ModelViews\ShowTicket.cs" />
+    <Compile Include="Models\ModelViews\TicketList.cs" />
     <Compile Include="Models\ModelViews\UpdateApplication.cs" />
     <Compile Include="Models\ModelViews\ViewFaq.cs" />
     <Compile Include="Models\ParkingSpot.cs" />
