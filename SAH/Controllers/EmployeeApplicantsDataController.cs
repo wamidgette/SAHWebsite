@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
 using SAH.Models.ModelViews;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -26,7 +27,6 @@ namespace SAH.Controllers
         /// GET: api/EmployeeApplicantsData/GetAllApplications
         /// </example>
         [HttpGet]
-        [Authorize(Roles = "admin")]
         [ResponseType(typeof(IEnumerable<CoursesDto>))]
         public IHttpActionResult GetEmployeeApplicant()
         {
@@ -40,6 +40,7 @@ namespace SAH.Controllers
                 EmployeeApplicantDto NewEmployeeApplicant = new EmployeeApplicantDto
                 {
                     EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
+                    Reason = EmployeeApplicant.Reason,
                     Id = EmployeeApplicant.Id,
                     CourseId = EmployeeApplicant.CourseId
                 };
@@ -61,7 +62,6 @@ namespace SAH.Controllers
         /// </example>
         [HttpGet]
         [ResponseType(typeof(EmployeeApplicantDto))]
-        [Authorize(Roles = "admin")]
         public IHttpActionResult FindApplication(int id)
         {
             EmployeeApplicant EmployeeApplicant = db.EmployeeApplicant.Find(id);
@@ -75,6 +75,7 @@ namespace SAH.Controllers
             EmployeeApplicantDto TempEmployeeApplicant = new EmployeeApplicantDto
             {
                 EmployeeApplicantId = EmployeeApplicant.EmployeeApplicantId,
+                Reason = EmployeeApplicant.Reason,
                 Id = EmployeeApplicant.Id,
                 CourseId = EmployeeApplicant.CourseId
             };
@@ -184,7 +185,7 @@ namespace SAH.Controllers
         /// <returns>The course to which current application belongs</returns>
 
         [ResponseType(typeof(CoursesDto))]
-        public IHttpActionResult GetApplicationCourse(int id)
+        public IHttpActionResult GetCourseForApplication(int id)
         {
 
             //Find the course which is selected in the current application
@@ -205,6 +206,34 @@ namespace SAH.Controllers
             };
 
             return Ok(Courses);
+        }
+
+        /// <summary>
+        /// Returns a list of applications for a given user.
+        /// </summary>
+        /// <param name="id">The input UserID (string)</param>
+        /// <returns>A list of applications applied by that user</returns>
+        /// <example>
+        /// GET api/EmployeeApplicantData/GetApplicationsForUser/abcedf-12345-ghijkl
+        /// </example>
+        public IHttpActionResult GetApplicationsForUser(string id)
+        {
+            IEnumerable<EmployeeApplicant> EmployeeApplicantId = db.EmployeeApplicant.Where(s => s.Id == id);
+            List<EmployeeApplicantDto> EmployeeApplicationsDtos = new List<EmployeeApplicantDto>() { };
+
+            foreach (var applications in EmployeeApplicantId)
+            {
+                EmployeeApplicantDto AppliedcoursesDto = new EmployeeApplicantDto
+                {
+                    EmployeeApplicantId = applications.EmployeeApplicantId,
+                    Reason = applications.Reason,
+                    CourseId = applications.CourseId,
+                    Id = applications.Id
+                };
+                EmployeeApplicationsDtos.Add(AppliedcoursesDto);
+            }
+
+            return Ok(EmployeeApplicationsDtos);
         }
 
         /// <summary>
@@ -271,7 +300,8 @@ namespace SAH.Controllers
             db.EmployeeApplicant.Add(EmployeeApplicant);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = EmployeeApplicant.EmployeeApplicantId }, EmployeeApplicant);
+            return Ok(EmployeeApplicant.EmployeeApplicantId);
+            //return CreatedAtRoute("DefaultApi", new { id = EmployeeApplicant.EmployeeApplicantId }, EmployeeApplicant);
         }
 
         /// <summary>

@@ -90,6 +90,8 @@ namespace SAH.Controllers
             return Ok(EmployeeApplicantDtos);
         }
 
+      
+
         /// <summary>
         /// Find an specific Course from the database
         /// </summary>
@@ -201,7 +203,7 @@ namespace SAH.Controllers
         /// <param name="Id">The Id from the Course to delete</param>
         /// <returns>200 = successful. 404 = not successful</returns>
         /// <example>
-        /// POST: api/CourseData/DeleteCourse/5
+        /// POST: api/CoursesData/DeleteCourse/5
         /// </example>
 
         [HttpPost]

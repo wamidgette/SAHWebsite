@@ -108,11 +108,22 @@ namespace SAH.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+
+           
+
             //Get logged-in user's info
             var userId = User.Identity.GetUserId();
+                   
             string url = "userdata/getuserbyid/" + userId;
             HttpResponseMessage response = client.GetAsync(url).Result;
             ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
+
+            //Get the applied courses for staff users
+             url = "EmployeeApplicantData/GetApplicationsForUser/" + userId;
+             response = client.GetAsync(url).Result;
+            IEnumerable<EmployeeApplicantDto> EmployeeApplicantId = response.Content.ReadAsAsync<IEnumerable<EmployeeApplicantDto>>().Result;
+            
+
 
             //Get donation info for logged-in user
             //Get a json array error

@@ -79,7 +79,10 @@ namespace SAH.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Details(int id)
         {
+            GetApplicationCookie();
+
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
+            ShowEmployeeApplicant.isadmin = User.IsInRole("admin");
 
             //Find the Employee application from the database
             string url = "EmployeeApplicantsData/FindApplication/" + id;
@@ -97,7 +100,7 @@ namespace SAH.Controllers
                 ShowEmployeeApplicant.User = SelectedUser;
 
                 //Associated Employee application with Course
-                url = "EmployeeApplicantsData/GetApplicationCourse/" + id;
+                url = "EmployeeApplicantsData/GetCourseForApplication/" + id;
                 response = client.GetAsync(url).Result;
                 CoursesDto SelectedCourse = response.Content.ReadAsAsync<CoursesDto>().Result;
                 ShowEmployeeApplicant.Courses = SelectedCourse;
@@ -114,6 +117,7 @@ namespace SAH.Controllers
         [Authorize(Roles = "admin,staff")]
         public ActionResult Create()
         {
+            GetApplicationCookie();
             //Get all the users for dropdown list
             EditEmployeeApplicant EditEmployeeApplicant = new EditEmployeeApplicant();
             string url = "EmployeeApplicantsData/GetUsers";
@@ -121,6 +125,8 @@ namespace SAH.Controllers
 
             IEnumerable<ApplicationUserDto> SelectedUsers = response.Content.ReadAsAsync<IEnumerable<ApplicationUserDto>>().Result;
             EditEmployeeApplicant.AllUsers = SelectedUsers;
+
+            User.Identity.GetUserId();
 
             //Get all the Courses for dropdown list
             url = "EmployeeApplicantsData/GetCourses";
@@ -139,6 +145,10 @@ namespace SAH.Controllers
         [Authorize(Roles = "admin,staff")]
         public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
+            GetApplicationCookie();
+
+            
+
             //Add a new application to the database
             string url = "EmployeeApplicantsData/AddApplication";
             HttpContent content = new StringContent(jss.Serialize(EmployeeApplicant));
@@ -150,7 +160,7 @@ namespace SAH.Controllers
             {
 
                 //Redirect to the Application List
-                return RedirectToAction("List");
+                return RedirectToAction("Details", new { id = EmployeeApplicant.EmployeeApplicantId });
             }
             else
             {

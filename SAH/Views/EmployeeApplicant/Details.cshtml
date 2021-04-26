@@ -39,13 +39,20 @@
             <dd>
                 @Html.DisplayFor(model => model.User.Email)
             </dd>
-        
+
             <dt>
                 Course Registered
             </dt>
             <dd>
                 @Html.ActionLink(Model.Courses.CourseCode, "Details", "Courses", new { id = Model.Courses.CourseId }, new { })
                 @Html.ActionLink(Model.Courses.CourseName, "Details", "Courses", new { id = Model.Courses.CourseId }, new { })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EmployeeApplicant.Reason)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EmployeeApplicant.Reason)
             </dd>
         </div>
 
