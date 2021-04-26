@@ -40,32 +40,32 @@
 ### Barbara - Jobs and Applications database entities
 - My MVP has create, read, update and delete fuctionality for the application and job entities. The application table is a bridge table for users table and jobs table. The application(details) will provide all the information from the job and the user as well. Views for the application table are still in process as part of the application's controller havent been verified.
 
-### Danyal - Internal Education Portal - Courses and EmployeeApplications
+## Danyal - Internal Education Portal - Courses and EmployeeApplications
 - This Internal Education Portal feature is for staff who can register/enroll in any of the listed courses. It has 2 CRUD functionalities i.e. Courses & EmployeeApplications. - The role authorization is implemented as follows:
-## For Courses
+### For Courses
  - Anyone can see the course list along with only two possible action, i.e. Register & Details.
  - Admin can add new course, update or delete any course.
  - Only role “staff” can register for course that will direct them to Create function of EmployeeApplicants
-## For Employee Applications
+### For Employee Applications
  - This section is mainly for Admin with only one exception. Staff can register for a course that means it can create new application.
  - Staff can only see details of application after applying
  - Admin can view, delete or update employee applications as well as register new on behalf of any staff member.
-## Updates from Feedback
+### Updates from Feedback
  - Added additional data in courses like Course Duration and Start Date.
  - In course details, user can see how many applications exists for specific course and Admin can see registered ApplicationId in the list
  - In EmployeeApplication details, admin can see basic user information as well as the course applied in the specific application
  - Added additional field of reason for applying for course
  - Created GetCourseForApplication method to get details of course and link the course in EmployeeApplication Details
-## Failed Attempts/Future Implications
+### Failed Attempts/Future Implications
  - I tried to create a separate view “Register” with respective method for staff who wants to register for the specific course details page. I passed the coursed through GET and tried getting id of logged in user to create application without inputting any data. Unfortunately, by mistake I deleted that method instead of commenting out.
  - I also tried to show User names registered for course instead of EmployeeApplicantId in Course Details.
  - I created the method GetApplicationsForUser to show all the application user has applied for the courses in the User profile page. I am missing something and unable to figure out.
 
-## Improvements & Contribution
+### Improvements & Contribution
  - I added the datepicker functionality through JQuery UI and also helped other team members to implement it.
  - First added role based rendering and helped other team members in implementing
  - 
-## Teamwork
+### Teamwork
  - Every team member went beyond to help each other in debugging and making things work. 
  - Will and Bakary contributed more in setting up the project.
 
