@@ -3,7 +3,7 @@
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@Model.FirstName @Model.LastName's Account</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
@@ -30,13 +30,13 @@
         </dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
+
              See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
+
              Uncomment the following block after you have set up two-factor authentication
         *@
-        @*  
+        @*
             <dt>Phone Number:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")
@@ -84,4 +84,16 @@
                 }*@
         </dd>
     </dl>
+
+    <h5 class="p-5">Donation made by you: </h5>
+    @*
+        @foreach (var donation in Model.Donations)
+        {
+            <div>
+                <nav>
+                    <a href="">Donated on @donation.DonationDate</a>
+                </nav>
+            </div>
+        }
+    *@
 </div>

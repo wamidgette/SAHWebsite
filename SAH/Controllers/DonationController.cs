@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -42,7 +43,7 @@ namespace SAH.Controllers
         /// Get the authentication credentials from the cookies.
         /// Remember this is not considered a proper authentication technique for the webAPI
         /// </summary>
-       private void GetApplicationCookie()
+        private void GetApplicationCookie()
         {
             string token = "";
             //Reset cookies in HTTP client before get a new one.
@@ -55,17 +56,17 @@ namespace SAH.Controllers
             //Collect token and pass it to the WebAPI
             Debug.WriteLine("Token submitted is : " + token);
             if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
-            
+
             return;
         }
 
         // GET: Donation/List
         public ActionResult List()
         {
-            ListDonation ModelView = new ListDonation();
+            //ListDonation ModelView = new ListDonation();
 
             //Get all donation related info
-            string url = "donationdata/getdonationsinfo";
+            string url = "donationdata/getdonationinfo";
             //Debug.WriteLine(client.GetAsync(url).Result);
             HttpResponseMessage response = client.GetAsync(url).Result;
 
@@ -121,7 +122,7 @@ namespace SAH.Controllers
         }
 
         // GET: Donation/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Donor, Patient")]
         public ActionResult Create()
         {
             CreateDonation ModelView = new CreateDonation();
@@ -137,7 +138,7 @@ namespace SAH.Controllers
         }
 
         // POST: Donation/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Donor, Patient")]
         [HttpPost]
         [ValidateAntiForgeryToken()]
         public ActionResult Create(Donation DonationInfo)
@@ -145,10 +146,26 @@ namespace SAH.Controllers
             //Pass along authentication credential in http request
             GetApplicationCookie();
 
+            //Set a data model to send with values from the user input
+            Donation NewInfo = new Donation
+            {
+                DonationDate = DateTime.Now,
+                Id = User.Identity.GetUserId(),
+                AmountOfDonation = DonationInfo.AmountOfDonation,
+                PaymentMethod = DonationInfo.PaymentMethod,
+                DepartmentId = DonationInfo.DepartmentId
+            };
+
+            Debug.WriteLine("DonationDate: " + NewInfo.DonationDate);
+            Debug.WriteLine("Id: " + NewInfo.Id);
+            Debug.WriteLine("PaymentMethod: " + NewInfo.PaymentMethod);
+            Debug.WriteLine("AmountOfDonation: " + NewInfo.AmountOfDonation);
+            Debug.WriteLine("DepartmentID: " + NewInfo.DepartmentId);
+
             //Debug.WriteLine(DonationInfo.DonationId);
             string url = "donationdata/adddonation";
             //Debug.WriteLine(jss.Serialize(DonationtInfo));
-            HttpContent content = new StringContent(jss.Serialize(DonationInfo));
+            HttpContent content = new StringContent(jss.Serialize(NewInfo));
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             Debug.WriteLine(response);

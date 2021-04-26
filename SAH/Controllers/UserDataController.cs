@@ -75,11 +75,11 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>The user corresponding to the id given</returns>
         [ResponseType(typeof(ApplicationUserDto))]
-        public IHttpActionResult GetUserById(string id)
+        public IHttpActionResult GetUserById(string UserId)
         {
 
             // List of all the users
-            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == id).First();
+            ApplicationUser SelectedUser = db.Users.Where(u=>u.Id == UserId).First();
 
             if (SelectedUser == null)
             {
@@ -114,12 +114,13 @@ namespace SAH.Controllers
 
             return Ok(User);
         }
-
+        [HttpGet]
         [ResponseType(typeof(IEnumerable<ApplicationUserDto>))]
-        public IHttpActionResult GetUsersByRoleId(int id)
+        public IHttpActionResult GetUsersByRoleId(string id)
         {
+            Debug.WriteLine("YOU ARE IN THE GET USERS BY ROLE ID API METHOD");
             // List of all the users
-            List<ApplicationUser> Users = db.Users.Where(u => u.Roles.Any(r => r.RoleId.Equals(id))).ToList(); ;
+            List<ApplicationUser> Users = db.Users.Where(u => u.Roles.Any(r => r.RoleId==id)).ToList(); ;
 
             List<ApplicationUserDto> UserDtos = new List<ApplicationUserDto> { };
 
@@ -150,6 +151,8 @@ namespace SAH.Controllers
 
                 UserDtos.Add(ThisUser);
             }
+
+            Debug.WriteLine("THISUSER APPLICATIONUSERDTO OBJECT: " + UserDtos);
 
             return Ok(UserDtos);
         }

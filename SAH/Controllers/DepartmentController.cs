@@ -88,7 +88,7 @@ namespace SAH.Controllers
             HttpResponseMessage response = client.GetAsync(url).Result;
             //Can catch the status code (200 OK, 301 REDIRECT), etc.
             //Debug.WriteLine(response.StatusCode);
-            
+
             if (response.IsSuccessStatusCode)
             {
                 //Put data into department data transfer object

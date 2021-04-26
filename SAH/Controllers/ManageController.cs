@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -7,6 +8,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SAH.Models;
+using System.Web.Script.Serialization;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace SAH.Controllers
 {
@@ -15,6 +21,45 @@ namespace SAH.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private JavaScriptSerializer jss = new JavaScriptSerializer();
+        private static readonly HttpClient client;
+        static ManageController()
+        {
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                //cookies are manually set in RequestHeader
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
+            //change this to match your own local port number
+            client.BaseAddress = new Uri("https://localhost:44378/api/");
+            client.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        /// <summary>
+        /// Get the authentication credentials from the cookies.
+        /// Remember this is not considered a proper authentication technique for the webAPI
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            //Reset cookies in HTTP client before get a new one.
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //Collect token and pass it to the WebAPI
+            Debug.WriteLine("Token submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
 
         public ManageController()
         {
@@ -32,9 +77,9 @@ namespace SAH.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -63,14 +108,35 @@ namespace SAH.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+            //Get logged-in user's info
             var userId = User.Identity.GetUserId();
+            string url = "userdata/getuserbyid/" + userId;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            ApplicationUserDto SelectedUser = response.Content.ReadAsAsync<ApplicationUserDto>().Result;
+
+            //Get donation info for logged-in user
+            //Get a json array error
+            /*
+            url = "donationdata/finddonationfordonor/" + userId;
+            response = client.GetAsync(url).Result;
+            IEnumerable<DonationDto> SelectedDonations = response.Content.ReadAsAsync<IEnumerable<DonationDto>>().Result;
+            */
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+
+                //Data for logged-in user info
+                Id = SelectedUser.Id,
+                FirstName = SelectedUser.FirstName,
+                LastName = SelectedUser.LastName,
+
+                //Data for donation info
+                //Donations = SelectedDonations
             };
             return View(model);
         }
@@ -333,7 +399,7 @@ namespace SAH.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +450,6 @@ namespace SAH.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
