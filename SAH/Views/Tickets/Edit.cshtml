@@ -51,16 +51,35 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.Id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.Id">
-                    @foreach (var user in Model.AllUsers)
+                <select name="Ticket.Id" class="form-control">
+
+
+                    @if (Model.isadmin)
                     {
-                        string selected = "";
-                        if (Model.Ticket.Id == user.Id)
+                        foreach (var user in Model.AllUsers)
                         {
-                            selected = "";
+                            string selected = "";
+                            if (Model.Ticket.Id == user.Id)
+                            {
+                                selected = "";
+
+                                <option value="@user.Id" @selected> @user.FirstName @user.LastName </option>
+                            }
                         }
-                        <option value="@user.Id" @selected>@user.FirstName @user.LastName</option>
                     }
+                    else
+                    {
+                        foreach (var user in Model.AllUsers)
+                        {
+                            string[] tempName = Model.firstname.Split(new[] { '@' });
+                            if (user.FirstName.ToLower().Equals(tempName[0].ToLower()))
+                            {
+                                <option value="@user.Id">@user.FirstName @user.LastName</option>
+                            }
+
+                        }
+                    }
+                    @*@Html.DisplayFor(modelItem => Model.isadmin)*@
                 </select>
             </div>
         </div>
@@ -68,7 +87,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.SpotId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <select name="Ticket.SpotId">
+                <select name="Ticket.SpotId" class="form-control">
                     @foreach (var spot in Model.AllSpots)
                     {
                         string selected = "";
@@ -84,7 +103,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" onclick="verifyTicket();" class="btn btn-default" />
+                <input type="submit" value="Save" onclick="verifyTicket();" class="btn btn-success" />
             </div>
         </div>
     </div>
