@@ -41,6 +41,25 @@
 ## Barbara - Jobs and Applications database entities
 - My MVP has create, read, update and delete fuctionality for the application and job entities. The application table is a bridge table for users table and jobs table. The application(details) will provide all the information from the job and the user as well. Views for the application table are still in process as part of the application's controller havent been verified.
 
+## Jobs
+
+    This portal will display all job position availables and details. The CRUD is working. The job list and the details can be accesed by everyone. The create, delete and update functionality only applies to Admin role.
+    
+## Application
+
+ The user can apply for jobs from the Job List. Three roles exist Patients, Applicants and Admin. The Edit, details and delete functionality is only available for the Admin. The Create only for Applicants. I had so many issues making work with the roles. I commented in order to allow the project to run.
+ ## Updates
+ 
+ - Improve qualitative code, e.g creating getusers from the data controllers, better indentation and cleaner
+ - Include reference and Improve comments
+ - Swicth from the Ourusers table to ASP.Net users table
+ - Add Roles
+ - This time all crud is working except update for Applications(after switching table)
+ - Add some Admin privileges
+## Teamwork
+    I would like to use this opportunity to mention about all the suport and knowledge from my Team Members through chats, discord meeting and more. However, Two team member went above and beyond: Diarra and Danyal. They were extremely support and helpful, answering so many question ( a lot), helping me to debug, giving me clues as they were extremely patients with me. Saturday I was feeling a frustrated and Diarra told me to do not give up!. Also Danyal was giving me many ideas where to check my errors .Net is still my weakness but having great team meambers allow me to grow and feel more comfortable.
+ 
+
 ## Danyal - Internal Education Portal - Courses and EmployeeApplications
 - This Internal Education Portal feature is for staff who can register/enroll in any of the listed courses. It has 2 CRUD functionalities i.e. Courses & EmployeeApplications. - The role authorization is implemented as follows:
 ### For Courses
