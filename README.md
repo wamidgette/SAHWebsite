@@ -58,9 +58,9 @@
  - Add some Admin privileges
  
 ### Teamwork
- I would like to use this opportunity to mention about all the suport and knowledge from my Team Members through chats, discord meeting and more. However, 
-    Two team member went above and beyond: Diarra and Danyal. They were extremely support and helpful, answering so many question ( a lot), helping me to debug, 
-    giving me clues as they were extremely patients with me. Saturday I was feeling a frustrated and Diarra told me to do not give up!. Also Danyal was giving me 
+ I would like to use this opportunity to mention about all the support and knowledge from my Team Members through chats, discord meeting and more. However, 
+    two team member went above and beyond: Diarra and Danyal. They were extremely supportive and helpful, answering so many questions ( a lot), helping me to debug, 
+    giving me clues as they were extremely patients with me. Saturday I was feeling very frustrated and Diarra told me to do not give up!. Also Danyal was giving me 
     many ideas where to check my errors .Net is still my weakness but having great team meambers allow me to grow and feel more comfortable. 
 
 ## Danyal - Internal Education Portal - Courses and EmployeeApplications
