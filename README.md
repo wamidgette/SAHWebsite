@@ -43,7 +43,8 @@
 
 ### Jobs
 
-    This portal will display all job position availables and details. The CRUD is working. The job list and the details can be accesed by everyone. The create, delete and update functionality only applies to Admin role.
+    This portal will display all job position availables and details. The CRUD is working. The job list and the details can be accesed by everyone. The create, delete and 
+    update functionality only applies to Admin role.
     
 ### Application
 
@@ -59,7 +60,10 @@
  - Add some Admin privileges
  
 ### Teamwork
-    I would like to use this opportunity to mention about all the suport and knowledge from my Team Members through chats, discord meeting and more. However, Two team member went above and beyond: Diarra and Danyal. They were extremely support and helpful, answering so many question ( a lot), helping me to debug, giving me clues as they were extremely patients with me. Saturday I was feeling a frustrated and Diarra told me to do not give up!. Also Danyal was giving me many ideas where to check my errors .Net is still my weakness but having great team meambers allow me to grow and feel more comfortable.
+    I would like to use this opportunity to mention about all the suport and knowledge from my Team Members through chats, discord meeting and more. However, 
+    Two team member went above and beyond: Diarra and Danyal. They were extremely support and helpful, answering so many question ( a lot), helping me to debug, 
+    giving me clues as they were extremely patients with me. Saturday I was feeling a frustrated and Diarra told me to do not give up!. Also Danyal was giving me 
+    many ideas where to check my errors .Net is still my weakness but having great team meambers allow me to grow and feel more comfortable.
  
 
 ## Danyal - Internal Education Portal - Courses and EmployeeApplications
