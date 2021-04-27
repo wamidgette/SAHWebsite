@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using SAH.Models;
 using SAH.Models.ModelViews;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -24,7 +25,8 @@ namespace SAH.Controllers
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
+                UseCookies = false
             };
             client = new HttpClient(handler);
             //changed to match local port
@@ -36,10 +38,30 @@ namespace SAH.Controllers
 
         }
 
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+            //Get cookies 
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            // Transfer the token to the API
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
         // GET: Application/List
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         public ActionResult List()
         {
+    
+            //ListApplication ModelView = new ListApplication();
+            //ModelView.isadmin = User.IsInRole("Admin");
+
             string url = "ApplicationData/GetAllApplications";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
@@ -47,6 +69,8 @@ namespace SAH.Controllers
                 //Using ShowApplication View Model
                 IEnumerable<ShowApplication> SelectedApplications = response.Content.ReadAsAsync<IEnumerable<ShowApplication>>().Result;
                 return View(SelectedApplications);
+                //ModelView.Applications = Applications;
+                //return View(ModelView);
             }
             else
             {
@@ -56,6 +80,7 @@ namespace SAH.Controllers
 
         // GET: Application/Details/5
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             ShowApplication ModelView = new ShowApplication();
@@ -94,7 +119,7 @@ namespace SAH.Controllers
 
         // GET: Application/Create
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
-        
+        //[Authorize(Roles = "Applicant, Admin, Patient")]
         public ActionResult Create()
         {
             //Using an Update Application View Model
@@ -123,6 +148,8 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Applicant, Admin, Patient")]
+
         public ActionResult Create(Application ApplicationInfo)
         {
             //Add a new application to the database (POST)
@@ -147,6 +174,7 @@ namespace SAH.Controllers
 
         // GET: Application/Edit/5
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             UpdateApplication ModelView = new UpdateApplication();
@@ -181,6 +209,7 @@ namespace SAH.Controllers
 
         // POST: Application/Edit/5
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Application ApplicationInfo)
@@ -207,6 +236,7 @@ namespace SAH.Controllers
         // GET: Application/DeleteConfirm/5
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         [HttpGet]
+        //[Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get-Find requested application from the database
@@ -229,6 +259,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Player Data Controllers
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             string url = "Applicationdata/DeleteApplication/" + id;

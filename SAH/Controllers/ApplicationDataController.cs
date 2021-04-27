@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using SAH.Models;
 using SAH.Models.ModelViews;
+using Microsoft.AspNet.Identity;
 
 namespace SAH.Controllers
 {
@@ -251,6 +252,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
+        //[Authorize(Roles = "Admin, Applicant")]
         public IHttpActionResult UpdateApplication(int id, [FromBody] Application Application)
         {
             if (!ModelState.IsValid)
@@ -295,6 +297,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
         [HttpPost]
         [ResponseType(typeof(Application))]
+        //[Authorize(Roles = "Admin, Applicant")]
         public IHttpActionResult AddApplication([FromBody] Application Application)
         {
             if (!ModelState.IsValid)
@@ -323,6 +326,7 @@ namespace SAH.Controllers
         /// Reference: Varsity Project by Christine Bittle - Players Data Controllers
         [HttpPost]
         [ResponseType(typeof(Application))]
+       // [Authorize(Roles = "Admin, Applicant")]
         public IHttpActionResult DeleteApplication(int id)
         {
             Application Application = db.Applications.Find(id);

@@ -26,7 +26,8 @@ namespace SAH.Controllers
         {
             HttpClientHandler handler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
+                UseCookies = false
             };
             client = new HttpClient(handler);
             //changed to match local port
@@ -38,16 +39,40 @@ namespace SAH.Controllers
 
         }
 
+        private void GetApplicationCookie()
+        {
+            string token = "";
+
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+            //Get cookies 
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            // Transfer the token to the API
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
+
+
         // GET: Job/List
         /// Reference: Varsity Project by Christine Bittle - Team Data Controllers
         public ActionResult List()
         {
+
+            ListJobs ModelViews = new ListJobs();
+            ModelViews.isadmin = User.IsInRole("Admin");
+
             string url = "JobData/GetJobs";
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (response.IsSuccessStatusCode)
             {
-                IEnumerable<JobDto> SelectedJobs = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
-                return View(SelectedJobs);
+                IEnumerable<JobDto> SelectedJob = response.Content.ReadAsAsync<IEnumerable<JobDto>>().Result;
+                ModelViews.joblist = SelectedJob;
+                return View(ModelViews);
             }
             else
             {
