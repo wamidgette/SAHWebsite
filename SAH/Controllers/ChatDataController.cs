@@ -208,8 +208,8 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ResponseType(typeof(void))]
-/*        [Authorize()]
-*/        public IHttpActionResult DeleteChat(int id)
+/*        [Authorize(Roles="Admin")]*/
+          public IHttpActionResult DeleteChat(int id)
         {
             //When the chat is deleted, messages associated with the chat will also be deleted
             Debug.WriteLine("IN THE DELETE DATA CONTROLLER");
