@@ -7,7 +7,7 @@
 <h2>Sault Area Hospital </h2>
 <h4>SAH Job Applications</h4>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Application", "Create")
 </p>
 <table class="table">
     <tr>
@@ -41,7 +41,11 @@
                 @Html.DisplayFor(modelItem => item.Job.Position)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Application.ApplicationId }) |
+                
+                
+               @Html.ActionLink("Edit", "Edit", new { id = item.Application.ApplicationId }) 
+                
+
                 @Html.ActionLink("Details", "Details", new { id = item.Application.ApplicationId }) |
                 @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.Application.ApplicationId })
             </td>

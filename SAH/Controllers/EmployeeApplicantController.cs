@@ -55,7 +55,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/List
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult List()
         {
             GetApplicationCookie();
@@ -76,13 +76,13 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Details/5
-        [Authorize(Roles = "admin,staff")]
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult Details(int id)
         {
             GetApplicationCookie();
 
             ShowEmployeeApplicant ShowEmployeeApplicant = new ShowEmployeeApplicant();
-            ShowEmployeeApplicant.isadmin = User.IsInRole("admin");
+            ShowEmployeeApplicant.isadmin = User.IsInRole("Admin");
 
             //Find the Employee application from the database
             string url = "EmployeeApplicantsData/FindApplication/" + id;
@@ -114,7 +114,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Create
-        [Authorize(Roles = "admin,staff")]
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult Create()
         {
             GetApplicationCookie();
@@ -142,7 +142,7 @@ namespace SAH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,staff")]
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult Create(EmployeeApplicant EmployeeApplicant)
         {
             GetApplicationCookie();
@@ -169,7 +169,7 @@ namespace SAH.Controllers
         }
 
         // GET: EmployeeApplicant/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             EditEmployeeApplicant NewEmployeeApplicant = new EditEmployeeApplicant();
@@ -220,7 +220,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, EmployeeApplicant EmployeeApplicant)
         {
             string url = "EmployeeApplicantsData/UpdateApplication/" + id;
@@ -243,7 +243,7 @@ namespace SAH.Controllers
 
         // GET: EmployeeApplicant/Delete/5
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get current employee application from the database
@@ -266,7 +266,7 @@ namespace SAH.Controllers
         // POST: EmployeeApplicant/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             string url = "EmployeeApplicantsData/DeleteApplication/" + id;

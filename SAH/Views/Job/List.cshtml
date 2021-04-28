@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SAH.Models.JobDto>
+﻿@model SAH.Models.ModelViews.ListJobs
 
 @{
     ViewBag.Title = "View";
@@ -7,41 +7,56 @@
 <h2>Sault Area Hospital</h2>
 <h4>SAH Jobs Opportunities</h4>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+ @if (Model.isadmin)
+    {
+    @Html.ActionLink("Create New Job", "Create")
+    }
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Position)
+            Position
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Category)
+            Category
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Type)
+            Type
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var job in Model.joblist)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Position)
+                @Html.DisplayFor(modelItem => job.Position)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @Html.DisplayFor(modelItem => job.Category)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => job.Type)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.JobId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.JobId }) |
-                @Html.ActionLink("Delete", "DeleteConfirm", new { id = item.JobId })
+                @if (Model.isadmin)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = job.JobId })
+                }
+
+                @Html.ActionLink("Details", "Details", new { id = job.JobId })
+
+                @if (Model.isadmin)
+                {
+                    @Html.ActionLink("Delete", "DeleteConfirm", new { id = job.JobId })
+                }
             </td>
         </tr>
     }
+
+    <p>
+        @Html.ActionLink("Application List", "Index", "Application/List")
+
+    </p>
 
 </table>

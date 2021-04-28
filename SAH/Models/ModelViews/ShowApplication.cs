@@ -13,5 +13,6 @@ namespace SAH.Models.ModelViews
         public ApplicationUserDto ApplicationUser { get; set; }
         //Data information about Job Application
         public ApplicationDto Application { get; set; }
+        public bool isadmin { get; set; }
     }
 }
