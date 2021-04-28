@@ -3,8 +3,19 @@
 ## This is a school project. Our group of 6 members has proposed new changes to the SAH hospital website in Sault Ste Marie, Ontario. These changes are structured at the MVP level in this submission, in which each group member is creating CRUD functionality for 2 database entities. 
  
 ## Will - Chats and Messages database entities 
-- For the MVP I have created CRUD functionality for the chat and messages entities. A user can create, read and/or delete a chat. A user can read, update, create and/or delete a message. The details view for a chat shows all of the messages associated with a chat. This essentially doubles as the list view for messages. 
-
+### MVP
+For the MVP I have created CRUD functionality for the chat and messages entities. A user can create, read and/or delete a chat. A user can read, update, create and/or delete a message. The details view for a chat shows all of the messages associated with a chat. This essentially doubles as the list view for messages. 
+### Updates
+- User authentication using ApplicationUser class
+- Only an admin user can access a full list of all the chats in the database, otherwise, when the list method is called, a logged in user will see only the chats they are associated with
+- If a user is not logged in, they will not be able to access any functions that show private information or change the database in any way 
+- Added stying to Chats features - styling not yet complete for all pages (only pages that contain information in tables)
+- Assisted Barbara over Discord with github merging error 
+### Planned Additional Features - not yet implemented
+- Search functionality for admin users when on the chat/list page
+### Issues 
+- I was unable to solve the error I was recieving when attempting to authorize api methods. I was able to authorize MVC controller methods and implemented the GetApplicationCookie() method that was shown in the Varsity_w_auth example. However when adding authorization to the API controllers I would recieve a 404 error which leads me to believe the API method is no longer recognized with the url request made in the MVC controller. But when I make a post request sending the JSON object through the Postman app (without sending credentials), the controller seems to be returning the HTML for the user login page. I believe this means that the API is being recognized, noticing I do not hold the proper credentials, and redirecting me to the login page. I therefor do not understand why I am getting a 404 error in the browser when the API method is still accessible. Any feedback you could give me would be greatly appreciated. 
+ 
 ## Ikumi - Departments, Specialities, and Donations database entities
 ### MVP
 - A user can create, read, update and delete each entities respectively. The donation table contains data from the departments and users table, so a user also can see username and department name in the donation update, details, and delete confirm views. Displaying usernames and department names in the donation list view is still in progress.
