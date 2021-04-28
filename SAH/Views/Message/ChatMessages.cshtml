@@ -3,54 +3,63 @@
 @{
     ViewBag.Title = "ChatMessages";
 }
+<link href="../../Content/Chats.css" type="text/css" rel="stylesheet" />
 
 @if (!Model.Messages.Any())
 {
     <h3>There aren't any messages here yet</h3>
+    <div>
+        @Html.ActionLink("New Message", "Create", new { id = Model.Chat.ChatId })
+        @Html.ActionLink("Back to Chat List", "../Chat/List", new { id = Model.Chat.ChatId })
+
+    </div>
 }
 
 else
 {
-    <h2>Messages In Chat @Model.Messages.First().ChatId</h2>
+    <div class="pageContainer">
+        <h2 class="pageTitle">Messages In Chat @Model.Messages.First().ChatId</h2>
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().SenderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().DateSent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().Content)
-            </th>
-
-            <th></th>
-        </tr>
-
-        @foreach (var message in Model.Messages)
-        {
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => message.SenderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => message.DateSent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => message.Content)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Show", new { id = message.MessageId })
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().SenderId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().DateSent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().Content)
+                </th>
 
-                </td>
+                <th></th>
             </tr>
-        }
-    </table>
-}
-<div>
-    @Html.ActionLink("New Message", "Create", new { id = Model.Chat.ChatId })
-    @Html.ActionLink("Back to Chat List", "../Chat/List", new { id = Model.Chat.ChatId })
 
-</div>
+            @foreach (var message in Model.Messages)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => message.SenderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => message.DateSent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => message.Content)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Show", new { id = message.MessageId })
+
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="actions">
+            @Html.ActionLink("New Message", "Create", new { id = Model.Chat.ChatId })
+            @Html.ActionLink("Back to Chat List", "../Chat/List", new { id = Model.Chat.ChatId })
+
+        </div>
+    </div>
+}
+
 

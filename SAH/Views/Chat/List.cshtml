@@ -3,36 +3,49 @@
 @{
     ViewBag.Title = "List";
 }
+<link href="../../Content/Chats.css" type="text/css" rel="stylesheet" />
 
-<h2>List of Chats</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Subject)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subject)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.ActionLink("Messages", "../Message/ChatMessages", new { id=item.ChatId }) |
-            @Html.ActionLink("Delete", "ConfirmDelete", new { id=item.ChatId })
-        </td>
-    </tr>
+@if (!Model.Any())
+{
+    <h3>You Don't Have Any Chats Yet</h3>
 }
+else { 
+<div class="pageContainer">
+    <h2 class="pageTitle">List of Chats</h2>
 
-</table>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.ActionLink("Messages", "../Message/ChatMessages", new { id = item.ChatId }) |
+                    @Html.ActionLink("Delete", "ConfirmDelete", new { id = item.ChatId })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div class="actions">
+        @Html.ActionLink("Create New", "Create")
+    </div>
+</div>
+}

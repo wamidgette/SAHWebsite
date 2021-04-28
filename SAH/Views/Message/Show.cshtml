@@ -3,33 +3,33 @@
 @{
     ViewBag.Title = "View";
 }
+<link href="../../Content/Chats.css" type="text/css" rel="stylesheet" />
 
-<h2>Show</h2>
-
-<div>
-    <h4>Message</h4>
-    <hr />
-    <table class="table">
-        <tr>
-            <td>@Html.DisplayNameFor(model => model.MessageChat.Subject)</td>
-            <td>@Html.DisplayFor(model => model.MessageChat.Subject)</td>
-        </tr>
-        <tr>
-            <td>@Html.DisplayNameFor(model => model.MessageSender.FirstName)</td>
-            <td>@Html.DisplayFor(model => model.MessageSender.FirstName)</td>
-        </tr>
-        <tr>
-            <td>@Html.DisplayNameFor(model => model.Message.DateSent)</td>
-            <td>@Html.DisplayFor(model => model.Message.DateSent)</td>
-        </tr>
-        <tr>
-            <td>@Html.DisplayNameFor(model => model.Message.Content)</td>
-            <td>@Html.DisplayFor(model => model.Message.Content)</td>
-        </tr>
-    </table>
+<div class="pageContainer">
+    <h2 class="pageTitle">Message Details</h2>
+    <div>
+        <table class="table">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.MessageChat.Subject)</td>
+                <td>@Html.DisplayFor(model => model.MessageChat.Subject)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.MessageSender.FirstName)</td>
+                <td>@Html.DisplayFor(model => model.MessageSender.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Message.DateSent)</td>
+                <td>@Html.DisplayFor(model => model.Message.DateSent)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Message.Content)</td>
+                <td>@Html.DisplayFor(model => model.Message.Content)</td>
+            </tr>
+        </table>
+    </div>
+    <div class="actions">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Message.MessageId }) |
+        @Html.ActionLink("Back to Chat Messages", "ChatMessages", new { id = Model.Message.ChatId }) |
+        @Html.ActionLink("Delete Message", "ConfirmDelete", new { id = Model.Message.MessageId })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Message.MessageId }) |
-    @Html.ActionLink("Back to Chat Messages", "ChatMessages", new { id = Model.Message.ChatId })
-    @Html.ActionLink("Delete Message", "ConfirmDelete", new { id = Model.Message.MessageId })
-</p>

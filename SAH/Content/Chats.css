@@ -1,0 +1,80 @@
+﻿
+/*Imported styling*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+/*** 1. General styling***/
+html {
+    box-sizing: border-box;
+    background:black;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    background-color: #fc773a;
+}
+.pageContainer {
+    width:100%;
+    min-height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    flex-wrap:nowrap;
+    align-items: center;
+}
+
+.formBox {
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pageTitle {
+    font-size: 40px;
+    font-family: 'Open Sans', sans-serif;
+    color: darkblue;
+    width:100%;
+}
+table {
+    max-width: 100%;
+    box-shadow: -5px 5px 15px darkblue;
+}
+
+tr {
+    background: #6dcec4;
+}
+
+td, th{
+    font:15px;
+    color:darkblue;
+    font-size:20px;
+}
+
+a {
+    color: darkblue;
+    transition:0.2s;
+}
+
+a:hover{
+    color:maroon;
+    text-decoration:none;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    background: #6dcec4;
+    border-radius: 20px;
+    height: 50px;
+    box-shadow: -5px 5px 15px darkblue;
+}
+
+.actions a{
+    font-size:20px;
+    margin: 0 20px 0 20px;
+}

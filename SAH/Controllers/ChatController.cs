@@ -292,7 +292,6 @@ namespace SAH.Controllers
         /// <param name="id"></param>
         /// <returns>Returns a view where the user can confirm they want to delete the chat</returns>
         [HttpGet]
-        [ValidateAntiForgeryToken()]
         [Authorize(Roles ="Admin")]
         public ActionResult ConfirmDelete(int id)
         {
