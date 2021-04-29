@@ -37,7 +37,7 @@ namespace SAH.Controllers
 
         // GET: Faq/AdminList
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AdminList()
         {
             string url = "FaqData/GetFaqs";
@@ -55,6 +55,7 @@ namespace SAH.Controllers
 
         // GET: Faq/Edit/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             //Model used to combine a faq object and departments list for dropdown
@@ -83,7 +84,7 @@ namespace SAH.Controllers
         // POST: Faq/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, EditFaq faqInfo)
         {
             string url = "faqdata/updatefaq/" + id;
@@ -104,6 +105,7 @@ namespace SAH.Controllers
 
         // GET: Faq/Create
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             //Model used to combine a faq object and departments list for dropdown
@@ -121,6 +123,7 @@ namespace SAH.Controllers
         // POST: Faq/Create
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(EditFaq faqInfo)
         {
             string url = "faqdata/AddFaq";
@@ -141,6 +144,7 @@ namespace SAH.Controllers
 
         // GET: faq/DeleteConfirm/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get the current ParkingSpot object
@@ -161,6 +165,7 @@ namespace SAH.Controllers
         // POST: faq/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             string url = "faqdata/deletefaq/" + id;

@@ -36,7 +36,7 @@ namespace SAH.Controllers
 
         // GET: Appointment/List
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult List()
         {
              string url = "AppointmentData/GetAppointments";
@@ -54,6 +54,7 @@ namespace SAH.Controllers
 
         // GET: Appointment/Edit/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             EditAppointment modelView = new EditAppointment();
@@ -86,7 +87,7 @@ namespace SAH.Controllers
         // POST: Appointment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, EditAppointment modelView)
         {
             string url = "appointmentdata/updateappointment/" + id;
@@ -149,6 +150,7 @@ namespace SAH.Controllers
 
         // GET: appointment/DeleteConfirm/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirm(int id)
         {
             //Get the current ParkingSpot object
@@ -169,6 +171,7 @@ namespace SAH.Controllers
         // POST: appointment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             string url = "appointmentdata/deleteappointment/" + id;
